@@ -2,7 +2,7 @@
 id: US-064
 title: Telegram notifications for deployments and failed CI
 sprint: backlog
-status: todo
+status: review
 owner: Claude
 points: 2
 priority: P1
@@ -16,13 +16,13 @@ As the **site owner**, I want a Telegram message when a Vercel deployment finish
 
 ## Acceptance criteria
 
-- [ ] When a Vercel deployment finishes (`success`, `failure` or `error`), a Telegram message gives the environment, the result, the short commit hash and the deployment URL (the log URL on a failure). Pending and in-progress states send nothing
-- [ ] When CI fails on `main`, a Telegram message gives the short commit hash, the commit subject and a link to the run. A passing, cancelled or non-`main` run sends nothing
-- [ ] `gh workflow run notify.yml` sends a test message, so the secrets can be checked without a deployment
-- [ ] With either secret missing, the workflow passes and logs a warning instead of failing. A Telegram API error also logs a warning and never turns the run red
-- [ ] The token is read only from `secrets`. Event text (commit message, URLs) reaches the shell through `env`, never inline in a `run:` script. No token-shaped string is committed
-- [ ] `AGENTS.md` says CI notification secrets live in GitHub Actions secrets, and D-024 records why
-- [ ] A Vitest test covers each criterion above that the workflow file can show
+- [x] When a Vercel deployment finishes (`success`, `failure` or `error`), a Telegram message gives the environment, the result, the short commit hash and the deployment URL (the log URL on a failure). Pending and in-progress states send nothing
+- [x] When CI fails on `main`, a Telegram message gives the short commit hash, the commit subject and a link to the run. A passing, cancelled or non-`main` run sends nothing
+- [x] `gh workflow run notify.yml` sends a test message, so the secrets can be checked without a deployment
+- [x] With either secret missing, the workflow passes and logs a warning instead of failing. A Telegram API error also logs a warning and never turns the run red
+- [x] The token is read only from `secrets`. Event text (commit message, URLs) reaches the shell through `env`, never inline in a `run:` script. No token-shaped string is committed
+- [x] `AGENTS.md` says CI notification secrets live in GitHub Actions secrets, and D-024 records why
+- [x] A Vitest test covers each criterion above that the workflow file can show
 - [ ] Caleb receives the test message and the message for a real deployment on his phone
 
 ## Files to touch
@@ -82,4 +82,7 @@ All in `tests/unit/workflows/notify.test.ts`, reading `.github/workflows/notify.
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Built; waiting on Caleb's phone check (the last criterion). After the push, run `gh workflow run notify.yml` for the test message, then the push of this commit should send the Production deployment message. The CI-failure message isn't proven on purpose: a failing push would break `main`, and the `--no-verify` exception was US-008's alone. The `if:` is covered by a test, the send step is the one the test message uses, and the first real CI failure completes the proof · this commit · `npm run verify` passes (30 unit tests, board check); `npm run test:e2e` 78 passed; CI result to follow
+2026-10-13 · Choices the story left open: an empty environment name reads "Vercel" instead of a blank; curl's output goes to `/dev/null`, so Telegram's JSON reply stays out of the log; the no-`set -x`/`-v` test skips comment lines, because the script's own comment names both. Dry-ran the script with a fake `curl` for all four events, a missing secret and a failing curl: right text each time, subject cut to its first line, exit 0 in every case (throwaway script in the scratchpad, not committed). Fields used: `deployment_status.environment_url` falling back to `target_url`, `.log_url`, `deployment.environment`, `deployment.sha`; not yet seen in a real Vercel payload · this commit · —
+2026-10-13 · Started: pulled main (4ece246), tree clean, depends_on US-065 done (secrets seen with `gh secret list`) · — · —
 2026-10-13 · Created at Caleb's request. Triggers read CI's result with `workflow_run` instead of adding a job to `ci.yml`, so no dependency on US-058. The Caleb-owned secrets step is US-065 · this commit · `board.mjs --check` passes

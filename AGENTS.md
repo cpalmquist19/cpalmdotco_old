@@ -104,7 +104,7 @@ All work is tracked in [pm/](pm/). These rules apply to every task:
 - **Review gates belong to Caleb.** You may set a sprint to `status: review` and fill in its preview URL. Never tick "Approved by Caleb" and never set a sprint to `closed`.
 - **Decisions:** don't settle an `open` row in [pm/decisions.md](pm/decisions.md) on your own. If a sprint starts while one it needs is still open, go ahead with the recommended default and record it as `decided (default)` with the date. If you hit a new choice that Caleb should make, add it as an `open` row.
 - **Scope:** if the work reveals something new, add it as a new story in `backlog`. Don't quietly widen the current story.
-- **Secrets:** never commit API keys or ask for them in chat. They belong in hosting environment variables only.
+- **Secrets:** never commit API keys or ask for them in chat. The site's secrets belong in hosting environment variables only. The two Telegram notification secrets are read only by GitHub Actions, so they belong in GitHub Actions secrets (D-024).
 
 ## Conventions
 

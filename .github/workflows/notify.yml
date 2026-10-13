@@ -1,0 +1,72 @@
+name: Notify
+
+# Sends a Telegram message when a Vercel deployment finishes or CI fails on main (US-064).
+# It's a separate workflow because deployment_status and workflow_run aren't push triggers:
+# adding them to ci.yml would re-run every CI job on each deployment event.
+on:
+  deployment_status:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  telegram:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'deployment_status' &&
+        contains(fromJSON('["success","failure","error"]'), github.event.deployment_status.state)) ||
+      (github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'failure' &&
+        github.event.workflow_run.head_branch == 'main')
+    steps:
+      - name: Send Telegram message
+        # Event text reaches the script only through env, never inline in the script (injection).
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DEPLOY_STATE: ${{ github.event.deployment_status.state }}
+          DEPLOY_ENVIRONMENT: ${{ github.event.deployment.environment }}
+          DEPLOY_SHA: ${{ github.event.deployment.sha }}
+          DEPLOY_URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+          DEPLOY_LOG_URL: ${{ github.event.deployment_status.log_url }}
+          CI_SHA: ${{ github.event.workflow_run.head_sha }}
+          CI_MESSAGE: ${{ github.event.workflow_run.head_commit.message }}
+          CI_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "::warning::Telegram secrets are not set; skipping the notification"
+            exit 0
+          fi
+
+          case "$GITHUB_EVENT_NAME" in
+            deployment_status)
+              environment="${DEPLOY_ENVIRONMENT:-Vercel}"
+              if [ "$DEPLOY_STATE" = "success" ]; then
+                text="✅ ${environment} deployed: ${DEPLOY_SHA:0:7}"$'\n'"${DEPLOY_URL:-no URL reported}"
+              else
+                text="❌ ${environment} deployment ${DEPLOY_STATE}: ${DEPLOY_SHA:0:7}"$'\n'"${DEPLOY_LOG_URL:-no log URL reported}"
+              fi
+              ;;
+            workflow_run)
+              text="❌ CI failed on main: ${CI_SHA:0:7} ${CI_MESSAGE%%$'\n'*}"$'\n'"${CI_URL}"
+              ;;
+            workflow_dispatch)
+              text="🧪 Test message from cpalmdotco"
+              ;;
+            *)
+              echo "::error::Unexpected event: $GITHUB_EVENT_NAME"
+              exit 1
+              ;;
+          esac
+
+          # No -v and no set -x: both would print the URL, which contains the token.
+          curl --silent --show-error --fail \
+            --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=${text}" \
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            > /dev/null \
+            || echo "::warning::Telegram notification failed"

@@ -19,7 +19,9 @@
 
 ## In flight
 
-_None._
+| ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [US-064](stories/US-064-telegram-notifications.md) | Telegram notifications for deployments and failed CI | 👀 review | Claude | P1 | 2 | 7/8 | ~~US-065~~ |
 
 ## Next up
 
@@ -32,7 +34,6 @@ Stories whose dependencies are all done, earliest sprint and highest priority fi
 | [US-027](stories/US-027-api-key-secret.md) | Set the model API key as a hosting secret | ⬜ todo · ready | Caleb | P0 | 1 | 0/3 | — |
 | [US-009](stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
 | [US-037](stories/US-037-domain-and-hosting-access.md) | Domain and DNS access | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |
-| [US-064](stories/US-064-telegram-notifications.md) | Telegram notifications for deployments and failed CI | ⬜ todo · ready | Claude | P1 | 2 | 0/8 | ~~US-065~~ |
 | [US-058](stories/US-058-reporter-in-playwright-config.md) | Set the CI report reporter in the Playwright config | ⬜ todo · ready | Claude | P2 | 1 | 0/3 | ~~US-008~~ |
 
 ## Refine next
@@ -43,7 +44,7 @@ _None._
 
 ## Waiting on Caleb
 
-**6** items, **0** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
+**7** items, **1** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
 
 ## S01 · Foundation
 
@@ -147,7 +148,7 @@ _None._
 | [US-058](stories/US-058-reporter-in-playwright-config.md) | Set the CI report reporter in the Playwright config | ⬜ todo · ready | Claude | P2 | 1 | 0/3 | ~~US-008~~ |
 | [US-059](stories/US-059-playwright-traces-and-screenshots.md) | Keep a trace and screenshot of every failing e2e test | ⬜ todo | Claude | P2 | 1 | 0/3 | US-058 |
 | [US-060](stories/US-060-overlay-token.md) | Overlay colour token for the drawer backdrop | ⬜ todo | Claude | P3 | 1 | 0/3 | ~~US-006~~, US-011 |
-| [US-064](stories/US-064-telegram-notifications.md) | Telegram notifications for deployments and failed CI | ⬜ todo · ready | Claude | P1 | 2 | 0/8 | ~~US-065~~ |
+| [US-064](stories/US-064-telegram-notifications.md) | Telegram notifications for deployments and failed CI | 👀 review | Claude | P1 | 2 | 7/8 | ~~US-065~~ |
 | [US-065](stories/US-065-telegram-secrets.md) | Add the Telegram bot token and chat ID as GitHub secrets | ✅ done | Caleb | P1 | 1 | 2/2 | — |
 
 ---
