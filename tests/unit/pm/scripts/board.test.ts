@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,7 +8,14 @@ import { afterEach, describe, expect, it } from "vitest";
 const root = fileURLToPath(new URL("../../../../", import.meta.url));
 const script = join(root, "pm", "scripts", "board.mjs");
 
-type Story = { id: string; status?: string; dependsOn?: string[]; files?: string[] };
+type Story = {
+  id: string;
+  status?: string;
+  owner?: string;
+  dependsOn?: string[];
+  files?: string[];
+  scoped?: boolean;
+};
 
 const tempDirs: string[] = [];
 
@@ -17,14 +24,16 @@ afterEach(() => {
 });
 
 function storyFile(story: Story): string {
-  const files = story.files?.length ? story.files.map((f) => `- ${f}`).join("\n") : "-";
+  const scoped = story.scoped ?? true;
+  // A scoped story needs some file; one of its own can't overlap with another story's
+  const files = (story.files ?? [`\`notes/${story.id}.md\``]).map((f) => `- ${f}`).join("\n");
   return [
     "---",
     `id: ${story.id}`,
     `title: Story ${story.id}`,
     "sprint: S01",
     `status: ${story.status ?? "todo"}`,
-    "owner: Claude",
+    `owner: ${story.owner ?? "Claude"}`,
     "points: 1",
     "priority: P1",
     `depends_on: [${(story.dependsOn ?? []).join(", ")}]`,
@@ -39,15 +48,15 @@ function storyFile(story: Story): string {
     "",
     "## Files to touch",
     "",
-    files,
+    scoped ? files : "-",
     "",
     "## Out of scope",
     "",
-    "- Nothing",
+    scoped ? "- Nothing" : "-",
     "",
     "## Tests to add",
     "",
-    "- None",
+    scoped ? "- None" : "-",
     "",
     "## Log",
     "",
@@ -55,7 +64,7 @@ function storyFile(story: Story): string {
 }
 
 // board.mjs finds pm/ from its own location, so a copy in a temp pm/scripts/ runs on test data.
-function runBoard(stories: Story[]): string[] {
+function setUpPm(stories: Story[]): string {
   const dir = mkdtempSync(join(tmpdir(), "board-"));
   tempDirs.push(dir);
   const pm = join(dir, "pm");
@@ -77,7 +86,26 @@ function runBoard(stories: Story[]): string[] {
   );
   writeFileSync(join(pm, "decisions.md"), "# Decisions\n\n## Decisions for Caleb\n\n## Decisions made during the build\n");
   for (const story of stories) writeFileSync(join(pm, "stories", `${story.id}-test.md`), storyFile(story));
-  return sharedFileWarnings(join(pm, "scripts", "board.mjs"));
+  return pm;
+}
+
+function runBoard(stories: Story[]): string[] {
+  return sharedFileWarnings(join(setUpPm(stories), "scripts", "board.mjs"));
+}
+
+function generatedBoard(stories: Story[]): string {
+  const pm = setUpPm(stories);
+  spawnSync(process.execPath, [join(pm, "scripts", "board.mjs")], { encoding: "utf8" });
+  return readFileSync(join(pm, "BOARD.md"), "utf8");
+}
+
+// The story ids listed in BOARD.md's "Refine next" section
+function refineNext(stories: Story[]): string[] {
+  const section =
+    generatedBoard(stories)
+      .split(/^## /m)
+      .find((s) => s.startsWith("Refine next")) ?? "";
+  return [...section.matchAll(/^\| \[(US-\d+)\]/gm)].flatMap((m) => (m[1] ? [m[1]] : []));
 }
 
 function sharedFileWarnings(scriptPath: string, args: string[] = []): string[] {
@@ -160,5 +188,38 @@ describe("US-055: shared-file check", () => {
 
   it("US-055: the committed stories have no unordered shared files", () => {
     expect(sharedFileWarnings(script, ["--check"])).toEqual([]);
+  });
+});
+
+describe("US-056: Refine next", () => {
+  it("US-056: an unscoped story whose dependency is ready is listed", () => {
+    expect(refineNext([{ id: "US-001" }, { id: "US-002", dependsOn: ["US-001"], scoped: false }])).toEqual([
+      "US-002",
+    ]);
+  });
+
+  it("US-056: an unscoped story whose dependency is in progress is listed", () => {
+    expect(
+      refineNext([
+        { id: "US-001", status: "in-progress" },
+        { id: "US-002", dependsOn: ["US-001"], scoped: false },
+      ]),
+    ).toEqual(["US-002"]);
+  });
+
+  it("US-056: scoped, startable, Caleb-owned and two-steps-away stories aren't listed", () => {
+    expect(
+      refineNext([
+        { id: "US-001" },
+        { id: "US-002", dependsOn: ["US-001"] },
+        { id: "US-003", scoped: false },
+        { id: "US-004", dependsOn: ["US-001"], owner: "Caleb", scoped: false },
+        { id: "US-005", dependsOn: ["US-002"], scoped: false },
+      ]),
+    ).toEqual([]);
+  });
+
+  it("US-056: the list says None when there's nothing to scope", () => {
+    expect(generatedBoard([{ id: "US-001" }])).toMatch(/## Refine next\n\n.*\n\n_None\._/);
   });
 });

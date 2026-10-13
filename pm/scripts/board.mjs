@@ -182,6 +182,15 @@ out.push("", "## In flight", "", table(allLive.filter((s) => ["in-progress", "re
 out.push("", "## Next up", "", "Stories whose dependencies are all done, earliest sprint and highest priority first.", "",
   table(allLive.filter(ready).sort(sortWork).slice(0, 8)));
 
+// Refine next: unscoped Claude stories one story away from starting, so they're scoped while their
+// last dependency is built rather than found unscoped once it's done. A list, not a warning.
+const scoped = (s) => READY_SECTIONS.every((h) => s._sections[h]);
+const oneStepAway = (s) => s.status === "todo" && !ready(s) &&
+  s.depends_on.every((d) => { const dep = byId.get(d); return Boolean(dep) && (["done", "in-progress", "review"].includes(dep.status) || ready(dep)); });
+out.push("", "## Refine next", "",
+  "Claude stories that aren't scoped yet and are one story away from starting. Scope them now, while their last dependency is built.", "",
+  table(allLive.filter((s) => s.owner === "Claude" && !scoped(s) && oneStepAway(s)).sort(sortWork)));
+
 // Waiting on Caleb: first what has stalled work (blocked, review, sprint gates), then decisions and
 // Caleb's own stories in the order their sprints need them.
 const current = groups.findIndex((g) => g.id !== "backlog" && g.status !== "closed");

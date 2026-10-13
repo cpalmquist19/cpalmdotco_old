@@ -50,7 +50,7 @@ Each story lives in `stories/US-###-short-slug.md`. All its status lives in its 
 - `done`: pushed to `main`, every acceptance criterion ticked, and all checks pass.
 - `cancelled`: dropped. Keep the file and note why in the Log.
 
-**Definition of ready:** a Claude story can start only when its dependencies are `done` and its **Files to touch**, **Out of scope** and **Tests to add** sections are filled in. `board.mjs` warns about any startable story that isn't ready. Before a sprint starts, refine its Claude stories so they pass this check.
+**Definition of ready:** a Claude story can start only when its dependencies are `done` and its **Files to touch**, **Out of scope** and **Tests to add** sections are filled in. `board.mjs` warns about any startable story that isn't ready. Don't wait for that warning, or for the story's sprint to start: a story in a later sprint can become startable early, the way US-011 did. Instead, scope each story when it appears under **Refine next** on [BOARD.md](BOARD.md), which lists unscoped Claude stories one story away from starting. Several can be scoped in one story (US-054 did all of S02). Check that a sprint's stories are all ready before it starts.
 
 **Definition of done:** every acceptance criterion is checked, each one has a passing automated test where the spec calls for one, and it's pushed to `main` with the pre-push hook and CI both green. Per decision D-008 there are no branches or PRs: every story goes straight to `main`, and the hook refuses any push with a failing check.
 

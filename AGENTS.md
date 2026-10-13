@@ -30,7 +30,7 @@ Do one story at a time, straight on `main` (decision D-008: no branches or PRs; 
 8. **Tick and log.** Tick each acceptance criterion (`- [x]`) whose test passes. Add a Log entry with the commands you ran and their results.
 9. **Commit and push.** Set `status: done`, run `node pm/scripts/board.mjs`, and make one commit with the code, the story file and the regenerated pm files: `git commit -m "US-###: imperative summary"`. Then `git push origin main`. The pre-push hook (from US-002) runs `npm run verify` and `npm run test:e2e` and refuses the push if anything fails. Fix the failure and try again. Never bypass the hook.
 10. **Check CI.** Run `gh run watch` (or `gh run list --branch main --limit 1`) until the run for your commit finishes. If it fails, fixing it is your next commit, before anything else. Note the run result in the Log in that fix commit, or in the next story's first commit.
-11. **Stop.** Don't start the next story until Caleb tells you to.
+11. **Stop.** Don't start the next story until Caleb tells you to. If **Refine next** on [pm/BOARD.md](pm/BOARD.md) lists any stories, name them in one line and offer to scope them, as one story, before the next build. Don't scope them unasked.
 
 ## Never
 
