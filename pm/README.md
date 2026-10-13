@@ -6,6 +6,7 @@ Sprints, user stories, and their status for the chat-first portfolio. Everything
 pm/
   README.md          how the system works (this file)
   BOARD.md           generated status board; never edit by hand
+  WAITING-ON-CALEB.md generated list of everything waiting for Caleb, in order; never edit by hand
   decisions.md       open and settled decisions (D-###)
   sprints/           one file per sprint (S##): goal, generated story list, gate, review, retro
   stories/           one file per user story (US-###): story, acceptance criteria, log
@@ -22,6 +23,7 @@ pm/
 | Feature criteria F0.1–F5.6 | Acceptance criteria in stories, tagged with the spec number, e.g. `(F4.3)` |
 | *Inputs needed from you* | Stories owned by `Caleb` |
 | *Decisions to make before Phase 1* | [decisions.md](decisions.md) |
+| Everything Caleb needs to do, in order | [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) (generated) |
 | Stretch · FastAPI | Stories with `sprint: backlog` |
 
 ## Stories
@@ -48,16 +50,18 @@ Each story lives in `stories/US-###-short-slug.md`. All its status lives in its 
 - `done`: merged, every acceptance criterion ticked, and its tests pass in CI.
 - `cancelled`: dropped. Keep the file and note why in the Log.
 
+**Definition of ready:** a Claude story can start only when its dependencies are `done` and its **Files to touch**, **Out of scope** and **Tests to add** sections are filled in. `board.mjs` warns about any startable story that isn't ready. Before a sprint starts, refine its Claude stories so they pass this check.
+
 **Definition of done:** every acceptance criterion is checked, each one has a passing automated test where the spec calls for one, CI is green, and the PR is merged to `main`.
 
 ## Workflow
 
-1. **Plan the sprint.** Set the sprint file's `status: active` and `start:` date. Confirm the decisions it needs in [decisions.md](decisions.md).
+1. **Plan the sprint.** Set the sprint file's `status: active` and `start:` date. Clear its items on [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md), and make sure its Claude stories are ready (see *Definition of ready*).
 2. **Pick work** from *Next up* on [BOARD.md](BOARD.md). Set the story to `in-progress`.
 3. **Build it.** Tick acceptance criteria as they pass. Add dated entries to the story's **Log** (PR links, test results, scope changes).
 4. **Open a PR.** Set `status: review`. Put the story id in the branch name and PR title, e.g. `us-012-author-content` / `US-012: Author the content files`.
 5. **Merge.** Set `status: done`.
-6. **Regenerate the board** after any status change, in the same commit. This also rewrites the story list in every sprint file:
+6. **Regenerate the board** after any change to a story, sprint or decision, in the same commit. This rewrites `BOARD.md`, `WAITING-ON-CALEB.md` and the story list in every sprint file:
    ```
    node pm/scripts/board.mjs
    ```
@@ -73,16 +77,30 @@ Each sprint file has a `## Stories` table between `<!-- BEGIN GENERATED STORIES 
 - Never edit between the markers. The next run overwrites it.
 - Story ids and filenames never include the sprint, because stories move between sprints.
 
+## Waiting on Caleb
+
+[WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) is the one list of everything that needs Caleb, built from:
+
+| Source | Shows up as |
+| --- | --- |
+| Story with `status: blocked` | **Unblock**: answer the question in its Log |
+| Story with `status: review` | **Review**: check it and merge |
+| Sprint with `status: review` | **Approve the gate** |
+| `open` row in [decisions.md](decisions.md) | **Decide** |
+| Story with `owner: Caleb` that isn't done | **Do** |
+
+Items that have stopped work come first, then the rest in the order their sprints need them. To put something in front of Caleb, use one of those sources. Don't write to the file.
+
 ## Adding work
 
 - **New story:** copy [templates/story.md](templates/story.md) to `stories/US-<next id>-<slug>.md`, fill in the frontmatter, and regenerate the board.
 - **Scope change mid-sprint:** add the story to `backlog`, or to the current sprint if Caleb agrees. Note it in the sprint's Review.
 - **New sprint:** copy [templates/sprint.md](templates/sprint.md) to `sprints/S<next>-<slug>.md`. Keep the generated-stories markers; the script fails without them.
-- **New decision:** add a row to the second table in [decisions.md](decisions.md).
+- **New decision:** if Caleb should make it, add an `open` row to the first table in [decisions.md](decisions.md); it appears on WAITING-ON-CALEB.md. If it's a choice you made within a story, record it in the second table.
 
 ## Validation
 
-`board.mjs` fails with a clear message when a file has a bad status, owner, or priority, a missing or duplicate id, an unknown sprint, or a dependency that doesn't exist. It also fails when a sprint file is missing its generated-stories markers, and warns when a story is started before its dependencies are done, or marked done with unticked criteria. Once CI exists (US-008), add this step so a stale board or sprint story list fails the PR:
+`board.mjs` fails with a clear message when a file has a bad status, owner, or priority, a missing or duplicate id, an unknown sprint, a dependency that doesn't exist, or a malformed decision row. It also fails when a sprint file is missing its generated-stories markers, and warns when a startable Claude story isn't ready, when a story is started before its dependencies are done, or marked done with unticked criteria. Once CI exists (US-008), add this step so a stale board or sprint story list fails the PR:
 
 ```
 node pm/scripts/board.mjs --check
