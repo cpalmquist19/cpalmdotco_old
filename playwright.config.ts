@@ -3,7 +3,8 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "tests/e2e",
   forbidOnly: Boolean(process.env.CI),
-  reporter: process.env.CI ? "github" : "list",
+  // CI writes playwright-report/ for the workflow to upload; "never" stops the report server blocking the run.
+  reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
     baseURL: "http://localhost:3000",
   },

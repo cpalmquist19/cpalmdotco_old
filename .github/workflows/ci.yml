@@ -67,8 +67,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
-      # playwright.config.ts uses the "github" reporter in CI, which writes no report. Add "html" here.
-      - run: npm run test:e2e -- --reporter=github,html
+      - run: npm run test:e2e
       - uses: actions/upload-artifact@v7
         if: failure()
         with:

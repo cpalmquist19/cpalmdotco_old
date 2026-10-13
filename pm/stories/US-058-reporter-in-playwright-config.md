@@ -2,7 +2,7 @@
 id: US-058
 title: Set the CI report reporter in the Playwright config
 sprint: backlog
-status: todo
+status: done
 owner: Claude
 points: 1
 priority: P2
@@ -16,9 +16,9 @@ As the **builder**, I want the e2e reporters chosen in one place, so that CI and
 
 ## Acceptance criteria
 
-- [ ] With `CI` set, `playwright.config.ts` uses the `github` and `html` reporters, and `html` never opens a browser or serves the report. Without `CI`, it uses `list` only, as before
-- [ ] `.github/workflows/ci.yml` runs `npm run test:e2e` with no `--reporter` flag, and its upload step still names `playwright-report/` and fails when the folder is missing
-- [ ] Vitest tests cover each criterion above
+- [x] With `CI` set, `playwright.config.ts` uses the `github` and `html` reporters, and `html` never opens a browser or serves the report. Without `CI`, it uses `list` only, as before
+- [x] `.github/workflows/ci.yml` runs `npm run test:e2e` with no `--reporter` flag, and its upload step still names `playwright-report/` and fails when the folder is missing
+- [x] Vitest tests cover each criterion above
 
 ## Files to touch
 
@@ -53,4 +53,5 @@ All in `tests/unit/playwright.config.test.ts`:
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Moved the CI reporters into `playwright.config.ts` as `[["github"], ["html", { open: "never" }]]` and dropped `-- --reporter=github,html` and its comment from the e2e step in `ci.yml`. Four unit tests added in `tests/unit/playwright.config.test.ts`. `npm run verify` passes (34 unit tests). `CI=true npm run test:e2e`: 78 passed, `playwright-report/index.html` written. Plain `npm run test:e2e`: 78 passed, no report written. Port 3000 free afterwards · this commit · local checks pass; CI run to be noted in the next commit
 2026-10-13 · Created from the US-008 review: the reporter lived in both `playwright.config.ts` and a flag in `ci.yml`. Added US-058 to US-018's `depends_on`, because both edit `playwright.config.ts` · this commit · `board.mjs --check` passes
