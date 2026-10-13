@@ -62,3 +62,9 @@
     @apply bg-bg text-text font-sans;
   }
 }
+
+/* ThemeToggle renders both icons because the server can't know the theme. */
+[data-theme="dark"] .theme-icon-moon,
+[data-theme="light"] .theme-icon-sun {
+  display: none;
+}

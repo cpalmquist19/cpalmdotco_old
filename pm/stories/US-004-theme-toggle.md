@@ -2,7 +2,7 @@
 id: US-004
 title: Theme toggle with no-flash script
 sprint: S01
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,13 +16,13 @@ As a **visitor**, I want to switch between light and dark and have it remembered
 
 ## Acceptance criteria
 
-- [ ] Light is the default for first-time visitors regardless of OS setting (F0.5)
-- [ ] Toggle writes `data-theme` on `<html>` and saves it in `localStorage` under the key `theme` (F0.5)
-- [ ] Inline `<head>` script applies the saved theme before first paint, with no flash (F0.5)
-- [ ] Moon icon shows in light, sun in dark (F0.4)
-- [ ] `theme-color` meta updates with the theme (F0.6)
-- [ ] A missing, invalid or unreadable saved value falls back to light without an error
-- [ ] Playwright tests cover each criterion above
+- [x] Light is the default for first-time visitors regardless of OS setting (F0.5)
+- [x] Toggle writes `data-theme` on `<html>` and saves it in `localStorage` under the key `theme` (F0.5)
+- [x] Inline `<head>` script applies the saved theme before first paint, with no flash (F0.5)
+- [x] Moon icon shows in light, sun in dark (F0.4)
+- [x] `theme-color` meta updates with the theme (F0.6)
+- [x] A missing, invalid or unreadable saved value falls back to light without an error
+- [x] Playwright tests cover each criterion above
 
 ## Files to touch
 
@@ -65,4 +65,6 @@ As a **visitor**, I want to switch between light and dark and have it remembered
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Built the theme toggle and no-flash script (`lib/theme.ts`, `ThemeToggle.tsx`, `layout.tsx`, `globals.css`). Small choices within the story: the script uses `catch (e) {}` because optional catch binding is ES2019, not ES5; `saveTheme` returns a boolean so the toggle's blocked-storage case is handled, not swallowed; added an e2e test for unreadable storage (criterion 6 says "unreadable") and unit tests that run `themeScript` in a `vm` context · this commit · `npm run verify` passed (11 unit tests); `npm run test:e2e` passed (39 tests on chromium, webkit, mobile)
+2026-10-13 · Started: story is ready, US-003 is done, `main` clean and up to date · — · —
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes, storage key, colours, fallback criterion · — · —
