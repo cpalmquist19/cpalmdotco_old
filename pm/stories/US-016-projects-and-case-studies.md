@@ -2,7 +2,7 @@
 id: US-016
 title: Projects feed and case studies
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,12 +16,12 @@ As an **engineer**, I want project write-ups with numbers and stack, so that I c
 
 ## Acceptance criteria
 
-- [ ] `/projects/` feed shows a meta line, linked title, pitch and stats line per project, newest first (F5.3)
-- [ ] `/projects/[slug]/` shows Problem, What I built, Numbers and Stack (F5.3), in the shared template
-- [ ] All slugs are generated statically, and an unknown slug is a 404 (F5.5)
-- [ ] Uses `ProjectCard`
-- [ ] Every `sidebar.projects` link in `profile.json` points to a real project, or the build fails
-- [ ] Tests cover each criterion above
+- [x] `/projects/` feed shows a meta line, linked title, pitch and stats line per project, newest first (F5.3)
+- [x] `/projects/[slug]/` shows Problem, What I built, Numbers and Stack (F5.3), in the shared template
+- [x] All slugs are generated statically, and an unknown slug is a 404 (F5.5)
+- [x] Uses `ProjectCard`
+- [x] Every `sidebar.projects` link in `profile.json` points to a real project, or the build fails
+- [x] Tests cover each criterion above
 
 ## Files to touch
 
@@ -62,4 +62,6 @@ As an **engineer**, I want project write-ups with numbers and stack, so that I c
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Built the feed, the case study and the sidebar check. Added `ProjectCard`, `app/projects/page.tsx`, `app/projects/[slug]/page.tsx` (`generateStaticParams`, `dynamicParams = false`, `notFound()` as a fallback), the check in `lib/content.ts`, 3 unit tests and 6 e2e tests. Choices the story left open: a `sidebar.projects` href that isn't `/projects/<slug>/` gets its own message ("must be /projects/<slug>/"); the sidebar check is skipped when a project file is already broken, so one mistake doesn't add a false "no project" line; the case study shows the meta and stats lines as the card does, and Stack shows its Markdown text plus the tags. Outside **Files to touch**: none. Changed one US-011 test: "a missing experience or projects folder loads as an empty list" now also empties `sidebar.projects`, because the sidebar would otherwise link to a project that no longer exists. Its assertion is unchanged. `npm run verify`: pass (format, lint with 0 warnings, typecheck, 112 unit tests, board check; the board still warns about US-019, US-022 and US-028, which were already there). `npm run test:e2e`: 172 passed. The build prints the Turbopack tracing warning for `isPlaceholder` in `lib/content.ts`, which is from US-011 and is what US-067 covers; this story doesn't change it. "Uses ProjectCard" has no test of its own; the feed tests find cards by the `article` that only ProjectCard renders · this commit · pass
+2026-10-13 · Started: status in-progress; all dependencies done · — · —
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes; reuses `Markdown` (US-014) and `TagList` (US-015), so depends on both; takes the sidebar-link check US-011 left out; 404 for unknown slugs · — · —

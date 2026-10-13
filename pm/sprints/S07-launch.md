@@ -24,7 +24,7 @@ This list is generated from the `sprint: S07` field in each story file. To add, 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-009](../stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
 | [US-037](../stories/US-037-domain-and-hosting-access.md) | Domain and DNS access | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |
-| [US-038](../stories/US-038-seo-and-og.md) | SEO, Open Graph and structured data | ⬜ todo | Claude | P0 | 3 | 0/5 | US-016 |
+| [US-038](../stories/US-038-seo-and-og.md) | SEO, Open Graph and structured data | ⬜ todo · ready | Claude | P0 | 3 | 0/5 | ~~US-016~~ |
 | [US-039](../stories/US-039-production-deploy.md) | Production deploy and smoke test | ⬜ todo | Claude | P0 | 3 | 0/4 | US-037, US-036, US-038, US-049 |
 | [US-040](../stories/US-040-monitoring.md) | Monitoring and error alert | ⬜ todo | Claude | P1 | 2 | 0/3 | US-039 |
 | [US-041](../stories/US-041-cross-device-pass.md) | Final cross-device pass | ⬜ todo | Claude | P0 | 2 | 0/3 | US-039 |

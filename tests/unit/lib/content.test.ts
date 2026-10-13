@@ -82,6 +82,8 @@ describe("US-011", () => {
   it("US-011: a missing experience or projects folder loads as an empty list", () => {
     rmSync(path.join(dir, "experience"), { recursive: true });
     rmSync(path.join(dir, "projects"), { recursive: true });
+    // The sidebar links to a project, and a link with no project fails (US-016), so empty the sidebar too.
+    rewrite(dir, "profile.json", /"projects": \[.*\]/, '"projects": []');
 
     const content = loadContent(dir);
 
@@ -258,5 +260,40 @@ describe("US-014", () => {
     expect(thrownMessage(() => loadContent(dir))).toMatch(
       /content\/about\.md: \(file\): is missing/,
     );
+  });
+});
+
+describe("US-016", () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = copyFixture();
+  });
+
+  afterEach(() => {
+    removeFolder(dir);
+  });
+
+  it("US-016: a sidebar project link to an unknown slug fails", () => {
+    rewrite(dir, "profile.json", "/projects/atlas-api/", "/projects/missing/");
+
+    expect(thrownMessage(() => loadContent(dir))).toContain(
+      'content/profile.json: sidebar.projects.0.href: no project with slug "missing"',
+    );
+  });
+
+  it("US-016: a sidebar project link that isn't /projects/<slug>/ fails", () => {
+    rewrite(dir, "profile.json", "/projects/atlas-api/", "/projects/atlas-api");
+
+    expect(thrownMessage(() => loadContent(dir))).toContain(
+      "content/profile.json: sidebar.projects.0.href: must be /projects/<slug>/",
+    );
+  });
+
+  it("US-016: sidebar project links to real slugs pass", () => {
+    expect(() => loadContent(dir)).not.toThrow();
+    expect(loadContent(dir).profile.sidebar.projects.map((item) => item.href)).toEqual([
+      "/projects/atlas-api/",
+    ]);
   });
 });

@@ -230,6 +230,18 @@ function readProject(dir: string, file: string, problems: string[]): Project | u
   return { ...frontmatter, sections: sections.value };
 }
 
+// Each sidebar project link must point at a loaded project, so the sidebar never links to a 404 (US-016).
+function sidebarProjectProblems(profile: Profile, projects: Project[]): string[] {
+  const slugs = new Set(projects.map((project) => project.slug));
+  return profile.sidebar.projects.flatMap(({ href }, index) => {
+    const field = `sidebar.projects.${index}.href`;
+    const slug = /^\/projects\/([^/]+)\/$/.exec(href)?.[1];
+    if (slug === undefined) return [problem("profile.json", field, "must be /projects/<slug>/")];
+    if (!slugs.has(slug)) return [problem("profile.json", field, `no project with slug "${slug}"`)];
+    return [];
+  });
+}
+
 function commandProblems(profile: Profile, commands: Command[]): string[] {
   const seen = new Set<string>();
   const problems: string[] = [];
@@ -274,6 +286,7 @@ export function loadContent(dir = contentDir()): Content {
 
   const projects: Project[] = [];
   const projectFileBySlug = new Map<string, string>();
+  const problemsBeforeProjects = problems.length;
   for (const file of markdownFiles(dir, "projects")) {
     const project = readProject(dir, file, problems);
     if (project === undefined) continue;
@@ -284,6 +297,10 @@ export function loadContent(dir = contentDir()): Content {
       problems.push(problem(file, "slug", `"${project.slug}" is already used by content/${first}`));
     }
     projects.push(project);
+  }
+  // Skipped when a project file is broken, so one mistake doesn't also report a "no project" line for it.
+  if (profile !== undefined && problems.length === problemsBeforeProjects) {
+    problems.push(...sidebarProjectProblems(profile, projects));
   }
 
   if (profile !== undefined && commands !== undefined) {
