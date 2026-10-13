@@ -26,6 +26,38 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
+describe("US-059: failing e2e tests leave a trace and a screenshot", () => {
+  it("US-059: traces are kept only for failing tests", async () => {
+    const config = await loadConfig("");
+    expect(config.use?.trace).toBe("retain-on-failure");
+  });
+
+  it("US-059: screenshots are taken only for failing tests", async () => {
+    const config = await loadConfig("");
+    expect(config.use?.screenshot).toBe("only-on-failure");
+  });
+
+  it("US-059: no project overrides trace or screenshot", async () => {
+    const config = await loadConfig("");
+    expect(config.projects?.length).toBeGreaterThan(0);
+    for (const project of config.projects ?? []) {
+      expect(project.use, `${project.name} sets its own use`).toBeDefined();
+      expect(project.use).not.toHaveProperty("trace");
+      expect(project.use).not.toHaveProperty("screenshot");
+    }
+  });
+
+  it("US-059: no retries are configured", async () => {
+    for (const ciValue of ["", "true"]) {
+      const config = await loadConfig(ciValue);
+      expect(config.retries).toBeUndefined();
+      for (const project of config.projects ?? []) {
+        expect(project.retries).toBeUndefined();
+      }
+    }
+  });
+});
+
 describe("US-058: reporters are chosen in the Playwright config", () => {
   it("US-058: CI uses the github and html reporters, and html never opens", async () => {
     const config = await loadConfig("true");

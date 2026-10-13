@@ -2,7 +2,7 @@
 id: US-059
 title: Keep a trace and screenshot of every failing e2e test
 sprint: backlog
-status: todo
+status: done
 owner: Claude
 points: 1
 priority: P2
@@ -16,9 +16,9 @@ As the **builder**, I want a failing e2e test to leave a screenshot and a replay
 
 ## Acceptance criteria
 
-- [ ] `playwright.config.ts` sets `trace` to `retain-on-failure` and `screenshot` to `only-on-failure` in the top-level `use`, and no project overrides either
-- [ ] The config sets no `retries`, so a test that passes only on a second try still fails
-- [ ] Vitest tests cover each criterion above
+- [x] `playwright.config.ts` sets `trace` to `retain-on-failure` and `screenshot` to `only-on-failure` in the top-level `use`, and no project overrides either
+- [x] The config sets no `retries`, so a test that passes only on a second try still fails
+- [x] Vitest tests cover each criterion above
 
 ## Files to touch
 
@@ -52,4 +52,5 @@ All in `tests/unit/playwright.config.test.ts`:
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Added `trace: "retain-on-failure"` and `screenshot: "only-on-failure"` to the top-level `use` in `playwright.config.ts`; no `retries` anywhere. Four unit tests added to `tests/unit/playwright.config.test.ts`. `npm run verify` passes (38 unit tests). Checked by hand: a temporary `expect(1).toBe(2)` in `smoke.spec.ts` failed 3 of 78 under `CI=true`, leaving a `trace.zip` and a `test-failed-1.png` per project under `test-results/` and 3 zips and 3 PNGs under `playwright-report/data/`; assertion removed, `git diff --stat tests/e2e` empty. Plain `npm run test:e2e`: 78 passed. Port 3000 free afterwards. Also: CI run 38470018913 for US-058 (d9046a1) passed, all six jobs · this commit · local checks pass; CI run to be noted in the next commit
 2026-10-13 · Created from the US-008 review: the report CI uploads shows failures and assertion errors but no trace or screenshot. Added US-059 to US-018's `depends_on` (replacing US-058, which it covers through this story), because both edit `playwright.config.ts` · this commit · `board.mjs --check` passes

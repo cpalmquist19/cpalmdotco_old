@@ -7,6 +7,9 @@ export default defineConfig({
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
   use: {
     baseURL: "http://localhost:3000",
+    // Retries are off on purpose, so `on-first-retry` would record nothing. Record every run, keep failures.
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
   },
   webServer: {
     command: "npm run build && npm run start",
