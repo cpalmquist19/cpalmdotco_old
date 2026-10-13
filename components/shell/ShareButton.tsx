@@ -28,8 +28,9 @@ export function ShareButton() {
     }
   }
 
+  // The wrapper is the positioning context for the toast, which sits under the button.
   return (
-    <>
+    <div className="relative">
       <button
         type="button"
         aria-label="Copy link to this page"
@@ -39,6 +40,6 @@ export function ShareButton() {
         <LinkIcon aria-hidden="true" className="size-5" />
       </button>
       <Toast message={toast?.text ?? null} />
-    </>
+    </div>
   );
 }

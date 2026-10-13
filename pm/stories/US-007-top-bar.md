@@ -65,6 +65,7 @@ All in `tests/e2e/topbar.spec.ts`:
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Moved the toast from the bottom of the screen to just below the copy button, at Caleb's request (a follow-up to 8240c65; the story stays done). `Toast` hangs under a `relative` wrapper in `ShareButton`. New test: toast sits just below the copy button · this commit · `npm run verify` passed; `npm run test:e2e` 112 passed on chromium, webkit and mobile
 2026-10-13 · Built the top bar: `TopBar` (menu button, status pill, share, theme toggle, CV) in `AppShell`; the temporary toggle left `app/layout.tsx`. Choices the story left open: the toast sits bottom-centre; the share button is icon-only with its `aria-label`. Outside Files to touch: `components/shell/MobileDrawer.tsx` lost its `m-4`, because the button now sits in the header and the margin would add 16 px a side · this commit · `npm run verify` passed (format, lint, typecheck, 38 unit tests, board check); `npm run test:e2e` 109 passed on chromium, webkit and mobile; the top-bar spec repeated 3× with no failures
 2026-10-13 · Started: status in-progress; deps US-004, US-005, US-006 done · — · —
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes, copy-failure and mobile criteria; depends on US-006 · — · —

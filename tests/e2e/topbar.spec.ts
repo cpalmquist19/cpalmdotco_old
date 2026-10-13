@@ -105,6 +105,25 @@ test.describe("top bar", () => {
     await expect(page.getByRole("status")).toBeEmpty();
   });
 
+  test("US-007 F0.4: toast sits just below the copy button", async ({ page }) => {
+    await stubClipboard(page, [], "copy");
+    await page.goto("/");
+    const button = page.getByRole("button", { name: shareName });
+
+    await button.click();
+    await expect(page.getByRole("status")).toHaveText("Link copied");
+
+    const buttonBox = await button.boundingBox();
+    const toastBox = await page.getByRole("status").locator("p").boundingBox();
+    if (!buttonBox || !toastBox) throw new Error("copy button or toast has no box");
+
+    // Below the button, centred on it.
+    expect(toastBox.y).toBeGreaterThanOrEqual(buttonBox.y + buttonBox.height);
+    const buttonCentre = buttonBox.x + buttonBox.width / 2;
+    const toastCentre = toastBox.x + toastBox.width / 2;
+    expect(Math.abs(toastCentre - buttonCentre)).toBeLessThan(1);
+  });
+
   test("US-007: failed copy shows an error toast", async ({ page }) => {
     await stubClipboard(page, [], "fail");
     await page.goto("/");
