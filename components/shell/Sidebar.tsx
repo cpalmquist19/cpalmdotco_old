@@ -1,6 +1,6 @@
 "use client";
 
-import { PanelLeftClose, PanelLeftOpen, SquarePen } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen, SquarePen, X } from "lucide-react";
 import Link from "next/link";
 import { useId, useSyncExternalStore } from "react";
 import { Avatar } from "@/components/shell/Avatar";
@@ -42,13 +42,17 @@ function saveCollapsed(next: boolean) {
   listeners.forEach((listener) => listener());
 }
 
-type Props = { profile: Profile; askAbout: Command[] };
+type Props = { profile: Profile; askAbout: Command[] } & (
+  { variant: "inline" } | { variant: "drawer"; onClose: () => void }
+);
 
-export function Sidebar({ profile, askAbout }: Props) {
+export function Sidebar({ profile, askAbout, ...props }: Props) {
   // The server snapshot is expanded, so a collapsed sidebar appears a moment late
-  // on reload, after hydration. Ids are per instance: the drawer (US-006) renders
-  // this component a second time.
-  const collapsed = useSyncExternalStore(subscribe, readCollapsed, () => false);
+  // on reload, after hydration. Ids are per instance: the drawer renders this
+  // component a second time.
+  const storedCollapsed = useSyncExternalStore(subscribe, readCollapsed, () => false);
+  // The drawer is always full width: the rail is a desktop choice.
+  const collapsed = props.variant === "inline" && storedCollapsed;
   const askAboutId = useId();
   const projectsId = useId();
 
@@ -62,26 +66,41 @@ export function Sidebar({ profile, askAbout }: Props) {
   return (
     <aside
       aria-label="Sidebar"
-      className={`sticky top-0 hidden h-dvh shrink-0 flex-col overflow-y-auto border-r border-border bg-sidebar p-3 transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex ${
-        collapsed ? "w-[var(--rail-w)] items-center" : "w-[var(--sidebar-w)]"
-      }`}
+      className={
+        props.variant === "drawer"
+          ? "flex h-full w-full flex-col overflow-y-auto bg-sidebar p-3"
+          : `sticky top-0 hidden h-dvh shrink-0 flex-col overflow-y-auto border-r border-border bg-sidebar p-3 transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex ${
+              collapsed ? "w-[var(--rail-w)] items-center" : "w-[var(--sidebar-w)]"
+            }`
+      }
     >
       <div className={`flex items-center gap-3 ${collapsed ? "flex-col" : ""}`}>
         <Avatar name={profile.name} />
         <span className={`${labelClass} min-w-0 flex-1 font-medium text-text`}>{profile.name}</span>
-        <button
-          type="button"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          aria-expanded={!collapsed}
-          onClick={toggle}
-          className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
-        >
-          {collapsed ? (
-            <PanelLeftOpen aria-hidden="true" className="size-4" />
-          ) : (
-            <PanelLeftClose aria-hidden="true" className="size-4" />
-          )}
-        </button>
+        {props.variant === "drawer" ? (
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={props.onClose}
+            className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+          >
+            <X aria-hidden="true" className="size-4" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-expanded={!collapsed}
+            onClick={toggle}
+            className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+          >
+            {collapsed ? (
+              <PanelLeftOpen aria-hidden="true" className="size-4" />
+            ) : (
+              <PanelLeftClose aria-hidden="true" className="size-4" />
+            )}
+          </button>
+        )}
       </div>
 
       {/* TODO(US-032): clear the thread */}

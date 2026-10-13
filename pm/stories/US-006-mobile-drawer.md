@@ -2,7 +2,7 @@
 id: US-006
 title: Mobile off-canvas drawer
 sprint: S01
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P1
@@ -16,13 +16,13 @@ As a **phone visitor**, I want the sidebar in a drawer behind a menu button, so 
 
 ## Acceptance criteria
 
-- [ ] Under 1024 px the sidebar is hidden and a menu button opens it as an off-canvas drawer from the left (F0.3)
-- [ ] Drawer traps focus while open: Tab from the last item goes to the first, Shift+Tab from the first goes to the last (F0.3)
-- [ ] Esc closes the drawer (F0.3)
-- [ ] Focus returns to the menu button on close
-- [ ] Following a link in the drawer closes it
-- [ ] At 1024 px and wider, the menu button isn't shown
-- [ ] Playwright tests run on the mobile viewport
+- [x] Under 1024 px the sidebar is hidden and a menu button opens it as an off-canvas drawer from the left (F0.3)
+- [x] Drawer traps focus while open: Tab from the last item goes to the first, Shift+Tab from the first goes to the last (F0.3)
+- [x] Esc closes the drawer (F0.3)
+- [x] Focus returns to the menu button on close
+- [x] Following a link in the drawer closes it
+- [x] At 1024 px and wider, the menu button isn't shown
+- [x] Playwright tests run on the mobile viewport
 
 ## Files to touch
 
@@ -60,4 +60,7 @@ All in `tests/e2e/drawer.spec.ts`. Tag the mobile tests `@mobile-only` and the d
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Built with the token backdrop (D-020). `MobileDrawer` is a native `<dialog>`; `Sidebar` takes `variant` and renders "Close menu" in the drawer. The sidebar mounts only while the drawer is open, so the closed dialog doesn't add a second `data-testid="avatar"` to the page. Added the follow-up story US-060 to backlog for an overlay token. Files outside **Files to touch**: `pm/decisions.md` (D-020, allowed by AGENTS) and `pm/stories/US-060` (new backlog story, per AGENTS "scope change") · this commit · `npm run verify` passes (format, lint, typecheck, 21 unit tests, board check after regenerating); `npm run test:e2e` 66 passed on chromium, webkit and mobile, including all six drawer tests. Not checked by eye: the backdrop's look in dark mode
+2026-10-13 · Caleb chose option (a), `backdrop:bg-text/40`, so the Notes' `bg-black/40` and allowlist entry are not used. Recorded as D-020. Set back to in-progress and building · — · —
+2026-10-13 · Blocked before building. **Question for Caleb:** the Notes say the backdrop is `backdrop:bg-black/40` and that it's "the one allowed non-token colour", with an allowlist entry added to `tests/unit/style-rules.test.ts`. Three problems: (1) CODING § 5 says never to write a palette colour such as `bg-black`; (2) `style-rules.test.ts` has no allowlist, and `bg-black` in `backdrop:bg-black/40` fails its palette-class check, so the fix means adding an exception to a test; (3) `style-rules.test.ts` isn't in **Files to touch**. Options: (a) `backdrop:bg-text/40`, which uses a token and passes the test unchanged, but in dark mode it lightens the page rather than darkening it; (b) add a new overlay token to the spec and `globals.css`, in both themes, which changes files outside this story; (c) keep the Notes' `bg-black/40`, with the allowlist exception and the file added to **Files to touch**. My recommendation is (a) for now, with a follow-up story for an overlay token. · — · not run
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes, native dialog approach, close-on-navigate and desktop criteria · — · —

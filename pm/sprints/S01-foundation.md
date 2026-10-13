@@ -27,8 +27,8 @@ This list is generated from the `sprint: S01` field in each story file. To add, 
 | [US-003](../stories/US-003-design-tokens-and-fonts.md) | Design tokens and fonts | ✅ done | Claude | P0 | 2 | 5/5 | ~~US-002~~ |
 | [US-004](../stories/US-004-theme-toggle.md) | Theme toggle with no-flash script | ✅ done | Claude | P0 | 3 | 7/7 | ~~US-003~~ |
 | [US-005](../stories/US-005-app-shell-and-sidebar.md) | App shell and sidebar | ✅ done | Claude | P0 | 5 | 6/6 | ~~US-003~~ |
-| [US-006](../stories/US-006-mobile-drawer.md) | Mobile off-canvas drawer | ⬜ todo · ready | Claude | P1 | 3 | 0/7 | ~~US-005~~ |
-| [US-007](../stories/US-007-top-bar.md) | Top bar: status pill, share, theme, CV | ⬜ todo | Claude | P0 | 3 | 0/7 | ~~US-004~~, ~~US-005~~, US-006 |
+| [US-006](../stories/US-006-mobile-drawer.md) | Mobile off-canvas drawer | ✅ done | Claude | P1 | 3 | 7/7 | ~~US-005~~ |
+| [US-007](../stories/US-007-top-bar.md) | Top bar: status pill, share, theme, CV | ⬜ todo · ready | Claude | P0 | 3 | 0/7 | ~~US-004~~, ~~US-005~~, ~~US-006~~ |
 | [US-008](../stories/US-008-ci-pipeline.md) | CI pipeline: lint, typecheck, unit, e2e | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-001~~, ~~US-002~~ |
 
 <!-- END GENERATED STORIES -->
