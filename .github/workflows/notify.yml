@@ -64,9 +64,11 @@ jobs:
           esac
 
           # No -v and no set -x: both would print the URL, which contains the token.
-          curl --silent --show-error --fail \
+          # An error reply names the reason and holds no token, so the warning shows it. A success
+          # reply includes the chat's name, and this repo's Actions logs are public, so it is dropped.
+          if ! response=$(curl --silent --show-error --fail-with-body \
             --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
             --data-urlencode "text=${text}" \
-            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            > /dev/null \
-            || echo "::warning::Telegram notification failed"
+            "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"); then
+            echo "::warning::Telegram notification failed: ${response}"
+          fi

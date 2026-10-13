@@ -69,8 +69,12 @@ describe("US-064: Telegram notifications", () => {
 
   it("US-064: a failed curl logs a warning and does not fail the job", () => {
     const send = script.slice(script.indexOf("curl "));
-    expect(send).toContain("--fail");
-    expect(send).toContain('|| echo "::warning::Telegram notification failed"');
+    expect(send).toContain("--fail-with-body");
+    // The call sits in an `if !`, so its failure is handled instead of ending the step.
+    expect(script).toMatch(/if ! response=\$\(curl /);
+    expect(send).toContain('echo "::warning::Telegram notification failed: ${response}"');
+    // A success reply holds the chat's name and the logs are public, so it is never printed.
+    expect(script.match(/\$\{?response\}?/g)).toHaveLength(1);
     // Comments are skipped: the script's own comment explains why -v and set -x are absent.
     const commands = script
       .split("\n")
