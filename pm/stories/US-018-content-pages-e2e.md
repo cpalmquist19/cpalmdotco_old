@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-007, US-014, US-015, US-016, US-017, US-058]
+depends_on: [US-007, US-014, US-015, US-016, US-017, US-059]
 spec: F5; Testing › End to end
 ---
 
@@ -62,6 +62,7 @@ The `no-js` project runs this file only. The other three projects run it too, so
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Replaced US-058 with US-059 in `depends_on`: US-059 also edits `playwright.config.ts` and depends on US-058, so it covers both · this commit · `board.mjs --check` passes
 2026-10-13 · Added US-058 to `depends_on`: both stories edit `playwright.config.ts`, so US-058's reporter change lands first · this commit · `board.mjs --check` passes
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes, link-following and filled-button criteria; depends on US-007 · — · —
 2026-10-12 · Playwright setup moved to US-002 and the CI e2e job to US-008 (US-046), so S01's tests run from the start · — · —
