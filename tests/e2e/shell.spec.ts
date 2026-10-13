@@ -235,6 +235,30 @@ test.describe("app shell and sidebar", () => {
     await expect(avatar).toHaveText("");
   });
 
+  test("US-063 F0.3: avatar shows in the rail, pinned to the bottom @desktop-only", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const sidebar = page.getByRole("complementary", { name: "Sidebar" });
+    await page.getByRole("button", { name: "Collapse sidebar" }).click();
+    await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
+
+    const avatar = page.getByTestId("avatar");
+    await expect(avatar).toBeVisible();
+    await expect
+      .poll(() =>
+        avatar.evaluate((element) => element instanceof HTMLImageElement && element.naturalWidth),
+      )
+      .toBeGreaterThan(0);
+
+    const sidebarBox = await boxOf(sidebar);
+    const avatarBox = await boxOf(avatar);
+    expect(avatarBox.x).toBeGreaterThanOrEqual(sidebarBox.x);
+    expect(avatarBox.x + avatarBox.width).toBeLessThanOrEqual(sidebarBox.x + sidebarBox.width);
+    const gap = sidebarBox.y + sidebarBox.height - (avatarBox.y + avatarBox.height);
+    expect(gap).toBeLessThanOrEqual(32);
+  });
+
   test("US-005 F0.3: new tab starts expanded @desktop-only", async ({ context, page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Collapse sidebar" }).click();

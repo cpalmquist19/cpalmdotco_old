@@ -32,6 +32,7 @@ This list is generated from the `sprint: S01` field in each story file. To add, 
 | [US-008](../stories/US-008-ci-pipeline.md) | CI pipeline: lint, typecheck, unit, e2e | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-001~~, ~~US-002~~ |
 | [US-061](../stories/US-061-sidebar-rail-toggle-and-scrollbar.md) | Sidebar rail: fix the scrollbar and pin the collapse button | ✅ done | Claude | P1 | 2 | 5/5 | ~~US-005~~ |
 | [US-062](../stories/US-062-headshot-avatar.md) | Show Caleb's headshot in the avatar | ✅ done | Claude | P1 | 1 | 3/3 | ~~US-005~~, ~~US-061~~ |
+| [US-063](../stories/US-063-avatar-in-rail.md) | Show the avatar in the collapsed rail | ✅ done | Claude | P1 | 1 | 2/2 | ~~US-061~~, ~~US-062~~ |
 
 <!-- END GENERATED STORIES -->
 

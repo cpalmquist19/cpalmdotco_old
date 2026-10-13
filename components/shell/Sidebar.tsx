@@ -184,6 +184,14 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
           </nav>
         </>
       )}
+
+      {/* The social row is hidden in the rail, so the bottom is free: the avatar sits there
+          and nothing above it moves (D-021, D-023). ml-1 centres it on the menu icons. */}
+      {collapsed && (
+        <div className="mt-auto pt-6 pl-1">
+          <Avatar />
+        </div>
+      )}
     </aside>
   );
 }
