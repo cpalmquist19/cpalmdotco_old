@@ -1,0 +1,18 @@
+{
+  "placeholder": true,
+  "name": "Caleb Palmquist",
+  "role": "Placeholder: role",
+  "status": "Placeholder: open to work",
+  "socials": [
+    { "label": "GitHub", "href": "https://example.com/placeholder-github", "icon": "github" },
+    { "label": "LinkedIn", "href": "https://example.com/placeholder-linkedin", "icon": "linkedin" }
+  ],
+  "links": { "cv": "/cv.pdf" },
+  "sidebar": {
+    "askAbout": ["/about", "/experience", "/projects", "/skills", "/contact"],
+    "projects": [
+      { "label": "Placeholder project one", "href": "/projects/placeholder-one/" },
+      { "label": "Placeholder project two", "href": "/projects/placeholder-two/" }
+    ]
+  }
+}

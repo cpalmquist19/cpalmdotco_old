@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
+import { AppShell } from "@/components/shell/AppShell";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { THEME_COLORS, themeScript } from "@/lib/theme";
 import "./globals.css";
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: Props) {
         <div className="fixed right-4 top-4">
           <ThemeToggle />
         </div>
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

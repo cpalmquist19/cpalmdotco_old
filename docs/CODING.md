@@ -53,7 +53,7 @@ The layout is the one in the spec under *Repo layout and content model*. In shor
 - Pages that show content must be statically generated and must work with JavaScript off (F5.5). Don't fetch content in the browser.
 - Don't use `useEffect` to compute values you can compute during render.
 - Navigation uses `<Link href>` (renders `<a>`). Actions use `<button type="button">`. Never put `onClick` on a `div` or `span`.
-- Read `localStorage`/`sessionStorage` only inside effects or event handlers, never during render (it breaks server rendering), and wrap it in `try/catch`.
+- Read `localStorage`/`sessionStorage` only inside effects or event handlers, or through `useSyncExternalStore` with a server snapshot. Never read it directly in render (it breaks server rendering), and wrap it in `try/catch`. Don't call `setState` in an effect just to copy storage into state: the `react-hooks/set-state-in-effect` lint rule rejects it.
 
 ## 5. Styling and design tokens
 

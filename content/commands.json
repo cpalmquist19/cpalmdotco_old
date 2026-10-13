@@ -1,0 +1,52 @@
+[
+  {
+    "command": "/about",
+    "label": "About",
+    "description": "Placeholder: who I am",
+    "answer": "/about/",
+    "chip": true,
+    "order": 1,
+    "icon": "user",
+    "placeholder": true
+  },
+  {
+    "command": "/experience",
+    "label": "Experience",
+    "description": "Placeholder: where I've worked",
+    "answer": "/experience/",
+    "chip": true,
+    "order": 2,
+    "icon": "briefcase",
+    "placeholder": true
+  },
+  {
+    "command": "/projects",
+    "label": "Projects",
+    "description": "Placeholder: what I've built",
+    "answer": "/projects/",
+    "chip": true,
+    "order": 3,
+    "icon": "folder",
+    "placeholder": true
+  },
+  {
+    "command": "/skills",
+    "label": "Skills",
+    "description": "Placeholder: what I work with",
+    "answer": "/skills/",
+    "chip": true,
+    "order": 4,
+    "icon": "wrench",
+    "placeholder": true
+  },
+  {
+    "command": "/contact",
+    "label": "Contact",
+    "description": "Placeholder: how to reach me",
+    "answer": "/contact/",
+    "chip": true,
+    "order": 5,
+    "icon": "mail",
+    "placeholder": true
+  }
+]

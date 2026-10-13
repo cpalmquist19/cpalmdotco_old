@@ -2,7 +2,7 @@
 id: US-005
 title: App shell and sidebar
 sprint: S01
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,12 +16,12 @@ As a **visitor**, I want a sidebar of topics and projects, so that I can see at 
 
 ## Acceptance criteria
 
-- [ ] `AppShell` renders a 320 px sidebar (`--sidebar-w`) plus the page canvas, on every page, at 1024 px and wider (F0.1)
-- [ ] Sidebar has, top to bottom: identity row (avatar, name, collapse button), "New chat", an "ASK ABOUT" list with Lucide icons, a "PROJECTS" list, and a social row pinned to the bottom (F0.1)
-- [ ] Sidebar content comes only from `content/profile.json` and `content/commands.json`, filled with placeholder data (F0.1)
-- [ ] Collapse button hides the sidebar to a 64 px icon rail; the state survives a reload in the same tab and resets in a new tab (F0.3)
-- [ ] Each ASK ABOUT and PROJECTS item is a link with an `href` to its page (F0.2)
-- [ ] Playwright tests cover each criterion above
+- [x] `AppShell` renders a 320 px sidebar (`--sidebar-w`) plus the page canvas, on every page, at 1024 px and wider (F0.1)
+- [x] Sidebar has, top to bottom: identity row (avatar, name, collapse button), "New chat", an "ASK ABOUT" list with Lucide icons, a "PROJECTS" list, and a social row pinned to the bottom (F0.1)
+- [x] Sidebar content comes only from `content/profile.json` and `content/commands.json`, filled with placeholder data (F0.1)
+- [x] Collapse button hides the sidebar to a 64 px icon rail; the state survives a reload in the same tab and resets in a new tab (F0.3)
+- [x] Each ASK ABOUT and PROJECTS item is a link with an `href` to its page (F0.2)
+- [x] Playwright tests cover each criterion above
 
 ## Files to touch
 
@@ -103,5 +103,9 @@ Icons for the five placeholder entries: `user`, `briefcase`, `folder`, `wrench`,
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Unblocked: Caleb chose option A. `Sidebar` reads the collapsed state with `useSyncExternalStore` (server snapshot expanded, in-memory fallback when storage is blocked) instead of `setState` in an effect. The list headings use `useId`, since US-006's drawer renders a second `Sidebar`. Changed `docs/CODING.md` § 4 (outside Files to touch, as Caleb approved) to allow `useSyncExternalStore` and to name the lint rule. Added `US-005 F0.3: collapse still works when storage is blocked` · this commit · `npm run verify` passes; `npm run test:e2e`: 59 passed (chromium, webkit, mobile). CI result to follow
+2026-10-13 · **Blocked, question for Caleb:** `react-hooks/set-state-in-effect` (ESLint, `components/shell/Sidebar.tsx:22`) rejects the saved-collapse read in `useEffect`. CODING § 4 says storage is read only in effects, and F0.3 needs the saved state, so no rule-compliant version exists yet. Options: (A, recommended) `useSyncExternalStore` with `getServerSnapshot` returning expanded. It's lint-clean and React's documented way to read external storage, but CODING § 4's "never during render" wording needs amending to allow it; (B) an `eslint-disable` comment with a reason (forbidden by AGENTS.md unless you say so); (C) another approach you choose · — · lint fails (1 error); all 57 e2e tests and 21 unit tests pass
+2026-10-13 · Built the shell: `content/profile.json` and `content/commands.json` (placeholders, `placeholder: true` on the top level and on each command entry per CODING § 7 and D-016), `lib/content.ts`, `components/ui/icons.ts`, `components/shell/{AppShell,Sidebar,Avatar}.tsx`, `app/layout.tsx`, `--rail-w` in `app/globals.css`, `tests/e2e/shell.spec.ts` (9 tests × chromium and webkit) · — · `npx playwright test`: 57 passed; `npm test`: 21 passed; `prettier --check`, `tsc --noEmit`: clean; `eslint`: 1 error (above). Lucide has no `Github` or `Linkedin` icon in 1.56.0, so both social links use `Globe`. ASK ABOUT follows `profile.sidebar.askAbout` order (D-009), and `AppShell` throws if a name isn't in `commands.json`. Two test hooks: `data-testid="avatar"` (an `aria-hidden` element has no role) and `id`s on the ASK ABOUT and PROJECTS headings so their lists have `aria-labelledby`
+2026-10-13 · Started. Baseline `npm run verify` fails only on the board check: `pm/decisions.md` has Caleb's uncommitted D-001/D-002 edits, so BOARD.md and WAITING-ON-CALEB.md are stale · — · —
 2026-10-13 · Note added (US-054): the canvas is a `<div>`, so content pages can own `<main>` and the footer · — · —
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes, placeholder data shapes, rail width, storage key · — · —
