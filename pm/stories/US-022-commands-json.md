@@ -22,7 +22,7 @@ As the **site owner**, I want chips, the palette and the sidebar to read from on
 
 ## Notes
 
--
+- Per decision D-009, `commands.json` entries also have `icon` (a Lucide icon name), and `profile.json` has `sidebar: { askAbout: string[] (command names), projects: { label, href }[] }`. Include both in the schema. US-005 already uses them with placeholder data.
 
 ## Log
 

@@ -31,7 +31,7 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 | [US-015](../stories/US-015-experience-page.md) | Experience page | ⬜ todo | Claude | P0 | 2 | 0/3 | US-012, US-013 |
 | [US-016](../stories/US-016-projects-and-case-studies.md) | Projects feed and case studies | ⬜ todo | Claude | P0 | 3 | 0/4 | US-012, US-013 |
 | [US-017](../stories/US-017-skills-page.md) | Skills page | ⬜ todo | Claude | P1 | 2 | 0/2 | US-012, US-013 |
-| [US-018](../stories/US-018-content-pages-e2e.md) | Playwright setup and F5 tests | ⬜ todo | Claude | P0 | 3 | 0/4 | US-014, US-015, US-016, US-017 |
+| [US-018](../stories/US-018-content-pages-e2e.md) | F5 tests and a JavaScript-off project | ⬜ todo | Claude | P0 | 3 | 0/2 | US-014, US-015, US-016, US-017 |
 
 <!-- END GENERATED STORIES -->
 

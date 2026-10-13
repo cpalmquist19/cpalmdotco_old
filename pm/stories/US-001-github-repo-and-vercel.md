@@ -16,7 +16,7 @@ As the **builder**, I want an empty GitHub repo linked to a Vercel project, so t
 
 ## Acceptance criteria
 
-- [ ] New, empty GitHub repo exists and Claude has push access
+- [x] New, empty GitHub repo exists and Claude has push access
 - [ ] Vercel (or the chosen host, see D-006) account is linked to the repo
 - [ ] A preview deployment is created for a test PR
 
@@ -27,3 +27,4 @@ As the **builder**, I want an empty GitHub repo linked to a Vercel project, so t
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-12 · Repo https://github.com/cpalmquist19/cpalmdotco exists; Claude pushed the initial commit to `main` (53aa067), so the first criterion is verified. Vercel link and preview still to do · — · —
