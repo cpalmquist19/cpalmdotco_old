@@ -58,7 +58,7 @@ Each story lives in `stories/US-###-short-slug.md`. All its status lives in its 
 
 1. **Plan the sprint.** Set the sprint file's `status: active` and `start:` date. Clear its items on [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md), and make sure its Claude stories are ready (see *Definition of ready*).
 2. **Pick work** from *Next up* on [BOARD.md](BOARD.md). Set the story to `in-progress`.
-3. **Build it.** Tick acceptance criteria as they pass. Add dated entries to the story's **Log** (commit hashes, test results, scope changes).
+3. **Build it.** Tick acceptance criteria as they pass. Add dated entries to the story's **Log** (commit hashes, test results, scope changes). The commit that finishes a story writes `this commit`, because a commit can't contain its own hash.
 4. **Push.** Set `status: done`, then commit everything for the story in one commit (`US-012: Author the content files`) and `git push origin main`. The pre-push hook runs every check first.
 5. **Watch CI.** If the run on `main` fails, the fix is the next commit.
 6. **Regenerate the board** after any change to a story, sprint or decision, in the same commit. This rewrites `BOARD.md`, `WAITING-ON-CALEB.md` and the story list in every sprint file:

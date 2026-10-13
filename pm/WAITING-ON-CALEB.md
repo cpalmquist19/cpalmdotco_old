@@ -14,7 +14,7 @@ Everything that needs your decision, input or approval, in the order to handle i
 | 6 | ⚪ later | **Do** [US-027](stories/US-027-api-key-secret.md) Set the model API key as a hosting secret (0/3 done) | S05 | US-029 (13 in total) |
 | 7 | ⚪ later | **Decide** [D-005](decisions.md) Domain. Default if you don't: Your own if you have one; else host subdomain | S07 | S07 (7 stories) |
 | 8 | ⚪ later | **Do** [US-009](stories/US-009-content-inputs.md) Provide content inputs (0/7 done) | S07 | US-049 (4 in total) |
-| 9 | ⚪ later | **Do** [US-037](stories/US-037-domain-and-hosting-access.md) Domain DNS access and OG image approval (0/3 done) | S07 | US-039 (3 in total) |
+| 9 | ⚪ later | **Do** [US-037](stories/US-037-domain-and-hosting-access.md) Domain and DNS access (0/2 done) | S07 | US-039 (3 in total) |
 
 ## How to clear an item
 

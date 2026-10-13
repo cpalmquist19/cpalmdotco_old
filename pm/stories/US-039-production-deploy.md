@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-037, US-036, US-049]
+depends_on: [US-037, US-036, US-038, US-049]
 spec: Deployment › Pipeline step 4
 ---
 

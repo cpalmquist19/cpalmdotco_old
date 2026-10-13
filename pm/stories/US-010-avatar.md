@@ -17,12 +17,14 @@ As the **site owner**, I want my own avatar in the sidebar and chat, so that the
 ## Acceptance criteria
 
 - [ ] Square headshot ≥ 400 px supplied, **or** monogram avatar approved
-- [ ] Saved as `public/avatar.webp`
+- [ ] If a headshot: the image file is shared with Claude (in chat as a file path, or committed anywhere in the repo)
 
 ## Notes
 
--
+- A monogram needs nothing more from Caleb: US-005 already builds `Avatar.tsx` from the initials in `profile.json`.
+- If Caleb supplies a headshot, the builder adds a story to save it as `public/avatar.webp` and show it in `Avatar.tsx`. Caleb's part ends when the file is shared.
 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Saving `public/avatar.webp` moved out of this story, so it closes without Claude's work (US-052) · — · —

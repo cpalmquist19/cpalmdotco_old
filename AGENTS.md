@@ -46,6 +46,7 @@ These are the mistakes that cost the most to undo. None of them is ever the righ
 - Do a story owned by Caleb, tick "Approved by Caleb", set a sprint to `closed`, or settle an `open` decision.
 - Push with `--no-verify` (the only exception is the throwaway `ci-check` branch in US-008), force-push, rewrite or revert history on `main`, or push with failing checks.
 - Mix two stories in one commit.
+- Throw away uncommitted work in the repo: `git clean`, `git reset --hard`, `git stash`, `git checkout -- .`, `git restore .`. To test a clean checkout, commit first, then `git clone` the repo into a temporary folder outside it and run the checks there.
 - Stop processes by name or pattern (`taskkill /IM node.exe`, `Stop-Process -Name node`, `pkill node`, `killall node`). Stop only a process you started, by its PID (see *Servers and processes*).
 
 ## Stop and ask
@@ -74,7 +75,7 @@ Caleb's machine runs other Node programs: his editor, other projects, and the ag
    Get-CimInstance Win32_Process -Filter "ProcessId=<pid>" | Select-Object CommandLine
    ```
 4. **Stop it by that PID only:** `Stop-Process -Id <pid>` in PowerShell, or `kill <pid>` in a POSIX shell.
-5. **Check the port is free afterwards** (step 2's command prints nothing). Otherwise the next `npm run test:e2e` tests the old server instead of a fresh build.
+5. **Check the port is free afterwards** (step 2's command prints nothing). Otherwise the next `npm run test:e2e` fails, because it won't reuse a server that's already running.
 
 If something is already on the port before you start, or a process won't stop, or you can't tell whether you started it, don't kill it. Stop and ask.
 
@@ -88,13 +89,14 @@ All work is tracked in [pm/](pm/). These rules apply to every task:
    - When it's pushed to `main` with every acceptance criterion ticked and all checks passing: `status: done`
    - When you can't proceed: `status: blocked`, with the reason in the Log
 2. **Tick acceptance criteria** (`- [x]`) only when they actually pass, with a test where the spec calls for one.
-3. **Add a Log entry** for each meaningful step, newest first: `YYYY-MM-DD · what changed · PR/commit · test result`.
-4. **Regenerate the generated files** after any change to a story, sprint or decision, and commit them with that change:
+3. **Add a Log entry** for each meaningful step, newest first: `YYYY-MM-DD · what changed · PR/commit · test result`. In the commit that finishes the story, write `this commit` in the commit field: a commit can't contain its own hash, and `git log --grep US-###` finds it. Refer to earlier commits by their short hash.
+4. **Record what the story didn't specify.** If you choose something the story and spec leave open, and it changes how the site or tooling behaves (a framework option, a different approach from what **Files to touch** implies), add a row to the "Decisions made during the build" table in [pm/decisions.md](pm/decisions.md) with the reason. For a smaller setting that isn't in the story's Notes, give the reason in the Log. You may edit `pm/decisions.md` in any story, even when its **Out of scope** limits other `pm/` files.
+5. **Regenerate the generated files** after any change to a story, sprint or decision, and commit them with that change:
    ```
    node pm/scripts/board.mjs
    ```
    This rewrites `pm/BOARD.md`, `pm/WAITING-ON-CALEB.md` and the story list in each sprint file. If the script reports errors, fix the frontmatter before going on.
-5. **Respect dependencies.** Don't start a story until everything in its `depends_on` is `done`, unless Caleb says so. The script warns when this happens.
+6. **Respect dependencies.** Don't start a story until everything in its `depends_on` is `done`, unless Caleb says so. The script warns when this happens.
 
 ## Boundaries
 

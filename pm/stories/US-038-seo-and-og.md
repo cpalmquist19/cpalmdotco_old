@@ -20,6 +20,7 @@ As a **recruiter**, I want the site to look good when shared and found in search
 - [ ] Page metadata on every route
 - [ ] `Person` JSON-LD on home
 - [ ] `sitemap.ts` and `robots.ts`
+- [ ] Caleb approves the generated Open Graph image on the deployed site. The story waits in `review` until he does
 
 ## Notes
 
@@ -28,3 +29,4 @@ As a **recruiter**, I want the site to look good when shared and found in search
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Took over the OG image approval from US-037 (US-052) · — · —
