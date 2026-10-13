@@ -27,10 +27,10 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 | [US-012](../stories/US-012-author-content-files.md) | Author placeholder content files | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-011~~ |
 | [US-013](../stories/US-013-page-template.md) | Content-page template, footer and Contact page | ✅ done | Claude | P0 | 5 | 7/7 | ~~US-005~~, ~~US-011~~, ~~US-012~~ |
 | [US-014](../stories/US-014-about-contact-cv-pages.md) | About and CV pages | ✅ done | Claude | P0 | 3 | 7/7 | ~~US-012~~, ~~US-013~~ |
-| [US-015](../stories/US-015-experience-page.md) | Experience page | ⬜ todo · ready | Claude | P0 | 3 | 0/5 | ~~US-012~~, ~~US-013~~ |
-| [US-016](../stories/US-016-projects-and-case-studies.md) | Projects feed and case studies | ⬜ todo | Claude | P0 | 3 | 0/6 | ~~US-012~~, ~~US-013~~, ~~US-014~~, US-015 |
+| [US-015](../stories/US-015-experience-page.md) | Experience page | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-012~~, ~~US-013~~ |
+| [US-016](../stories/US-016-projects-and-case-studies.md) | Projects feed and case studies | ⬜ todo · ready | Claude | P0 | 3 | 0/6 | ~~US-012~~, ~~US-013~~, ~~US-014~~, ~~US-015~~ |
 | [US-017](../stories/US-017-skills-page.md) | Skills page | ⬜ todo · ready | Claude | P1 | 2 | 0/4 | ~~US-012~~, ~~US-013~~, ~~US-014~~ |
-| [US-018](../stories/US-018-content-pages-e2e.md) | F5 tests and a JavaScript-off project | ⬜ todo | Claude | P0 | 3 | 0/4 | ~~US-007~~, ~~US-014~~, US-015, US-016, US-017, ~~US-059~~ |
+| [US-018](../stories/US-018-content-pages-e2e.md) | F5 tests and a JavaScript-off project | ⬜ todo | Claude | P0 | 3 | 0/4 | ~~US-007~~, ~~US-014~~, ~~US-015~~, US-016, US-017, ~~US-059~~ |
 | [US-050](../stories/US-050-site-icon.md) | Site icon (favicon) | ⬜ todo · ready | Claude | P1 | 2 | 0/2 | ~~US-003~~, ~~US-012~~ |
 
 <!-- END GENERATED STORIES -->

@@ -2,7 +2,7 @@
 id: US-015
 title: Experience page
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,11 +16,11 @@ As a **recruiter**, I want a clear timeline of roles, so that I can judge experi
 
 ## Acceptance criteria
 
-- [ ] `/experience/` uses the shared template and lists numbered roles with dates, location, bullets and mono tech tags (F5.2)
-- [ ] Uses `RoleEntry` and `TagList`
-- [ ] Ordered by `order` frontmatter, with `order: 1` first
-- [ ] The page is statically generated (F5.5)
-- [ ] Tests cover each criterion above
+- [x] `/experience/` uses the shared template and lists numbered roles with dates, location, bullets and mono tech tags (F5.2)
+- [x] Uses `RoleEntry` and `TagList`
+- [x] Ordered by `order` frontmatter, with `order: 1` first
+- [x] The page is statically generated (F5.5)
+- [x] Tests cover each criterion above
 
 ## Files to touch
 
@@ -56,4 +56,5 @@ All in `tests/e2e/experience.spec.ts`. Build the expected values in the test fro
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Done. Added `RoleEntry` (numbered `li`, title, company, `formatRange` dates, location, bullets, tags), `TagList` (outlined mono pills, labelled by the role), and `/experience/` on the template with an `ol` of roles in `order`. Choice the story left open: the mono check matches `/Geist[ _]Mono/`, because `next/font` names the family `__Geist_Mono_<hash>`, and the exact name "Geist Mono" never appears in the computed `font-family`. The existing body-font test does the same with `/Geist/`. `npm run verify`: pass (format, lint with 0 warnings, typecheck, 109 unit tests, no new ones, board check). `npm run test:e2e`: 154 passed (139 before, 15 new: 5 tests × 3 projects). Criterion 4 is covered by US-013's `static-pages.test.ts`, which now also checks `/experience/` · this commit · pass
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes; owns `TagList` for US-016; points 2 → 3 · — · —
