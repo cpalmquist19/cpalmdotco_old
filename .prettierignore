@@ -1,0 +1,7 @@
+pm/
+docs/
+AGENTS.md
+CLAUDE.md
+.claude/
+.next/
+package-lock.json

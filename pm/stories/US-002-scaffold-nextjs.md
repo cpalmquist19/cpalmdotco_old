@@ -2,7 +2,7 @@
 id: US-002
 title: Scaffold the Next.js project
 sprint: S01
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,13 +16,13 @@ As the **builder**, I want a Next.js App Router project with the agreed tooling,
 
 ## Acceptance criteria
 
-- [ ] Next.js (App Router, TypeScript) app runs locally with `npm run dev`. Versions follow decision D-007, pinned exactly in `package.json`; Node version in `.nvmrc` and `engines.node`
-- [ ] Tailwind v4, ESLint, Prettier, Vitest, Playwright and `lucide-react` installed and configured as in **Notes**
-- [ ] `package.json` has exactly the scripts listed in **Notes**, and `npm run verify` and `npm run test:e2e` both pass after `npm ci` on a clean checkout
-- [ ] `tsconfig.json` has `strict: true`, `noUncheckedIndexedAccess: true` and the `@/*` alias pointing at the repo root
-- [ ] Folder layout matches *Repo layout and content model*: `app/`, `components/`, `content/`, `lib/`, `tests/unit/`, `tests/e2e/`, `public/` (empty folders hold a `.gitkeep`)
-- [ ] A git pre-push hook runs `npm run verify` and `npm run test:e2e` and refuses the push if either fails; `npm install` turns it on (D-008)
-- [ ] The create-next-app boilerplate is gone: the home page is a placeholder `<main>` with one `<h1>`, and the template's SVGs and demo styles are deleted
+- [x] Next.js (App Router, TypeScript) app runs locally with `npm run dev`. Versions follow decision D-007, pinned exactly in `package.json`; Node version in `.nvmrc` and `engines.node`
+- [x] Tailwind v4, ESLint, Prettier, Vitest, Playwright and `lucide-react` installed and configured as in **Notes**
+- [x] `package.json` has exactly the scripts listed in **Notes**, and `npm run verify` and `npm run test:e2e` both pass after `npm ci` on a clean checkout
+- [x] `tsconfig.json` has `strict: true`, `noUncheckedIndexedAccess: true` and the `@/*` alias pointing at the repo root
+- [x] Folder layout matches *Repo layout and content model*: `app/`, `components/`, `content/`, `lib/`, `tests/unit/`, `tests/e2e/`, `public/` (empty folders hold a `.gitkeep`)
+- [x] A git pre-push hook runs `npm run verify` and `npm run test:e2e` and refuses the push if either fails; `npm install` turns it on (D-008)
+- [x] The create-next-app boilerplate is gone: the home page is a placeholder `<main>` with one `<h1>`, and the template's SVGs and demo styles are deleted
 
 ## Files to touch
 
@@ -112,5 +112,10 @@ Mark it executable in git (`git update-index --chmod=+x .githooks/pre-push`), so
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Done. Scaffolded with create-next-app 16.4.0 in a folder outside the repo and copied in, as in Notes. Pinned exactly (D-007): next 16.4.0, react and react-dom 19.3.0, tailwindcss and @tailwindcss/turbopack 4.3.3, vitest 5.0.4, @playwright/test 1.64.0, prettier 3.9.10, lucide-react 1.56.0, @types/node 24.19.2. eslint 9.39.5 and typescript 5.9.3 stay on the majors the template uses · this commit · `npm run verify` ✔, `npm run test:e2e` ✔ (3 tests: chromium, webkit, mobile), same results on a clean copy after `npm ci`; `npm run dev` served `/` with one h1
+2026-10-13 · Differences from the story's file list, all inside **Files to touch**: (1) no `postcss.config.mjs`: Next 16.4's template wires Tailwind v4 through `turbopack.rules` and `@tailwindcss/turbopack` in `next.config.ts`, so I kept that; (2) `agentRules: false` in `next.config.ts`, because otherwise `next dev` writes its own block into our hand-written `AGENTS.md`; (3) `"type": "module"` in `package.json`, because Vitest warned that `vitest.config.ts` was loaded as CommonJS and the story allows no warnings; (4) `.claude/` added to `.prettierignore`, because its hand-written `settings.json` fails `format:check`; (5) `.gitignore` gained `*.pem` and `npm-debug.log*`; (6) scaffolded with `--no-cache-components`, since the template turns Cache Components on by default and the story doesn't ask for it; (7) the template's `app/favicon.ico` isn't copied (boilerplate) and no story covers a favicon yet; (8) the unit smoke test imports `@/package.json`, because there's no `lib/` code yet to import · — · —
+2026-10-13 · Pre-push hook tested by hand: with `expect(1).toBe(2)` added to the unit smoke test, `git push origin main` ran `npm run verify`, failed at `npm test` and refused the push (`failed to push some refs`, nothing sent). Line removed afterwards. `npm install` sets `core.hooksPath` to `.githooks` through `prepare` · — · hook refused ✔
+2026-10-13 · Known and left alone: (a) this machine runs Node 22.18.0, so `npm install` prints an `EBADENGINE` warning for `engines.node: "24.x"` (D-007); checks still pass, and Vercel will use 24; (b) `npm audit` reports 5 high findings in dev tooling (`braces`, through eslint-config-next's dependencies), and `npm audit fix --force` would downgrade to eslint-config-next 14, so it isn't applied; (c) `board.mjs` warns that US-002 depends on US-001, which isn't `done` yet, as expected · — · —
+2026-10-13 · Started. US-001 isn't `done` (last criterion needs this story's push to deploy), but Caleb told Claude to start US-002 anyway · — · —
 2026-10-13 · Added the pre-push hook and `prepare` script for D-008 (direct pushes to `main`) · — · —
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes; moved Playwright setup here from US-018; exact scripts and config; points 3 → 5 · — · —

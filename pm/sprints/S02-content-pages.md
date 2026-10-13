@@ -23,7 +23,7 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-010](../stories/US-010-avatar.md) | Headshot or monogram avatar | ⬜ todo · ready | Caleb | P2 | 1 | 0/2 | — |
-| [US-011](../stories/US-011-content-schemas.md) | Content schemas and loader | ⬜ todo | Claude | P0 | 3 | 0/4 | US-002 |
+| [US-011](../stories/US-011-content-schemas.md) | Content schemas and loader | ⬜ todo · ready | Claude | P0 | 3 | 0/4 | ~~US-002~~ |
 | [US-012](../stories/US-012-author-content-files.md) | Author placeholder content files | ⬜ todo | Claude | P0 | 3 | 0/5 | US-011 |
 | [US-013](../stories/US-013-page-template.md) | Shared content-page template and footer | ⬜ todo | Claude | P0 | 3 | 0/3 | US-005 |
 | [US-014](../stories/US-014-about-contact-cv-pages.md) | About, Contact and CV pages | ⬜ todo | Claude | P0 | 2 | 0/3 | US-012, US-013 |

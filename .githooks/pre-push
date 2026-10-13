@@ -1,0 +1,5 @@
+#!/bin/sh
+# Refuse the push unless every check passes (decision D-008). Never bypass with --no-verify.
+set -e
+npm run verify
+npm run test:e2e
