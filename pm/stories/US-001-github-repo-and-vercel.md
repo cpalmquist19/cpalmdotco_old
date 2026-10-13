@@ -1,0 +1,29 @@
+---
+id: US-001
+title: Create the GitHub repo and link Vercel
+sprint: S01
+status: todo
+owner: Caleb
+points: 1
+priority: P0
+depends_on: []
+spec: Inputs needed from you › Accounts; Phase 1
+---
+
+# US-001 · Create the GitHub repo and link Vercel
+
+As the **builder**, I want an empty GitHub repo linked to a Vercel project, so that every PR gets a preview URL from Phase 1 on.
+
+## Acceptance criteria
+
+- [ ] New, empty GitHub repo exists and Claude has push access
+- [ ] Vercel (or the chosen host, see D-006) account is linked to the repo
+- [ ] A preview deployment is created for a test PR
+
+## Notes
+
+- The spec lists the hosting account under Phase 7, but Phase 1 needs a Vercel preview, so it is pulled forward here. Hosting decision D-006 must be settled first.
+
+## Log
+
+<!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
