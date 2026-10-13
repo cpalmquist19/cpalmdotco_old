@@ -2,7 +2,7 @@
 id: US-013
 title: Content-page template, footer and Contact page
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,13 +16,13 @@ As a **visitor**, I want every page laid out the same way, so that I always know
 
 ## Acceptance criteria
 
-- [ ] One template: breadcrumb (`Home / /page`), eyebrow, H1, intro, body, cross-links, footer (F5.1). The header is the top bar, which `AppShell` already renders
-- [ ] `Breadcrumb` is a `nav`; `PageIntro` renders eyebrow, H1, intro
-- [ ] Footer has "Ask me in the chat" and "CV (PDF)" links styled as outlined buttons, the nav, and LinkedIn and GitHub links (F5.6)
-- [ ] Footer buttons are outlined, so the top-bar CV stays the only filled button (F2.4)
-- [ ] `/contact/` uses the template and shows the email (as a `mailto:` link), location, status, LinkedIn and GitHub from `profile.json`
-- [ ] Every content page exports `dynamic = "error"`, so the build fails if one can't be prerendered (F5.5)
-- [ ] Tests cover each criterion above
+- [x] One template: breadcrumb (`Home / /page`), eyebrow, H1, intro, body, cross-links, footer (F5.1). The header is the top bar, which `AppShell` already renders
+- [x] `Breadcrumb` is a `nav`; `PageIntro` renders eyebrow, H1, intro
+- [x] Footer has "Ask me in the chat" and "CV (PDF)" links styled as outlined buttons, the nav, and LinkedIn and GitHub links (F5.6)
+- [x] Footer buttons are outlined, so the top-bar CV stays the only filled button (F2.4)
+- [x] `/contact/` uses the template and shows the email (as a `mailto:` link), location, status, LinkedIn and GitHub from `profile.json`
+- [x] Every content page exports `dynamic = "error"`, so the build fails if one can't be prerendered (F5.5)
+- [x] Tests cover each criterion above
 
 ## Files to touch
 
@@ -94,4 +94,6 @@ As a **visitor**, I want every page laid out the same way, so that I always know
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Done. Added `ContentPage` (breadcrumb, `PageIntro`, children, `CrossLinks`, then `SiteFooter`), `Breadcrumb`, `PageIntro`, `CrossLinks`, `SiteFooter`, `lib/pages.ts`, `lib/dates.ts` and the Contact page. Choices the story left open: `ContentPage` reads the profile and commands itself, as `AppShell` does, so its props match the Notes. Cross-links are outlined cards with an arrow icon and no heading, so no copy was invented. `npm run build` prints `/contact` as static (○), so `dynamic = "error"` holds. The build also prints 2 Turbopack warnings from `lib/content.ts` (US-011). This story doesn't change that file, and the shell has imported it since US-005. Tracked in US-067 (backlog). `npm run verify`: pass (format, lint with 0 warnings, typecheck, 101 unit tests, 11 new, board check). `npm run test:e2e`: 130 passed (112 before, 18 new: 6 tests × 3 projects). I ran the tests but didn't review the layout by eye · this commit · pass
+2026-10-13 · Started the build from main; status in-progress · — · —
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes; took in the Contact page so the template is tested on a real page; owns `lib/pages.ts` and `lib/dates.ts`; now depends on US-011 (the footer needs `links.linkedin` and `.github`) and US-012 (which writes the page intros); points 3 → 5 · — · —
