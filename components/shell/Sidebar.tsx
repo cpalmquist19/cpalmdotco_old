@@ -69,30 +69,22 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
       className={
         props.variant === "drawer"
           ? "flex h-full w-full flex-col overflow-y-auto bg-sidebar p-3"
-          : `sticky top-0 hidden h-dvh shrink-0 flex-col overflow-y-auto border-r border-border bg-sidebar p-3 transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex ${
-              collapsed ? "w-[var(--rail-w)] items-center" : "w-[var(--sidebar-w)]"
+          : `sticky top-0 hidden h-dvh shrink-0 flex-col overflow-y-auto overflow-x-hidden border-r border-border bg-sidebar p-3 transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex ${
+              // The rail keeps the left padding and drops the right one: 64 px minus the
+              // border and padding must leave room for a 40 px item. Everything stays
+              // left-aligned, so nothing shifts sideways between the two states.
+              collapsed ? "w-[var(--rail-w)] items-start pr-0" : "w-[var(--sidebar-w)]"
             }`
       }
     >
-      <div className={`flex items-center gap-3 ${collapsed ? "flex-col" : ""}`}>
-        <Avatar name={profile.name} />
-        <span className={`${labelClass} min-w-0 flex-1 font-medium text-text`}>{profile.name}</span>
-        {props.variant === "drawer" ? (
-          <button
-            type="button"
-            aria-label="Close menu"
-            onClick={props.onClose}
-            className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
-          >
-            <X aria-hidden="true" className="size-4" />
-          </button>
-        ) : (
+      <div className="flex items-center gap-3">
+        {props.variant === "inline" && (
           <button
             type="button"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             aria-expanded={!collapsed}
             onClick={toggle}
-            className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+            className="flex size-10 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
           >
             {collapsed ? (
               <PanelLeftOpen aria-hidden="true" className="size-4" />
@@ -101,34 +93,45 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
             )}
           </button>
         )}
+        {!collapsed && <Avatar name={profile.name} />}
+        <span className={`${labelClass} min-w-0 flex-1 font-medium text-text`}>{profile.name}</span>
+        {props.variant === "drawer" && (
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={props.onClose}
+            className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+          >
+            <X aria-hidden="true" className="size-4" />
+          </button>
+        )}
       </div>
 
       {/* TODO(US-032): clear the thread */}
       <button
         type="button"
-        className="mt-4 flex items-center gap-3 rounded-box px-3 py-2 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+        className="mt-4 flex h-10 items-center gap-3 rounded-box px-3 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
       >
         <SquarePen aria-hidden="true" className="size-4 shrink-0" />
         <span className={labelClass}>New chat</span>
       </button>
 
+      {/* In the rail the heading keeps its space but is invisible, so the icons below
+          don't jump up when the sidebar collapses. It stays in the accessibility tree. */}
       <h2
         id={askAboutId}
-        className={`${collapsed ? "sr-only" : ""} mt-6 px-3 text-xs font-medium tracking-wider text-text-muted`}
+        className={`${collapsed ? "w-full overflow-hidden whitespace-nowrap opacity-0 select-none" : ""} mt-6 px-3 text-xs font-medium tracking-wider text-text-muted`}
       >
         ASK ABOUT
       </h2>
-      <ul
-        aria-labelledby={askAboutId}
-        className={`mt-2 flex flex-col gap-1 ${collapsed ? "items-center" : ""}`}
-      >
+      <ul aria-labelledby={askAboutId} className="mt-2 flex flex-col gap-1">
         {askAbout.map((command) => {
           const Icon = iconFor(command.icon);
           return (
             <li key={command.command}>
               <Link
                 href={command.answer}
-                className="flex items-center gap-3 rounded-box px-3 py-2 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+                className="flex h-10 items-center gap-3 rounded-box px-3 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
               >
                 <Icon aria-hidden="true" className="size-4 shrink-0" />
                 <span className={labelClass}>{command.label}</span>

@@ -35,12 +35,13 @@ test.describe("app shell and sidebar", () => {
     await expect(sidebar).toBeVisible();
 
     // The identity row items sit side by side, so compare them left to right and
-    // require each to start above the sections that come after the row.
+    // require each to start above the sections that come after the row. The
+    // collapse button comes first so it stays put when the sidebar collapses (US-061).
     const avatar = await boxOf(page.getByTestId("avatar"));
     const name = await boxOf(sidebar.getByText(profileData.name, { exact: true }));
     const collapse = await boxOf(page.getByRole("button", { name: "Collapse sidebar" }));
+    expect(collapse.x).toBeLessThan(avatar.x);
     expect(avatar.x).toBeLessThan(name.x);
-    expect(name.x).toBeLessThan(collapse.x);
 
     const newChat = await boxOf(page.getByRole("button", { name: "New chat" }));
     expect(Math.max(avatar.y, name.y, collapse.y)).toBeLessThan(newChat.y);
@@ -148,6 +149,58 @@ test.describe("app shell and sidebar", () => {
 
     await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
     expect(errors).toEqual([]);
+  });
+
+  test("US-061 F0.3: no horizontal overflow, expanded or collapsed @desktop-only", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const sidebar = page.getByRole("complementary", { name: "Sidebar" });
+    const overflow = () => sidebar.evaluate((element) => element.scrollWidth - element.clientWidth);
+
+    expect(await overflow()).toBeLessThanOrEqual(0);
+
+    await page.getByRole("button", { name: "Collapse sidebar" }).click();
+    await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
+
+    expect(await overflow()).toBeLessThanOrEqual(0);
+  });
+
+  test("US-061 F0.3: collapse button stays in the same place @desktop-only", async ({ page }) => {
+    await page.goto("/");
+    const sidebar = page.getByRole("complementary", { name: "Sidebar" });
+    const expanded = await boxOf(page.getByRole("button", { name: "Collapse sidebar" }));
+
+    await page.getByRole("button", { name: "Collapse sidebar" }).click();
+    await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
+    const collapsed = await boxOf(page.getByRole("button", { name: "Expand sidebar" }));
+
+    expect(collapsed).toEqual(expanded);
+  });
+
+  test("US-061 F0.3: New chat and ASK ABOUT icons do not move @desktop-only", async ({ page }) => {
+    await page.goto("/");
+    const sidebar = page.getByRole("complementary", { name: "Sidebar" });
+    const newChat = page.getByRole("button", { name: "New chat" });
+    const firstAsk = page.getByRole("link", { name: askLabels[0] ?? "", exact: true });
+    const expandedNewChat = await boxOf(newChat);
+    const expandedAsk = await boxOf(firstAsk);
+
+    await page.getByRole("button", { name: "Collapse sidebar" }).click();
+    await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
+    const collapsedNewChat = await boxOf(newChat);
+    const collapsedAsk = await boxOf(firstAsk);
+
+    // Only the vertical position matters here: the expanded items are wider
+    // than the rail's, but they start at the same x and the same y.
+    expect({ x: collapsedNewChat.x, y: collapsedNewChat.y }).toEqual({
+      x: expandedNewChat.x,
+      y: expandedNewChat.y,
+    });
+    expect({ x: collapsedAsk.x, y: collapsedAsk.y }).toEqual({
+      x: expandedAsk.x,
+      y: expandedAsk.y,
+    });
   });
 
   test("US-005 F0.3: new tab starts expanded @desktop-only", async ({ context, page }) => {
