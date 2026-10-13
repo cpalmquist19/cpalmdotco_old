@@ -46,6 +46,7 @@ These are the mistakes that cost the most to undo. None of them is ever the righ
 - Do a story owned by Caleb, tick "Approved by Caleb", set a sprint to `closed`, or settle an `open` decision.
 - Push with `--no-verify` (the only exception is the throwaway `ci-check` branch in US-008), force-push, rewrite or revert history on `main`, or push with failing checks.
 - Mix two stories in one commit.
+- Stop processes by name or pattern (`taskkill /IM node.exe`, `Stop-Process -Name node`, `pkill node`, `killall node`). Stop only a process you started, by its PID (see *Servers and processes*).
 
 ## Stop and ask
 
@@ -58,6 +59,24 @@ Stop, set the story to `status: blocked`, write the question in its Log, run `no
 - A command fails twice for the same reason and you don't know why.
 
 A blocked story shows up on [pm/WAITING-ON-CALEB.md](pm/WAITING-ON-CALEB.md), so Caleb sees it. A short question now costs less than a wrong guess.
+
+## Servers and processes
+
+Caleb's machine runs other Node programs: his editor, other projects, and the agent itself. Touch only the processes you started.
+
+1. **Don't start a server for the e2e tests.** `npm run test:e2e` starts its own and stops it when it finishes.
+2. **When you start one yourself** (for example `npm run dev` to look at a page), run it in the background. Once it's up, find the PID listening on its port and write it down:
+   ```
+   Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess
+   ```
+3. **Before you stop it, check it's yours.** Its command line should be the server you started:
+   ```
+   Get-CimInstance Win32_Process -Filter "ProcessId=<pid>" | Select-Object CommandLine
+   ```
+4. **Stop it by that PID only:** `Stop-Process -Id <pid>` in PowerShell, or `kill <pid>` in a POSIX shell.
+5. **Check the port is free afterwards** (step 2's command prints nothing). Otherwise the next `npm run test:e2e` tests the old server instead of a fresh build.
+
+If something is already on the port before you start, or a process won't stop, or you can't tell whether you started it, don't kill it. Stop and ask.
 
 ## Work tracking
 

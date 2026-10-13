@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-018]
+depends_on: [US-018, US-050]
 spec: Testing › Test suites; F0.6
 ---
 
