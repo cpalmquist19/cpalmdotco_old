@@ -2,12 +2,20 @@
   "placeholder": true,
   "name": "Caleb Palmquist",
   "role": "Placeholder: role",
+  "greeting": "Placeholder: Hi, I'm Caleb.",
+  "headlinePool": ["Placeholder: fact one", "Placeholder: fact two", "Placeholder: fact three"],
   "status": "Placeholder: open to work",
+  "location": "Placeholder: city, country",
+  "email": "placeholder@example.com",
   "socials": [
     { "label": "GitHub", "href": "https://example.com/placeholder-github", "icon": "github" },
     { "label": "LinkedIn", "href": "https://example.com/placeholder-linkedin", "icon": "linkedin" }
   ],
-  "links": { "cv": "/cv.pdf" },
+  "links": {
+    "cv": "/cv.pdf",
+    "linkedin": "https://example.com/placeholder-linkedin",
+    "github": "https://example.com/placeholder-github"
+  },
   "sidebar": {
     "askAbout": ["/about", "/experience", "/projects", "/skills", "/contact"],
     "projects": [

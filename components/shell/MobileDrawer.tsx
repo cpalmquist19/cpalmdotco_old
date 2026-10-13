@@ -3,7 +3,7 @@
 import { Menu } from "lucide-react";
 import { useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
 import { Sidebar } from "@/components/shell/Sidebar";
-import type { Command, Profile } from "@/lib/content";
+import type { Command, Profile } from "@/lib/content-schemas";
 
 type Props = { profile: Profile; askAbout: Command[] };
 

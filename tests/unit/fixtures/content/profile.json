@@ -1,0 +1,19 @@
+{
+  "name": "Alex Sample",
+  "role": "Senior QA Engineer",
+  "greeting": "Hi, I'm Alex.",
+  "headlinePool": ["Fact one", "Fact two", "Fact three"],
+  "status": "Open to work",
+  "location": "Northwind City, Nowhere",
+  "email": "alex@example.com",
+  "socials": [{ "label": "GitHub", "href": "https://example.com/github", "icon": "github" }],
+  "links": {
+    "cv": "/cv.pdf",
+    "linkedin": "https://example.com/linkedin",
+    "github": "https://example.com/github"
+  },
+  "sidebar": {
+    "askAbout": ["/about", "/projects"],
+    "projects": [{ "label": "Atlas API", "href": "/projects/atlas-api/" }]
+  }
+}

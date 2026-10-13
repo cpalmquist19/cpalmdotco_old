@@ -22,7 +22,7 @@ This list is generated from the `sprint: S04` field in each story file. To add, 
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-022](../stories/US-022-commands-json.md) | commands.json as the single source | ⬜ todo | Claude | P0 | 2 | 0/3 | US-011 |
+| [US-022](../stories/US-022-commands-json.md) | commands.json as the single source | ⬜ todo · ready | Claude | P0 | 2 | 0/3 | ~~US-011~~ |
 | [US-023](../stories/US-023-chip-row.md) | Link-first suggested chips | ⬜ todo | Claude | P0 | 3 | 0/5 | US-022, US-020 |
 | [US-024](../stories/US-024-sidebar-wiring.md) | Wire sidebar items and "Surprise me" | ⬜ todo | Claude | P1 | 2 | 0/2 | US-022, US-023 |
 | [US-025](../stories/US-025-command-palette.md) | Slash command palette | ⬜ todo | Claude | P0 | 5 | 0/5 | US-022 |

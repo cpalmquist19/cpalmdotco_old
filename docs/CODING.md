@@ -92,7 +92,7 @@ Every page must pass axe with zero serious or critical issues in both themes. To
 The chat is trusted because it only says what's in `content/`. Keep it that way:
 
 - **Never hard-code a fact about Caleb in a component**: name, job titles, dates, numbers, employers, links, email. Read it from `content/`.
-- **Placeholder content must be marked.** Until Caleb's real content arrives (decision D-010), `content/` holds realistic placeholder content for an SDET. Every file that holds any placeholder has `placeholder: true` in its frontmatter (Markdown) or `"placeholder": true` at the top level (JSON). A launch check (US-049) refuses to ship while any file still has it.
+- **Placeholder content must be marked.** Until Caleb's real content arrives (decision D-010), `content/` holds realistic placeholder content for an SDET. Every file that holds any placeholder has `placeholder: true` in its frontmatter (Markdown) or `"placeholder": true` at the top level (JSON). `commands.json` is an array, so mark each placeholder entry with `"placeholder": true` instead. A launch check (US-049) refuses to ship while any file still has it.
 - **Placeholders use fictional names only.** Use made-up companies, projects and people ("Northwind Labs", "Project Atlas"). Never use a real employer or a project Caleb really did, such as the names in the spec (eRSP, Quark). Placeholder content mustn't be mistaken for his real history.
 - Outside `content/`, use obvious placeholder values: `"Placeholder: role title"`, `"https://example.com/placeholder"`.
 - Only Caleb supplies real content (US-009). Don't edit real facts in `content/` unless your story says to.

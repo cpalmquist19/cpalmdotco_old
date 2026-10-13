@@ -1,0 +1,4 @@
+{
+  "categories": [{ "name": "Testing", "items": ["Playwright", "Vitest"] }],
+  "inPractice": [{ "tool": "Playwright", "project": "Atlas API" }]
+}

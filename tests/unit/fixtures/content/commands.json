@@ -1,0 +1,20 @@
+[
+  {
+    "command": "/projects",
+    "label": "Projects",
+    "description": "What I've built",
+    "answer": "/projects/",
+    "chip": true,
+    "order": 2,
+    "icon": "folder"
+  },
+  {
+    "command": "/about",
+    "label": "About",
+    "description": "Who I am",
+    "answer": "/about/",
+    "chip": true,
+    "order": 1,
+    "icon": "user"
+  }
+]

@@ -2,7 +2,7 @@
 id: US-011
 title: Content schemas and loader
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,13 +16,13 @@ As the **builder**, I want every content file validated at build time, so that a
 
 ## Acceptance criteria
 
-- [ ] Zod schemas for `profile.json`, `experience/*.md`, `projects/*.md`, `skills.json`, `commands.json` with the fields in *Content schemas* (plus the D-009 and D-010 fields, see **Notes**)
-- [ ] `lib/content.ts` loads and validates all content, and every getter validates every file, so one bad file fails any page that reads content
-- [ ] Removing a required field fails `npm run build` with an error that names the file and the field
-- [ ] Cross-file checks: every `sidebar.askAbout` entry is a `command` in `commands.json`; command names are unique; project slugs are unique and each equals its file name
-- [ ] `isPlaceholder(file)` is true for a content file marked `placeholder: true` and false otherwise
-- [ ] The placeholder `profile.json` and `commands.json` from US-005 pass validation
-- [ ] Vitest unit tests cover each criterion above
+- [x] Zod schemas for `profile.json`, `experience/*.md`, `projects/*.md`, `skills.json`, `commands.json` with the fields in *Content schemas* (plus the D-009 and D-010 fields, see **Notes**)
+- [x] `lib/content.ts` loads and validates all content, and every getter validates every file, so one bad file fails any page that reads content
+- [x] Removing a required field fails `npm run build` with an error that names the file and the field
+- [x] Cross-file checks: every `sidebar.askAbout` entry is a `command` in `commands.json`; command names are unique; project slugs are unique and each equals its file name
+- [x] `isPlaceholder(file)` is true for a content file marked `placeholder: true` and false otherwise
+- [x] The placeholder `profile.json` and `commands.json` from US-005 pass validation
+- [x] Vitest unit tests cover each criterion above
 
 ## Files to touch
 
@@ -169,6 +169,8 @@ In `content/commands.json`, add `"placeholder": true` to each of the five entrie
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Done. Added `lib/content-schemas.ts` (Zod, strict objects, `z.infer` types) and rewrote `lib/content.ts` as a validating loader with the five getters. Added the placeholder profile fields, `content/skills.json`, the three shell imports switched to `lib/content-schemas`, the CODING § 7 sentence, a fixture folder, a fixture helper and 52 Vitest tests. Choices the story left open: `href` is an `https?://` URL or a path starting with `/`; a project's `## ` sections must come in the order Problem, What I built, Numbers, Stack; error fields are `(file)`, `(root)`, `(frontmatter)` or `body` when no field applies; `contentDir()` resolves the folder on each call, so a test can point the getters at a broken copy (criterion 2). Added US-066 (backlog) for an intermittent e2e failure found here; US-066 depends on this story · this commit · `npm run verify`: pass (format, lint with 0 warnings, typecheck, 90 unit tests, board check). `npm run test:e2e`: 112 passed. Build check: with `role` removed from `content/profile.json`, `npm run build` exited 1 with `content/profile.json: role: Invalid input: expected string, received undefined`; the file was restored from a backup copy, not with git restore. Earlier e2e run: 111 passed, 1 failed (WebKit, US-007 F0.4 "toast hides after 2 seconds", `toBeEmpty` at `topbar.spec.ts:105`); rerun passed. The failure is intermittent and in US-007's test, not this story's code (US-066)
+2026-10-13 · Started the build from main (clean tree); status in-progress · — · —
 2026-10-13 · Now depends on US-061, US-062 and US-063, which change `Sidebar.tsx` and `Avatar.tsx` before the type switch (`board.mjs` shared-file check) · — · —
 2026-10-13 · US-054: added the optional `intro` field to commands (D-018); now depends on US-007, so every shell component exists before the type switch · — · —
 2026-10-13 · Refined for handoff (US-053): added Files/Out of scope/Tests/Notes and exact field types; now depends on US-005, which creates `lib/content.ts`; added criteria for cross-file checks and `isPlaceholder` · — · —

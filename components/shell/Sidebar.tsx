@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useId, useSyncExternalStore } from "react";
 import { Avatar } from "@/components/shell/Avatar";
 import { iconFor } from "@/components/ui/icons";
-import type { Command, Profile } from "@/lib/content";
+import type { Command, Profile } from "@/lib/content-schemas";
 
 const COLLAPSED_KEY = "sidebar-collapsed";
 

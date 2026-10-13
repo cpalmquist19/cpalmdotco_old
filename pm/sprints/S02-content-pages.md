@@ -23,9 +23,9 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-010](../stories/US-010-avatar.md) | Headshot or monogram avatar | ⬜ todo · ready | Caleb | P2 | 1 | 0/2 | — |
-| [US-011](../stories/US-011-content-schemas.md) | Content schemas and loader | ⬜ todo · ready | Claude | P0 | 3 | 0/7 | ~~US-002~~, ~~US-005~~, ~~US-007~~, ~~US-061~~, ~~US-062~~, ~~US-063~~ |
-| [US-012](../stories/US-012-author-content-files.md) | Author placeholder content files | ⬜ todo | Claude | P0 | 3 | 0/5 | US-011 |
-| [US-013](../stories/US-013-page-template.md) | Content-page template, footer and Contact page | ⬜ todo | Claude | P0 | 5 | 0/7 | ~~US-005~~, US-011, US-012 |
+| [US-011](../stories/US-011-content-schemas.md) | Content schemas and loader | ✅ done | Claude | P0 | 3 | 7/7 | ~~US-002~~, ~~US-005~~, ~~US-007~~, ~~US-061~~, ~~US-062~~, ~~US-063~~ |
+| [US-012](../stories/US-012-author-content-files.md) | Author placeholder content files | ⬜ todo · ready | Claude | P0 | 3 | 0/5 | ~~US-011~~ |
+| [US-013](../stories/US-013-page-template.md) | Content-page template, footer and Contact page | ⬜ todo | Claude | P0 | 5 | 0/7 | ~~US-005~~, ~~US-011~~, US-012 |
 | [US-014](../stories/US-014-about-contact-cv-pages.md) | About and CV pages | ⬜ todo | Claude | P0 | 3 | 0/7 | US-012, US-013 |
 | [US-015](../stories/US-015-experience-page.md) | Experience page | ⬜ todo | Claude | P0 | 3 | 0/5 | US-012, US-013 |
 | [US-016](../stories/US-016-projects-and-case-studies.md) | Projects feed and case studies | ⬜ todo | Claude | P0 | 3 | 0/6 | US-012, US-013, US-014, US-015 |

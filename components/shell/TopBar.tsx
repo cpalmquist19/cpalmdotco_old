@@ -2,7 +2,7 @@ import { MobileDrawer } from "@/components/shell/MobileDrawer";
 import { ShareButton } from "@/components/shell/ShareButton";
 import { StatusPill } from "@/components/shell/StatusPill";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import type { Command, Profile } from "@/lib/content";
+import type { Command, Profile } from "@/lib/content-schemas";
 
 type Props = { profile: Profile; askAbout: Command[] };
 
