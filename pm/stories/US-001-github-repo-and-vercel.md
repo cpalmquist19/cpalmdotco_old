@@ -17,7 +17,7 @@ As the **builder**, I want the GitHub repo linked to a Vercel project, so that e
 ## Acceptance criteria
 
 - [x] New, empty GitHub repo exists and Claude has push access
-- [ ] Vercel (or the chosen host, see D-006) account is linked to the repo
+- [x] Vercel (or the chosen host, see D-006) account is linked to the repo
 - [ ] A push to `main` creates a Vercel deployment with a URL
 
 ## Notes
@@ -27,5 +27,6 @@ As the **builder**, I want the GitHub repo linked to a Vercel project, so that e
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Caleb installed the Vercel GitHub app and imported the repo (preset Next.js). Push of 22a2b57 triggered a Vercel build, so the link is verified. Build failed with "No Next.js version detected", as expected before US-002 adds `package.json`. Last criterion is ticked when US-002's push deploys with a URL · — · —
 2026-10-13 · Last criterion changed from "preview for a test PR" to "deployment on push to `main`", because D-008 drops PRs · — · —
 2026-10-12 · Repo https://github.com/cpalmquist19/cpalmdotco exists; Claude pushed the initial commit to `main` (53aa067), so the first criterion is verified. Vercel link and preview still to do · — · —

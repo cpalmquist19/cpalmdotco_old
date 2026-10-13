@@ -27,7 +27,7 @@ Stories whose dependencies are all done, earliest sprint and highest priority fi
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-001](stories/US-001-github-repo-and-vercel.md) | Create the GitHub repo and link Vercel | ⬜ todo · ready | Caleb | P0 | 1 | 1/3 | — |
+| [US-001](stories/US-001-github-repo-and-vercel.md) | Create the GitHub repo and link Vercel | ⬜ todo · ready | Caleb | P0 | 1 | 2/3 | — |
 | [US-010](stories/US-010-avatar.md) | Headshot or monogram avatar | ⬜ todo · ready | Caleb | P2 | 1 | 0/2 | — |
 | [US-027](stories/US-027-api-key-secret.md) | Set the model API key as a hosting secret | ⬜ todo · ready | Caleb | P0 | 1 | 0/3 | — |
 | [US-009](stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
@@ -41,7 +41,7 @@ Stories whose dependencies are all done, earliest sprint and highest priority fi
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-001](stories/US-001-github-repo-and-vercel.md) | Create the GitHub repo and link Vercel | ⬜ todo · ready | Caleb | P0 | 1 | 1/3 | — |
+| [US-001](stories/US-001-github-repo-and-vercel.md) | Create the GitHub repo and link Vercel | ⬜ todo · ready | Caleb | P0 | 1 | 2/3 | — |
 | [US-002](stories/US-002-scaffold-nextjs.md) | Scaffold the Next.js project | ⬜ todo | Claude | P0 | 5 | 0/7 | US-001 |
 | [US-003](stories/US-003-design-tokens-and-fonts.md) | Design tokens and fonts | ⬜ todo | Claude | P0 | 2 | 0/5 | US-002 |
 | [US-004](stories/US-004-theme-toggle.md) | Theme toggle with no-flash script | ⬜ todo | Claude | P0 | 3 | 0/7 | US-003 |
