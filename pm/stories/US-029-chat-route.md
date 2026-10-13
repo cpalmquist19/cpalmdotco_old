@@ -29,3 +29,4 @@ As a **visitor**, I want answers to stream in, so that the chat feels responsive
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · D-001 and D-002 decided (US-057): a Next.js route, calling the Claude API with Haiku 5.5 (`claude-haiku-5-5`) to start · — · —

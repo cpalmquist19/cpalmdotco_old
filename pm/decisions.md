@@ -12,8 +12,8 @@ Every `open` row here shows up on [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md), or
 
 | ID | Decision | Options | Recommended default | Blocks | Status | Choice | Date |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| D-001 | Chat backend | Next.js API route · FastAPI service | Next.js route for v1; FastAPI as stretch (US-042) | S05 | open | | |
-| D-002 | Model provider | Claude API · OpenAI · self-hosted Ollama | Claude API with a small, fast model | S05 | open | | |
+| D-001 | Chat backend | Next.js API route · FastAPI service | Next.js route for v1; FastAPI as stretch (US-042) | S05 | decided | Next.js route for the MVP; we can circle back later (FastAPI stays a stretch, US-042). Applied in US-057 | 2026-10-13 |
+| D-002 | Model provider | Claude API · OpenAI · self-hosted Ollama | Claude API with a small, fast model | S05 | decided | Claude API, Haiku 5.5 (`claude-haiku-5-5`) to start. Applied in US-057 | 2026-10-13 |
 | D-003 | Base palette | Warm off-white · cooler gray · your pick | Warm off-white `#f5f4f0`, monochrome, green status dot | S01 | decided | Default: warm off-white `#f5f4f0`, monochrome, green status dot | 2026-10-12 |
 | D-004 | Headline pool | Report's drafted pool · your own facts | The report's pool, edited by you | S03 | open | | |
 | D-005 | Domain | Your own · host's free subdomain | Your own if you have one; else host subdomain | S07 | open | | |
@@ -21,7 +21,7 @@ Every `open` row here shows up on [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md), or
 | D-007 | Toolchain versions | Node 24 LTS · Node 22 (installed on your machine now) · other; npm · pnpm | npm; Node 24 LTS pinned in `.nvmrc` and `engines`; the latest stable Next.js, React and Tailwind v4 when US-002 starts; exact versions pinned | S01 | decided | Default: npm; Node 24 LTS; latest stable Next.js, React, Tailwind v4 at US-002; exact pins | 2026-10-12 |
 | D-008 | Rules for merging to `main` | Protected branch (PR + passing CI required) · unprotected | Protect `main`: require a PR and passing CI checks, squash merge, delete branches after merge. You set it in GitHub settings, or tell Claude to set it with `gh` | S01 | decided | Push straight to `main`, but only when all tests pass. No PRs or branch protection. Applied in US-048 | 2026-10-12 |
 | D-010 | Content before Caleb's inputs | Wait for US-009 · build with placeholder content | — (Caleb's own call) | S02 | decided | Build S02 onward with realistic placeholder SDET content; Caleb backfills real content later. Applied in US-048 | 2026-10-12 |
-| D-017 | Markdown renderer for pages and chat answers | `react-markdown` · `marked` plus an HTML sanitizer · no package (plain paragraphs only) | `react-markdown`, no plugins: it renders to React elements, drops raw HTML, and US-032 reuses it for chat answers (F4.3) | S02 | open | | |
+| D-017 | Markdown renderer for pages and chat answers | `react-markdown` · `marked` plus an HTML sanitizer · no package (plain paragraphs only) | `react-markdown`, no plugins: it renders to React elements, drops raw HTML, and US-032 reuses it for chat answers (F4.3) | S02 | decided | `react-markdown`, no plugins, with its default URL handling kept so `javascript:` links are neutralised. Applied in US-057 | 2026-10-13 |
 
 \* The spec lists hosting as blocking Phase 7, but Phase 1 links a Vercel preview, so it is needed by S01 (see US-001).
 

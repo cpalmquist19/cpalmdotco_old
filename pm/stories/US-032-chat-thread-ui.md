@@ -33,3 +33,4 @@ As a **visitor**, I want a clean chat thread, so that I can have a conversation 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · D-017 decided (US-057): answers render through US-014's shared `Markdown` component with `react-markdown`'s default `urlTransform` kept, so a `javascript:` link in an answer is neutralised. Visitor messages stay plain text · — · —

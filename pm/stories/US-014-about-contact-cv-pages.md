@@ -18,7 +18,7 @@ As a **recruiter**, I want About and CV pages, so that I can learn the story and
 
 - [ ] `/about/` renders `content/about.md` in the shared template
 - [ ] `about.md` is validated like the other content: strict frontmatter (only `placeholder`) and a non-empty body
-- [ ] Markdown renders through one shared `Markdown` component that allows only paragraphs, `h2`/`h3`, lists, links, bold, italic and inline code, and never raw HTML
+- [ ] Markdown renders through one shared `Markdown` component that allows only paragraphs, `h2`/`h3`, lists, links, bold, italic and inline code, and never raw HTML or a `javascript:` link
 - [ ] `/cv/` uses the template and has a "Download CV (PDF)" link to `profile.links.cv`
 - [ ] `public/cv.pdf` exists as a clearly marked one-page placeholder (D-019), so the CV links stop 404ing
 - [ ] Both pages are statically generated (F5.5)
@@ -26,7 +26,7 @@ As a **recruiter**, I want About and CV pages, so that I can learn the story and
 
 ## Files to touch
 
-- `package.json`, `package-lock.json`: add `react-markdown` (`npm install react-markdown`), per decision D-017. If Caleb chose differently, use his choice
+- `package.json`, `package-lock.json`: add `react-markdown` (`npm install react-markdown`), per decision D-017 (decided: `react-markdown`, no plugins)
 - `components/ui/Markdown.tsx`: server component wrapping `react-markdown` (see **Notes**)
 - `lib/content-schemas.ts`: `aboutFrontmatterSchema`
 - `lib/content.ts`: load `about.md` in `loadContent()`, and add `getAbout()` → `{ placeholder?, body }`
@@ -50,6 +50,7 @@ As a **recruiter**, I want About and CV pages, so that I can learn the story and
   - `US-014: renders paragraphs, h2, lists, links, bold and inline code`
   - `US-014: drops raw HTML`: `<script>alert(1)</script>` and `<img src=x onerror=…>` don't appear in the output
   - `US-014: a # heading renders as text, not a second h1`
+  - `US-014: a javascript: link has no usable href`: `[x](javascript:alert(1))` renders without `javascript:` anywhere in the output
 - `tests/e2e/about-cv.spec.ts`
   - `US-014 F5.1: about uses the template and shows the about.md text`: the first sentence of the body (read the file in the test) is visible inside `main`
   - `US-014 F5.1: cv uses the template`
@@ -58,7 +59,7 @@ As a **recruiter**, I want About and CV pages, so that I can learn the story and
 
 ## Notes
 
-**The `Markdown` component.** `<Markdown>{source}</Markdown>`, a server component. Pass `react-markdown` `allowedElements={["p", "h2", "h3", "ul", "ol", "li", "a", "strong", "em", "code"]}`, `unwrapDisallowed` and `skipHtml`. Style each element through the `components` prop with token classes only (CODING § 5). Links: `href` as given, and `rel="noopener noreferrer"` on `http` links. US-032 reuses this for chat answers, where F4.3 allows "headings, lists, links and inline code, and nothing else".
+**The `Markdown` component.** `<Markdown>{source}</Markdown>`, a server component. Pass `react-markdown` `allowedElements={["p", "h2", "h3", "ul", "ol", "li", "a", "strong", "em", "code"]}`, `unwrapDisallowed` and `skipHtml`. Style each element through the `components` prop with token classes only (CODING § 5). Links: `href` as given, and `rel="noopener noreferrer"` on `http` links. Don't pass `urlTransform`: `react-markdown`'s default removes `javascript:` and other unsafe URLs, and overriding it would let them through (D-017). US-032 reuses this for chat answers, where F4.3 allows "headings, lists, links and inline code, and nothing else".
 
 If `react-markdown` won't render in a server component, or Vitest can't render it, stop and ask. Don't switch packages on your own.
 
@@ -73,4 +74,5 @@ If `react-markdown` won't render in a server component, or Vitest can't render i
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · D-017 decided (US-057): `react-markdown`, no plugins; added the `javascript:` link criterion, test and the "don't override `urlTransform`" note · — · —
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes; Contact moved to US-013; owns the shared `Markdown` component (D-017), the `about.md` schema and the placeholder `cv.pdf` (D-019); points 2 → 3 · — · —
