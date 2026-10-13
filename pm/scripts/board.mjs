@@ -96,6 +96,35 @@ for (const st of stories) {
     warnings.push(`${st.id} can start but isn't ready: fill in ${missing.join(", ")}`);
 }
 
+// Two unfinished stories that touch the same file must be ordered by depends_on, or one builder
+// finds the other's half of the work missing or already done. pm/ files are skipped: every story touches the board.
+const filesToTouch = (st) => {
+  const files = [];
+  for (const line of (st._sections["Files to touch"] ?? "").split("\n").filter((l) => l.startsWith("- "))) {
+    // Only the paths before the line's description count
+    const cut = line.search(/`: |[^`]: /);
+    const head = cut === -1 ? line : line.slice(0, cut + 1);
+    for (const [, path] of head.matchAll(/`([^`\s]+)`/g)) if (/[/.]/.test(path) && !path.startsWith("pm/")) files.push(path);
+  }
+  return files;
+};
+const globToRegExp = (glob) => new RegExp(`^${glob.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*\*/g, "\0").replace(/\*/g, "[^/]*").replace(/\0/g, ".*")}$`);
+const sameFile = (a, b) => a === b || (a.includes("*") && globToRegExp(a).test(b)) || (b.includes("*") && globToRegExp(b).test(a));
+const dependsOn = (a, b, seen = new Set()) => {
+  if (seen.has(a)) return false;
+  seen.add(a);
+  const deps = byId.get(a)?.depends_on ?? [];
+  return deps.includes(b) || deps.some((d) => dependsOn(d, b, seen));
+};
+const touching = stories.filter((s) => !["done", "cancelled"].includes(s.status)).map((s) => ({ id: s.id, files: filesToTouch(s) }));
+for (const [i, a] of touching.entries()) {
+  for (const b of touching.slice(i + 1)) {
+    const shared = a.files.filter((f) => b.files.some((g) => sameFile(f, g)));
+    if (shared.length && !dependsOn(a.id, b.id) && !dependsOn(b.id, a.id))
+      warnings.push(`${a.id} and ${b.id} both touch ${shared.map((f) => `\`${f}\``).join(", ")}, but neither depends on the other: add one to depends_on`);
+  }
+}
+
 // Decisions: rows of the first table in decisions.md (the second table records choices already made)
 const decisions = [];
 {

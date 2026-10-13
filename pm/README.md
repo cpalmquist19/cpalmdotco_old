@@ -100,7 +100,7 @@ Items that have stopped work come first, then the rest in the order their sprint
 
 ## Validation
 
-`board.mjs` fails with a clear message when a file has a bad status, owner, or priority, a missing or duplicate id, an unknown sprint, a dependency that doesn't exist, or a malformed decision row. It also fails when a sprint file is missing its generated-stories markers, and warns when a startable Claude story isn't ready, when a story is started before its dependencies are done, or marked done with unticked criteria. CI runs this step (from US-008), so a stale board or sprint story list fails the build:
+`board.mjs` fails with a clear message when a file has a bad status, owner, or priority, a missing or duplicate id, an unknown sprint, a dependency that doesn't exist, or a malformed decision row. It also fails when a sprint file is missing its generated-stories markers, and warns when a startable Claude story isn't ready, when a story is started before its dependencies are done, or marked done with unticked criteria. It also warns when two unfinished stories name the same file in **Files to touch** and neither depends on the other: add the missing dependency. A unit test turns that warning into a failure of `npm run verify`. CI runs this step (from US-008), so a stale board or sprint story list fails the build:
 
 ```
 node pm/scripts/board.mjs --check
