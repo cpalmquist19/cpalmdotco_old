@@ -1,1 +1,64 @@
 @import "tailwindcss";
+
+/* Components never check which theme is on: dark redefines the same names. */
+:root,
+[data-theme="light"] {
+  --bg: #f5f4f0;
+  --sidebar: #efede8;
+  --surface: #fdfdfc;
+  --border: #dedad3;
+  --text: #1a1a1a;
+  --text-muted: #6b6b6b;
+  --text-faint: #8a8a8a;
+  --cta-bg: #1f1f1f;
+  --cta-text: #ffffff;
+  --ok: #10b981;
+}
+
+[data-theme="dark"] {
+  --bg: #1a1a1c;
+  --sidebar: #151517;
+  --surface: #232326;
+  --border: #2e2e33;
+  --text: #ececee;
+  --text-muted: #9a9aa2;
+  --text-faint: #6e6e76;
+  --cta-bg: #ececee;
+  --cta-text: #1a1a1c;
+  --ok: #34d399;
+}
+
+:root {
+  --radius-pill: 999px;
+  --radius-box: 12px;
+  --sidebar-w: 320px;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* `inline` makes each utility read the variable above at use time, so a theme
+   change on <html> reaches every class. Names follow docs/CODING.md § 5.
+   The two radius lines map a variable to its own name, and Tailwind also emits
+   that as `--radius-pill: var(--radius-pill)` in its theme layer. The unlayered
+   `:root` values above win, which tokens.spec.ts checks. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sidebar: var(--sidebar);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  --color-cta-bg: var(--cta-bg);
+  --color-cta-text: var(--cta-text);
+  --color-ok: var(--ok);
+  --radius-pill: var(--radius-pill);
+  --radius-box: var(--radius-box);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-text font-sans;
+  }
+}

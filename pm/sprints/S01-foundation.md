@@ -24,9 +24,9 @@ This list is generated from the `sprint: S01` field in each story file. To add, 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-001](../stories/US-001-github-repo-and-vercel.md) | Create the GitHub repo and link Vercel | ⬜ todo · ready | Caleb | P0 | 1 | 3/3 | — |
 | [US-002](../stories/US-002-scaffold-nextjs.md) | Scaffold the Next.js project | ✅ done | Claude | P0 | 5 | 7/7 | US-001 |
-| [US-003](../stories/US-003-design-tokens-and-fonts.md) | Design tokens and fonts | ⬜ todo · ready | Claude | P0 | 2 | 0/5 | ~~US-002~~ |
-| [US-004](../stories/US-004-theme-toggle.md) | Theme toggle with no-flash script | ⬜ todo | Claude | P0 | 3 | 0/7 | US-003 |
-| [US-005](../stories/US-005-app-shell-and-sidebar.md) | App shell and sidebar | ⬜ todo | Claude | P0 | 5 | 0/6 | US-003 |
+| [US-003](../stories/US-003-design-tokens-and-fonts.md) | Design tokens and fonts | ✅ done | Claude | P0 | 2 | 5/5 | ~~US-002~~ |
+| [US-004](../stories/US-004-theme-toggle.md) | Theme toggle with no-flash script | ⬜ todo · ready | Claude | P0 | 3 | 0/7 | ~~US-003~~ |
+| [US-005](../stories/US-005-app-shell-and-sidebar.md) | App shell and sidebar | ⬜ todo · ready | Claude | P0 | 5 | 0/6 | ~~US-003~~ |
 | [US-006](../stories/US-006-mobile-drawer.md) | Mobile off-canvas drawer | ⬜ todo | Claude | P1 | 3 | 0/7 | US-005 |
 | [US-007](../stories/US-007-top-bar.md) | Top bar: status pill, share, theme, CV | ⬜ todo | Claude | P0 | 3 | 0/7 | US-004, US-005, US-006 |
 | [US-008](../stories/US-008-ci-pipeline.md) | CI pipeline: lint, typecheck, unit, e2e | ⬜ todo | Claude | P0 | 3 | 0/5 | US-001, ~~US-002~~ |
