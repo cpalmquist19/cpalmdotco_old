@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-002, US-005]
+depends_on: [US-002, US-005, US-007]
 spec: Repo layout and content model › Content schemas; Testing and evals › Unit
 ---
 
@@ -31,7 +31,7 @@ As the **builder**, I want every content file validated at build time, so that a
 - `lib/content.ts`: US-005 created it with `getProfile()` and `getCommands()`. Replace the plain JSON imports and `typeof` types with validated loading, and add the rest (see **Notes**)
 - `content/profile.json`, `content/commands.json`: add `placeholder: true` and the profile fields US-005 left out (see **Notes**)
 - `content/skills.json`: a minimal placeholder file, so the loader can require it (US-012 fills it in)
-- `components/shell/AppShell.tsx`, `components/shell/Sidebar.tsx`: only if they take their types from the JSON with `typeof`. Switch them to `import type { Profile, Command } from "@/lib/content-schemas"`
+- `components/shell/*.tsx` (from US-005 to US-007): only those that take their types from the JSON with `typeof`. Switch them to `import type { Profile, Command } from "@/lib/content-schemas"`
 - `docs/CODING.md`: one sentence in § 7 about marking `commands.json` entries (see **Notes**)
 - `tests/unit/lib/content-schemas.test.ts`, `tests/unit/lib/content.test.ts`
 - `tests/unit/helpers/content-fixture.ts`, `tests/unit/fixtures/content/**`: a small valid content folder, and a helper that copies it to a temp folder and lets a test break one thing
@@ -118,6 +118,7 @@ Every schema is strict: an unknown key fails, so a mistyped field name is caught
 | `chip` | boolean |
 | `order` | integer, 1 or more |
 | `icon` | `text`, a Lucide icon name (D-009) |
+| `intro` | optional `text`: the intro paragraph of the command's page (D-018). US-012 writes one for each ASK ABOUT page, and US-013 requires it |
 
 **`skills.json`**: `{ categories: { name: text, items: text[] (at least 1) }[] (at least 1), inPractice?: { tool: text, project: text }[] }`.
 
@@ -168,4 +169,5 @@ In `content/commands.json`, add `"placeholder": true` to each of the five entrie
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · US-054: added the optional `intro` field to commands (D-018); now depends on US-007, so every shell component exists before the type switch · — · —
 2026-10-13 · Refined for handoff (US-053): added Files/Out of scope/Tests/Notes and exact field types; now depends on US-005, which creates `lib/content.ts`; added criteria for cross-file checks and `isPlaceholder` · — · —

@@ -98,8 +98,10 @@ Icons for the five placeholder entries: `user`, `briefcase`, `folder`, `wrench`,
 - **Collapsed state:** `sessionStorage` key `sidebar-collapsed`, value `"1"`. Read it in a `useEffect` (in `try/catch`), never during render. A short jump on reload when collapsed is acceptable.
 - **Layout:** the sidebar is `sticky top-0 h-dvh` and a flex column; the social row uses `mt-auto`. Colours: `bg-sidebar`, `border-border`, `text-text-muted` for headings.
 - "New chat" is a `<button type="button">` with `// TODO(US-032): clear the thread`.
+- **The canvas is a `<div>`, not `<main>`.** Each page renders its own `<main>` (the home page already does), and content pages put their `<footer>` after it so it's a `contentinfo` landmark (US-013).
 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Note added (US-054): the canvas is a `<div>`, so content pages can own `<main>` and the footer · — · —
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes, placeholder data shapes, rail width, storage key · — · —
