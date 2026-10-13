@@ -23,7 +23,7 @@ This list is generated from the `sprint: S05` field in each story file. To add, 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-027](../stories/US-027-api-key-secret.md) | Set the model API key as a hosting secret | ⬜ todo · ready | Caleb | P0 | 1 | 0/3 | — |
-| [US-028](../stories/US-028-knowledge-pack.md) | Knowledge-pack builder | ⬜ todo | Claude | P0 | 3 | 0/3 | US-012 |
+| [US-028](../stories/US-028-knowledge-pack.md) | Knowledge-pack builder | ⬜ todo · ready | Claude | P0 | 3 | 0/3 | ~~US-012~~ |
 | [US-029](../stories/US-029-chat-route.md) | System prompt and streaming /api/chat | ⬜ todo | Claude | P0 | 5 | 0/5 | US-027, US-028 |
 | [US-030](../stories/US-030-citations-and-followups.md) | Citation-to-link mapping and follow-ups | ⬜ todo | Claude | P0 | 3 | 0/4 | US-029, US-022 |
 | [US-031](../stories/US-031-guardrails.md) | Guardrails and kill switch | ⬜ todo | Claude | P0 | 3 | 0/5 | US-029 |

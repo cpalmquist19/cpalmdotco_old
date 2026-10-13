@@ -2,51 +2,56 @@
   {
     "command": "/about",
     "label": "About",
-    "description": "Placeholder: who I am",
+    "description": "Quality engineering, then applied AI",
     "answer": "/about/",
     "chip": true,
     "order": 1,
     "icon": "user",
+    "intro": "I started on a support desk and moved into QA, then test automation. These days I build test systems and AI tools that check their own answers.",
     "placeholder": true
   },
   {
     "command": "/experience",
     "label": "Experience",
-    "description": "Placeholder: where I've worked",
+    "description": "Where I've worked, from support desk to senior SDET",
     "answer": "/experience/",
     "chip": true,
     "order": 2,
     "icon": "briefcase",
+    "intro": "Three roles, most recent first. Each one lists the work and the numbers behind it.",
     "placeholder": true
   },
   {
     "command": "/projects",
     "label": "Projects",
-    "description": "Placeholder: what I've built",
+    "description": "What I've built, with the numbers",
     "answer": "/projects/",
     "chip": true,
     "order": 3,
     "icon": "folder",
+    "intro": "Four projects, each with the problem, what I built, the numbers and the stack.",
     "placeholder": true
   },
   {
     "command": "/skills",
     "label": "Skills",
-    "description": "Placeholder: what I work with",
+    "description": "What I work with, day to day",
     "answer": "/skills/",
     "chip": true,
     "order": 4,
     "icon": "wrench",
+    "intro": "The tools I use most, grouped by area, with the projects where I used them in practice.",
     "placeholder": true
   },
   {
     "command": "/contact",
     "label": "Contact",
-    "description": "Placeholder: how to reach me",
+    "description": "How to reach me",
     "answer": "/contact/",
     "chip": true,
     "order": 5,
     "icon": "mail",
+    "intro": "Email is the quickest route. I reply to recruiters and engineers within a couple of working days.",
     "placeholder": true
   }
 ]

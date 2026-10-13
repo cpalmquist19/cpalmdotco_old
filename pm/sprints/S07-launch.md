@@ -28,7 +28,7 @@ This list is generated from the `sprint: S07` field in each story file. To add, 
 | [US-039](../stories/US-039-production-deploy.md) | Production deploy and smoke test | ⬜ todo | Claude | P0 | 3 | 0/4 | US-037, US-036, US-038, US-049 |
 | [US-040](../stories/US-040-monitoring.md) | Monitoring and error alert | ⬜ todo | Claude | P1 | 2 | 0/3 | US-039 |
 | [US-041](../stories/US-041-cross-device-pass.md) | Final cross-device pass | ⬜ todo | Claude | P0 | 2 | 0/3 | US-039 |
-| [US-049](../stories/US-049-replace-placeholder-content.md) | Replace placeholder content with Caleb's real content | ⬜ todo | Claude | P0 | 3 | 0/4 | US-009, US-012, US-034 |
+| [US-049](../stories/US-049-replace-placeholder-content.md) | Replace placeholder content with Caleb's real content | ⬜ todo | Claude | P0 | 3 | 0/4 | US-009, ~~US-012~~, US-034 |
 
 <!-- END GENERATED STORIES -->
 

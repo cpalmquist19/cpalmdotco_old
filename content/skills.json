@@ -1,4 +1,31 @@
 {
   "placeholder": true,
-  "categories": [{ "name": "Placeholder: category", "items": ["Placeholder: skill"] }]
+  "categories": [
+    {
+      "name": "Test automation",
+      "items": ["Playwright", "Selenium", "pytest", "Vitest", "API testing", "Contract testing"]
+    },
+    {
+      "name": "Languages",
+      "items": ["TypeScript", "Python", "SQL", "Java"]
+    },
+    {
+      "name": "AI and evals",
+      "items": ["Claude API", "Prompt evaluation", "Labelled eval sets", "Retrieval basics"]
+    },
+    {
+      "name": "CI and tooling",
+      "items": ["GitHub Actions", "Docker", "Next.js", "PostgreSQL", "Git"]
+    },
+    {
+      "name": "Quality practice",
+      "items": ["Test strategy", "Flaky-test triage", "Release sign-off", "Mentoring"]
+    }
+  ],
+  "inPractice": [
+    { "tool": "Playwright", "project": "Release Gate" },
+    { "tool": "pytest", "project": "Project Atlas" },
+    { "tool": "Claude API", "project": "Ticket Triage Assistant" },
+    { "tool": "Vitest", "project": "Flaky Test Quarantine" }
+  ]
 }

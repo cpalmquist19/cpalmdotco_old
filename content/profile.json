@@ -1,11 +1,22 @@
 {
   "placeholder": true,
   "name": "Caleb Palmquist",
-  "role": "Placeholder: role",
-  "greeting": "Placeholder: Hi, I'm Caleb.",
-  "headlinePool": ["Placeholder: fact one", "Placeholder: fact two", "Placeholder: fact three"],
-  "status": "Placeholder: open to work",
-  "location": "Placeholder: city, country",
+  "role": "Senior SDET",
+  "greeting": "Hi, I'm Caleb. I test software for a living and build AI tools on the side.",
+  "headlinePool": [
+    "Nine years in QA, from support desk to senior SDET",
+    "Built 1,240 automated API tests for Project Atlas",
+    "Cut the regression run from 47 minutes to 9",
+    "Cut release sign-off from three days to four hours",
+    "Brought flaky test failures down from 9% to 1.5%",
+    "Ticket triage assistant: 72% correct on the eval set",
+    "Writes evals before prompts for every AI feature",
+    "Playwright and TypeScript for end-to-end suites",
+    "Mentored three QA engineers into test automation",
+    "Open to senior SDET and applied AI roles"
+  ],
+  "status": "Open to senior SDET and applied AI roles",
+  "location": "Denver, CO",
   "email": "placeholder@example.com",
   "socials": [
     { "label": "GitHub", "href": "https://example.com/placeholder-github", "icon": "github" },
@@ -19,8 +30,10 @@
   "sidebar": {
     "askAbout": ["/about", "/experience", "/projects", "/skills", "/contact"],
     "projects": [
-      { "label": "Placeholder project one", "href": "/projects/placeholder-one/" },
-      { "label": "Placeholder project two", "href": "/projects/placeholder-two/" }
+      { "label": "Project Atlas", "href": "/projects/atlas-api/" },
+      { "label": "Release Gate", "href": "/projects/release-gate/" },
+      { "label": "Flaky Test Quarantine", "href": "/projects/flaky-test-quarantine/" },
+      { "label": "Ticket Triage Assistant", "href": "/projects/ticket-triage-assistant/" }
     ]
   }
 }

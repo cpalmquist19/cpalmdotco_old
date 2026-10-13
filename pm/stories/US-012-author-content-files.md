@@ -2,7 +2,7 @@
 id: US-012
 title: Author placeholder content files
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,11 +16,11 @@ As the **builder**, I want complete, realistic placeholder content, so that ever
 
 ## Acceptance criteria
 
-- [ ] `content/` has realistic placeholder content for an SDET (QA → automation → applied AI): `profile.json`, `about.md`, 3 `experience/*.md`, 4 `projects/*.md`, `skills.json`, `offlimits.md`
-- [ ] Every file is marked `placeholder: true` / `"placeholder": true` (see [docs/CODING.md § 7](../../docs/CODING.md#7-content-and-facts))
-- [ ] Only fictional companies, projects and people; nothing from Caleb's real history or the spec's examples
-- [ ] Concrete numbers (tests written, coverage, runtime saved), so the pages and the chat eval have facts to work with
-- [ ] All files pass schema validation
+- [x] `content/` has realistic placeholder content for an SDET (QA → automation → applied AI): `profile.json`, `about.md`, 3 `experience/*.md`, 4 `projects/*.md`, `skills.json`, `offlimits.md`
+- [x] Every file is marked `placeholder: true` / `"placeholder": true` (see [docs/CODING.md § 7](../../docs/CODING.md#7-content-and-facts))
+- [x] Only fictional companies, projects and people; nothing from Caleb's real history or the spec's examples
+- [x] Concrete numbers (tests written, coverage, runtime saved), so the pages and the chat eval have facts to work with
+- [x] All files pass schema validation
 
 ## Files to touch
 
@@ -69,5 +69,7 @@ The numbers should hang together across files: a bullet in an experience file an
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Done. Wrote the placeholder SDET content. `profile.json`: 10 headline facts, 4 sidebar projects. `skills.json`: 5 categories, 4 `inPractice` pairs. `commands.json`: an H1 `description` and an `intro` for each ASK ABOUT page. Plus `about.md`, `offlimits.md`, 3 experience files and 4 project files. Numbers match across files: 1,240 API tests and 47 to 9 minutes (Atlas, Tailspin bullet), 3 days to 4 hours (Release Gate), 9% to 1.5% flaky runs (quarantine), 400 tickets and 72% (triage). Choices the story left open: Microsoft's sample company names (Contoso, Fabrikam, Tailspin Toys); project titles match the sidebar labels; `value` and `pitch` are quoted in YAML so `400` stays text; `repo` only on Project Atlas and the triage assistant. Criterion 2 by hand (`git grep --untracked -L -E '"?placeholder"?: true' -- content/`): only `.gitkeep` is unmarked. Criterion 3 by hand (`git grep --untracked -i -E 'eRSP|Quark' -- content/`): no output. Criteria 1 and 4 are judgment calls for the S02 gate. `npm run verify`: pass (format, lint with 0 warnings, typecheck, 90 unit tests including 17 content tests, board check; the US-022 readiness warning was already there). `npm run test:e2e`: 112 passed · this commit · pass
+2026-10-13 · Started the build from main (clean tree); status in-progress · — · —
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes; file shapes, fictional-name source, which checks are tests and which are by hand · — · —
 2026-10-13 · Reworked for D-010: placeholder SDET content instead of Caleb's inputs; no longer depends on US-009. Real content arrives in US-049 · — · —
