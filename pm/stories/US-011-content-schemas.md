@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-002, US-005, US-007, US-061]
+depends_on: [US-002, US-005, US-007, US-061, US-062]
 spec: Repo layout and content model › Content schemas; Testing and evals › Unit
 ---
 
@@ -169,6 +169,6 @@ In `content/commands.json`, add `"placeholder": true` to each of the five entrie
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
-2026-10-13 · Now depends on US-061, which changes `Sidebar.tsx` before the type switch (`board.mjs` shared-file check) · — · —
+2026-10-13 · Now depends on US-061 and US-062, which change `Sidebar.tsx` and `Avatar.tsx` before the type switch (`board.mjs` shared-file check) · — · —
 2026-10-13 · US-054: added the optional `intro` field to commands (D-018); now depends on US-007, so every shell component exists before the type switch · — · —
 2026-10-13 · Refined for handoff (US-053): added Files/Out of scope/Tests/Notes and exact field types; now depends on US-005, which creates `lib/content.ts`; added criteria for cross-file checks and `isPlaceholder` · — · —

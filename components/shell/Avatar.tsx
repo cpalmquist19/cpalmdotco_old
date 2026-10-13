@@ -1,23 +1,16 @@
-type Props = { name: string };
+import Image from "next/image";
 
-// The name sits next to the avatar, so the monogram is hidden from screen readers.
-// Its test id exists because an aria-hidden element has no role or name to query.
-export function Avatar({ name }: Props) {
-  const initials = name
-    .split(" ")
-    .filter((part) => part.length > 0)
-    .map((part) => part.charAt(0))
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
+// The name sits next to the avatar, so the photo is decorative and has an empty alt.
+// Its test id exists because an empty-alt image has no role or name to query.
+export function Avatar() {
   return (
-    <span
-      aria-hidden="true"
+    <Image
+      src="/avatar.webp"
+      alt=""
+      width={32}
+      height={32}
       data-testid="avatar"
-      className="flex size-8 shrink-0 items-center justify-center rounded-pill bg-cta-bg text-sm font-medium text-cta-text"
-    >
-      {initials}
-    </span>
+      className="size-8 shrink-0 rounded-pill object-cover"
+    />
   );
 }

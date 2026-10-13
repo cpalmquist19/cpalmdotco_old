@@ -55,5 +55,6 @@ All in `tests/e2e/shell.spec.ts`, tagged `@desktop-only`:
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · CI for 1d22ca2 passed (run 38450503074, 1m49s) · this commit · —
 2026-10-13 · Built: header row is collapse button, avatar, name; rail keeps the left padding and drops the right (fixes the 1 px overflow); New chat and ASK ABOUT items fixed at `h-10`; the ASK ABOUT heading keeps its space in the rail. Recorded as D-021; US-011 now depends on this story (shared `components/shell/*.tsx`). The new overflow test fails with 1 px when the padding fix is removed · this commit · `npm run verify` passes; `npm run test:e2e`: 72 passed (chromium, webkit, mobile)
 2026-10-13 · Started. Created from Caleb's review of the S01 preview: a horizontal scrollbar in the rail, and the collapse button and menu icons moving between states · — · —

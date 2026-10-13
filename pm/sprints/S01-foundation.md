@@ -31,6 +31,7 @@ This list is generated from the `sprint: S01` field in each story file. To add, 
 | [US-007](../stories/US-007-top-bar.md) | Top bar: status pill, share, theme, CV | ⬜ todo · ready | Claude | P0 | 3 | 0/7 | ~~US-004~~, ~~US-005~~, ~~US-006~~ |
 | [US-008](../stories/US-008-ci-pipeline.md) | CI pipeline: lint, typecheck, unit, e2e | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-001~~, ~~US-002~~ |
 | [US-061](../stories/US-061-sidebar-rail-toggle-and-scrollbar.md) | Sidebar rail: fix the scrollbar and pin the collapse button | ✅ done | Claude | P1 | 2 | 5/5 | ~~US-005~~ |
+| [US-062](../stories/US-062-headshot-avatar.md) | Show Caleb's headshot in the avatar | ✅ done | Claude | P1 | 1 | 3/3 | ~~US-005~~, ~~US-061~~ |
 
 <!-- END GENERATED STORIES -->
 

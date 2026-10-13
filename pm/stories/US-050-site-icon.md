@@ -23,7 +23,6 @@ As a **visitor**, I want the site to show its own icon in the browser tab and bo
 
 - `app/icon.tsx`: generates the icon with `ImageResponse` from `next/og` (part of Next.js, no new package). See `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/01-metadata/app-icons.md`
 - `lib/initials.ts`: `getInitials(name)`, the first letter of the first and last word, upper case
-- `components/shell/Avatar.tsx`: if it works out the initials itself (US-005), switch it to `getInitials`, so the sidebar avatar and the icon can't disagree
 - `tests/unit/lib/initials.test.ts`, `tests/e2e/icon.spec.ts`
 
 ## Out of scope
@@ -45,5 +44,6 @@ As a **visitor**, I want the site to show its own icon in the browser tab and bo
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Removed `Avatar.tsx` from Files to touch: US-062 replaces its initials with the headshot, so the icon is the only place that works out initials · — · —
 2026-10-13 · Added `Avatar.tsx` to Files to touch (US-054), so the initials are worked out in one place · — · —
 2026-10-13 · Created in US-051 at Caleb's request · — · —

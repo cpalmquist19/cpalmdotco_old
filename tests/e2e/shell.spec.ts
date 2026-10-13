@@ -203,6 +203,38 @@ test.describe("app shell and sidebar", () => {
     });
   });
 
+  test("US-062: avatar file is a square of at least 400 px @desktop-only", async ({ page }) => {
+    await page.goto("/");
+
+    const size = await page.evaluate(
+      (src) =>
+        new Promise<{ width: number; height: number }>((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+          image.onerror = () => reject(new Error(`could not load ${src}`));
+          image.src = src;
+        }),
+      "/avatar.webp",
+    );
+
+    expect(size.width).toBe(size.height);
+    expect(size.width).toBeGreaterThanOrEqual(400);
+  });
+
+  test("US-062 F0.1: sidebar avatar shows the headshot @desktop-only", async ({ page }) => {
+    await page.goto("/");
+    const avatar = page.getByTestId("avatar");
+
+    // The monogram was text in a span; the headshot is an image that has loaded.
+    await expect(avatar).toHaveJSProperty("tagName", "IMG");
+    await expect
+      .poll(() =>
+        avatar.evaluate((element) => element instanceof HTMLImageElement && element.naturalWidth),
+      )
+      .toBeGreaterThan(0);
+    await expect(avatar).toHaveText("");
+  });
+
   test("US-005 F0.3: new tab starts expanded @desktop-only", async ({ context, page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Collapse sidebar" }).click();

@@ -93,7 +93,7 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
             )}
           </button>
         )}
-        {!collapsed && <Avatar name={profile.name} />}
+        {!collapsed && <Avatar />}
         <span className={`${labelClass} min-w-0 flex-1 font-medium text-text`}>{profile.name}</span>
         {props.variant === "drawer" && (
           <button
