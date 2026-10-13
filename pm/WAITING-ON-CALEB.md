@@ -6,7 +6,7 @@ Everything that needs your decision, input or approval, in the order to handle i
 
 | # | When | What to do | Needed by | Unblocks |
 | --- | --- | --- | --- | --- |
-| 1 | 🔴 now | **Do** [US-001](stories/US-001-github-repo-and-vercel.md) Create the GitHub repo and link Vercel (2/3 done) | S01 | US-008 |
+| 1 | 🔴 now | **Do** [US-001](stories/US-001-github-repo-and-vercel.md) Create the GitHub repo and link Vercel (3/3 done) | S01 | US-008 |
 | 2 | 🟡 next sprint | **Do** [US-010](stories/US-010-avatar.md) Headshot or monogram avatar (0/2 done) | S02 | — |
 | 3 | ⚪ later | **Decide** [D-004](decisions.md) Headline pool. Default if you don't: The report's pool, edited by you | S03 | S03 (3 stories) |
 | 4 | ⚪ later | **Decide** [D-001](decisions.md) Chat backend. Default if you don't: Next.js route for v1; FastAPI as stretch (US-042) | S05 | S05 (7 stories) |
