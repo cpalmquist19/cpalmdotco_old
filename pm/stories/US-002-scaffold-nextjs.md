@@ -21,12 +21,14 @@ As the **builder**, I want a Next.js App Router project with the agreed tooling,
 - [ ] `package.json` has exactly the scripts listed in **Notes**, and `npm run verify` and `npm run test:e2e` both pass after `npm ci` on a clean checkout
 - [ ] `tsconfig.json` has `strict: true`, `noUncheckedIndexedAccess: true` and the `@/*` alias pointing at the repo root
 - [ ] Folder layout matches *Repo layout and content model*: `app/`, `components/`, `content/`, `lib/`, `tests/unit/`, `tests/e2e/`, `public/` (empty folders hold a `.gitkeep`)
+- [ ] A git pre-push hook runs `npm run verify` and `npm run test:e2e` and refuses the push if either fails; `npm install` turns it on (D-008)
 - [ ] The create-next-app boilerplate is gone: the home page is a placeholder `<main>` with one `<h1>`, and the template's SVGs and demo styles are deleted
 
 ## Files to touch
 
 - `package.json`, `package-lock.json`: dependencies and scripts
 - `.nvmrc`, `.npmrc` (`save-exact=true`)
+- `.githooks/pre-push`: the push gate (see Notes)
 - `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`
 - `eslint.config.mjs`, `.prettierrc.json`, `.prettierignore`
 - `vitest.config.ts`, `playwright.config.ts`
@@ -48,6 +50,7 @@ As the **builder**, I want a Next.js App Router project with the agreed tooling,
 
 - `tests/unit/smoke.test.ts`: `US-002: unit test runner works`. Imports something through the `@/` alias, so the alias is tested too
 - `tests/e2e/smoke.spec.ts`: `US-002: home page loads with one h1`
+- The hook, by hand: add `expect(1).toBe(2)` to the unit smoke test, run `git push origin main`, and confirm it's refused before anything is sent. Remove the line. Note both results in the Log
 
 ## Notes
 
@@ -73,8 +76,21 @@ Don't copy its `README.md`, `AGENTS.md`, `CLAUDE.md` or `.gitignore` over ours. 
 | `test` | `vitest run` |
 | `test:e2e` | `playwright test` |
 | `verify` | `npm run format:check && npm run lint && npm run typecheck && npm test && node pm/scripts/board.mjs --check` |
+| `prepare` | `git config core.hooksPath .githooks` |
 
 Use `eslint` directly, not `next lint`, which newer Next.js versions deprecate.
+
+**Pre-push hook (D-008).** Every story is pushed straight to `main`, so this hook is the gate. `.githooks/pre-push`:
+
+```sh
+#!/bin/sh
+# Refuse the push unless every check passes (decision D-008). Never bypass with --no-verify.
+set -e
+npm run verify
+npm run test:e2e
+```
+
+Mark it executable in git (`git update-index --chmod=+x .githooks/pre-push`), so it works on every OS. `npm install` runs `prepare`, which points git at `.githooks/`. That's why the folder has no extra package such as husky.
 
 **Config details**
 
@@ -96,4 +112,5 @@ Use `eslint` directly, not `next lint`, which newer Next.js versions deprecate.
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Added the pre-push hook and `prepare` script for D-008 (direct pushes to `main`) · — · —
 2026-10-12 · Refined for handoff (US-046): added Files/Out of scope/Tests/Notes; moved Playwright setup here from US-018; exact scripts and config; points 3 → 5 · — · —

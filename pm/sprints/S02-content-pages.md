@@ -10,7 +10,7 @@ end:
 
 **Goal:** Every static page renders real, validated content and works with JavaScript off.
 
-**Review gate:** You confirm every fact on every page is accurate.
+**Review gate:** You confirm every page looks and reads right with placeholder content (D-010). Accuracy of the real facts is checked in S07 (US-049).
 
 **Decisions needed first:** none (see [decisions.md](../decisions.md))
 
@@ -22,10 +22,9 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-009](../stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
 | [US-010](../stories/US-010-avatar.md) | Headshot or monogram avatar | ⬜ todo · ready | Caleb | P2 | 1 | 0/2 | — |
 | [US-011](../stories/US-011-content-schemas.md) | Content schemas and loader | ⬜ todo | Claude | P0 | 3 | 0/4 | US-002 |
-| [US-012](../stories/US-012-author-content-files.md) | Author the content files | ⬜ todo | Claude | P0 | 3 | 0/3 | US-009, US-011 |
+| [US-012](../stories/US-012-author-content-files.md) | Author placeholder content files | ⬜ todo | Claude | P0 | 3 | 0/5 | US-011 |
 | [US-013](../stories/US-013-page-template.md) | Shared content-page template and footer | ⬜ todo | Claude | P0 | 3 | 0/3 | US-005 |
 | [US-014](../stories/US-014-about-contact-cv-pages.md) | About, Contact and CV pages | ⬜ todo | Claude | P0 | 2 | 0/3 | US-012, US-013 |
 | [US-015](../stories/US-015-experience-page.md) | Experience page | ⬜ todo | Claude | P0 | 2 | 0/3 | US-012, US-013 |
@@ -38,7 +37,7 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 ## Gate
 
 - [ ] Preview URL: <!-- link -->
-- [ ] Gate passed: You confirm every fact on every page is accurate.
+- [ ] Gate passed: You confirm every page looks and reads right with placeholder content.
 - [ ] Approved by Caleb on: <!-- YYYY-MM-DD -->
 
 ## Review

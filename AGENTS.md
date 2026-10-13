@@ -18,18 +18,19 @@ If the story, the spec and a decision disagree in a way the table above doesn't 
 
 ## How to work a story
 
-Do one story at a time, on its own branch, in this order:
+Do one story at a time, straight on `main` (decision D-008: no branches or PRs; every push must pass all checks), in this order:
 
 1. **Pick the story.** Take the top Claude-owned row in *Next up* on [pm/BOARD.md](pm/BOARD.md). If Caleb named a story, take that one. If the task has no story, create one from [pm/templates/story.md](pm/templates/story.md) with the next free `US-###` id, and tell Caleb you did.
 2. **Check it's ready.** Everything in `depends_on` must be `done`. The story must have filled-in **Files to touch**, **Out of scope** and **Tests to add** sections. If either check fails, stop and ask.
 3. **Read before you write.** Read the whole story, the spec sections in its `spec:` field, any decisions it mentions, and [docs/CODING.md](docs/CODING.md).
-4. **Start.** Create the branch `us-###-short-slug` from an up-to-date `main` (`git switch main && git pull`). If a story you did earlier is still `review` but its PR is merged (check with `gh pr list --state merged`), set it to `done` with a Log entry first. Then set your new story to `status: in-progress`, add a Log entry, and run `node pm/scripts/board.mjs`.
+4. **Start.** Run `git switch main && git pull`, and check `git status` is clean. Set the story to `status: in-progress`, add a Log entry, and run `node pm/scripts/board.mjs`. Don't commit yet.
 5. **Build.** Change only the files in **Files to touch**. If you need to change another file, note it in the Log with the reason. Nothing in **Out of scope**.
 6. **Test.** Write the tests in **Tests to add**, one or more per acceptance criterion, named as [docs/CODING.md § 9](docs/CODING.md#9-tests) says.
-7. **Verify.** Run `npm run verify`, plus `npm run test:e2e` if the story has Playwright tests. Both must pass with no errors and no warnings. (Before US-002 adds `package.json`, run `node pm/scripts/board.mjs --check` instead.)
+7. **Verify.** Run `npm run verify` and `npm run test:e2e`. Both must pass with no errors and no warnings. (Before US-002 adds `package.json`, run `node pm/scripts/board.mjs --check` instead.)
 8. **Tick and log.** Tick each acceptance criterion (`- [x]`) whose test passes. Add a Log entry with the commands you ran and their results.
-9. **Open the PR.** Set `status: review`, run `node pm/scripts/board.mjs`, and commit the code, the story file and the regenerated pm files together. Push, and open a PR titled `US-###: Story title`. In the PR description, list each acceptance criterion and the test that covers it.
-10. **Stop.** Don't start the next story until Caleb tells you to. Caleb reviews and merges. You mark the story `done` at step 4 of your next story.
+9. **Commit and push.** Set `status: done`, run `node pm/scripts/board.mjs`, and make one commit with the code, the story file and the regenerated pm files: `git commit -m "US-###: imperative summary"`. Then `git push origin main`. The pre-push hook (from US-002) runs `npm run verify` and `npm run test:e2e` and refuses the push if anything fails. Fix the failure and try again. Never bypass the hook.
+10. **Check CI.** Run `gh run watch` (or `gh run list --branch main --limit 1`) until the run for your commit finishes. If it fails, fixing it is your next commit, before anything else. Note the run result in the Log in that fix commit, or in the next story's first commit.
+11. **Stop.** Don't start the next story until Caleb tells you to.
 
 ## Never
 
@@ -41,14 +42,14 @@ These are the mistakes that cost the most to undo. None of them is ever the righ
 - Invent a fact about Caleb (employer, date, number, skill, link), even as a placeholder that looks real.
 - Commit a secret, a `.env` file, or ask for a key in chat.
 - Edit `pm/BOARD.md`, `pm/WAITING-ON-CALEB.md` or anything between `GENERATED` markers by hand.
-- Tick an acceptance criterion that has no passing test, or mark a story `done` before it's merged.
+- Tick an acceptance criterion that has no passing test, or mark a story `done` while any check fails.
 - Do a story owned by Caleb, tick "Approved by Caleb", set a sprint to `closed`, or settle an `open` decision.
-- Push to `main`, force-push, or merge your own PR.
-- Work on two stories in one branch.
+- Push with `--no-verify` (the only exception is the throwaway `ci-check` branch in US-008), force-push, rewrite or revert history on `main`, or push with failing checks.
+- Mix two stories in one commit.
 
 ## Stop and ask
 
-Stop, set the story to `status: blocked`, write the question in its Log, run `node pm/scripts/board.mjs`, and ask Caleb when:
+Stop, set the story to `status: blocked`, write the question in its Log, run `node pm/scripts/board.mjs`, and ask Caleb. Don't commit or push half-done work; leave it in the working tree. Stop when:
 
 - The story, the spec and a decision disagree, or a requirement can be read two ways.
 - An acceptance criterion can't be met as written, or its test can't pass without breaking a rule above.
@@ -64,8 +65,8 @@ All work is tracked in [pm/](pm/). These rules apply to every task:
 
 1. **Status lives only in the story's frontmatter:**
    - When you start: `status: in-progress`
-   - When the PR is open, or the work is waiting on Caleb's check: `status: review`
-   - When it's merged and every acceptance criterion is ticked: `status: done`
+   - When the work is waiting on a check only Caleb can do: `status: review`
+   - When it's pushed to `main` with every acceptance criterion ticked and all checks passing: `status: done`
    - When you can't proceed: `status: blocked`, with the reason in the Log
 2. **Tick acceptance criteria** (`- [x]`) only when they actually pass, with a test where the spec calls for one.
 3. **Add a Log entry** for each meaningful step, newest first: `YYYY-MM-DD · what changed · PR/commit · test result`.
@@ -86,5 +87,5 @@ All work is tracked in [pm/](pm/). These rules apply to every task:
 
 ## Conventions
 
-- Branch: `us-###-short-slug`. PR title: `US-###: Story title`. Commit message: `US-###: imperative summary`.
-- Commit the code change, the story file update and the regenerated pm files together.
+- Work on `main` (D-008). Commit message: `US-###: imperative summary`.
+- One commit per story: the code change, the story file update and the regenerated pm files together. A CI fix gets its own commit, `US-###: Fix CI <what>`.

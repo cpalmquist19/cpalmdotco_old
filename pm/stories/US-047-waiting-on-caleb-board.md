@@ -2,7 +2,7 @@
 id: US-047
 title: Waiting-on-Caleb board
 sprint: backlog
-status: review
+status: done
 owner: Claude
 points: 2
 priority: P1
@@ -41,4 +41,7 @@ As **Caleb**, I want one list of everything waiting for my decision, input or ap
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Approved by Caleb · PR #1 (merged by Caleb) · `board.mjs --check` passes
+2026-10-12 · Caleb's answers recorded in decisions.md: D-003/D-006/D-007 default; D-008 push to main when tests pass; D-010 placeholder SDET content. Still to apply: AGENTS/README workflow for D-008 (plus a pre-push hook in US-002), US-001/US-008 criteria, moving US-009 to S07, US-012 without the US-009 dependency, a new backfill story, and the S02 gate text. Approved: US-044 to US-047 (✅) · applied in US-048 · —
+2026-10-12 · "Unblocks" now names the stories that wait on the item directly, with the knock-on total in brackets, after Caleb found "38 stories" confusing · committed with US-048 · regenerated, output checked
 2026-10-12 · Generator, docs and decisions format · branch us-045-047-agent-readiness · manual on a scratch copy: a blocked story, a review story and a sprint at its gate sorted in that order at the top; a bad decision status and a Blocks value with no sprint each gave one clear error; `--check` passes on the real files

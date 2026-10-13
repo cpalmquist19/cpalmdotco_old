@@ -2,7 +2,7 @@
 id: US-046
 title: Make the S01 stories ready for handoff
 sprint: backlog
-status: review
+status: done
 owner: Claude
 points: 3
 priority: P1
@@ -42,4 +42,5 @@ As **Caleb**, I want every S01 story to say exactly what to touch, what not to, 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Approved by Caleb · PR #1 (merged by Caleb) · `board.mjs --check` passes
 2026-10-12 · Template sections, ready-check warning, S01 stories refined, US-018 hand-off, D-009 · branch us-045-047-agent-readiness · on a scratch copy with US-001 done, the script warned "US-002 can start but isn't ready"; with the refined stories it no longer warns

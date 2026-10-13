@@ -1,0 +1,15 @@
+{
+    "permissions": {
+      "allow": [
+        "Bash(git push)",
+        "Bash(git push origin main)",
+        "Bash(git push -u origin main)"
+      ]
+    },
+    "autoMode": {
+      "allow": [
+        "$defaults",
+        "In this repo (cpalmquist19/cpalmdotco), committing and pushing directly to the main branch without a pull request or code review is allowed. The owner decided this in pm/decisions.md D-008, and a git pre-push hook runs the test suite before each push. Force-pushing is still not allowed."
+      ]
+    }
+  }  

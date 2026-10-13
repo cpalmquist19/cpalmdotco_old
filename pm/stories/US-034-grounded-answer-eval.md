@@ -25,7 +25,7 @@ As the **site owner**, I want an eval that proves the bot stays grounded, so tha
 
 ## Notes
 
--
+- Per D-010, the 30 fact cases are written against placeholder content. US-049 rewrites them for Caleb's real content before launch.
 
 ## Log
 

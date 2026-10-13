@@ -1,7 +1,7 @@
 ---
 id: US-009
 title: Provide content inputs
-sprint: S02
+sprint: S07
 status: todo
 owner: Caleb
 points: 3
@@ -31,3 +31,4 @@ As the **site owner**, I want to hand over the facts about my work, so that the 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Moved S02 → S07 per D-010: S02–S06 are built on placeholder content, and US-049 swaps in these inputs before launch · — · —

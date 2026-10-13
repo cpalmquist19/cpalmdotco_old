@@ -2,7 +2,7 @@
 id: US-045
 title: Agent guide and coding standards
 sprint: backlog
-status: review
+status: done
 owner: Claude
 points: 2
 priority: P1
@@ -40,4 +40,5 @@ As **Caleb**, I want clear, literal instructions and coding standards for the bu
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Approved by Caleb · PR #1 (merged by Caleb) · `board.mjs --check` passes
 2026-10-12 · Wrote docs/CODING.md, rewrote AGENTS.md (workflow, Never, Stop and ask), added D-007 and D-008 · branch us-045-047-agent-readiness · `node pm/scripts/board.mjs --check` passes

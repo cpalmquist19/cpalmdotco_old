@@ -2,7 +2,7 @@
 id: US-044
 title: List each sprint's stories in its sprint file
 sprint: backlog
-status: review
+status: done
 owner: Claude
 points: 1
 priority: P2
@@ -30,4 +30,5 @@ As **Caleb**, I want each sprint file to list its stories, so that I can see wha
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Approved by Caleb · initial commit 53aa067 · `board.mjs --check` passes
 2026-10-12 · board.mjs writes a Stories table into each sprint file between markers; markers added to S01–S07 and the template; README updated · no commit (repo not initialised yet) · manual: moving US-008 to S02 made `--check` fail naming 3 stale files, and a rerun moved the row; removing S02's markers errors; restored state passes `--check`

@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-037, US-036]
+depends_on: [US-037, US-036, US-049]
 spec: Deployment › Pipeline step 4
 ---
 
@@ -16,7 +16,7 @@ As the **site owner**, I want the site live on my domain over HTTPS, so that I c
 
 ## Acceptance criteria
 
-- [ ] Merging to `main` deploys to production
+- [ ] Pushing to `main` deploys to production on the launch domain
 - [ ] Domain and HTTPS configured
 - [ ] Spend cap confirmed
 - [ ] Post-deploy smoke test checks `/`, `/api/chat` and the CV
@@ -28,3 +28,4 @@ As the **site owner**, I want the site live on my domain over HTTPS, so that I c
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Depends on US-049, so launch waits for real content (D-010); wording updated for D-008 · — · —

@@ -44,28 +44,28 @@ Each story lives in `stories/US-###-short-slug.md`. All its status lives in its 
 **Statuses**
 
 - `todo`: planned, not started. The board marks it **ready** once every dependency is done.
-- `in-progress`: being built on a branch.
-- `review`: PR open, or waiting for Caleb to check it on the preview URL.
+- `in-progress`: being built (uncommitted, on `main`).
+- `review`: waiting on a check only Caleb can do, e.g. on the deployed site.
 - `blocked`: can't move. Say why in the story's Log.
-- `done`: merged, every acceptance criterion ticked, and its tests pass in CI.
+- `done`: pushed to `main`, every acceptance criterion ticked, and all checks pass.
 - `cancelled`: dropped. Keep the file and note why in the Log.
 
 **Definition of ready:** a Claude story can start only when its dependencies are `done` and its **Files to touch**, **Out of scope** and **Tests to add** sections are filled in. `board.mjs` warns about any startable story that isn't ready. Before a sprint starts, refine its Claude stories so they pass this check.
 
-**Definition of done:** every acceptance criterion is checked, each one has a passing automated test where the spec calls for one, CI is green, and the PR is merged to `main`.
+**Definition of done:** every acceptance criterion is checked, each one has a passing automated test where the spec calls for one, and it's pushed to `main` with the pre-push hook and CI both green. Per decision D-008 there are no branches or PRs: every story goes straight to `main`, and the hook refuses any push with a failing check.
 
 ## Workflow
 
 1. **Plan the sprint.** Set the sprint file's `status: active` and `start:` date. Clear its items on [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md), and make sure its Claude stories are ready (see *Definition of ready*).
 2. **Pick work** from *Next up* on [BOARD.md](BOARD.md). Set the story to `in-progress`.
-3. **Build it.** Tick acceptance criteria as they pass. Add dated entries to the story's **Log** (PR links, test results, scope changes).
-4. **Open a PR.** Set `status: review`. Put the story id in the branch name and PR title, e.g. `us-012-author-content` / `US-012: Author the content files`.
-5. **Merge.** Set `status: done`.
+3. **Build it.** Tick acceptance criteria as they pass. Add dated entries to the story's **Log** (commit hashes, test results, scope changes).
+4. **Push.** Set `status: done`, then commit everything for the story in one commit (`US-012: Author the content files`) and `git push origin main`. The pre-push hook runs every check first.
+5. **Watch CI.** If the run on `main` fails, the fix is the next commit.
 6. **Regenerate the board** after any change to a story, sprint or decision, in the same commit. This rewrites `BOARD.md`, `WAITING-ON-CALEB.md` and the story list in every sprint file:
    ```
    node pm/scripts/board.mjs
    ```
-7. **Close the sprint at its gate.** Set `status: review`, fill **Gate** with the preview URL, and wait for Caleb's approval. Then write **Review** and **Retro**, set `status: closed` and `end:` date. Move unfinished stories to the next sprint by changing their `sprint:` field, and say so in Review.
+7. **Close the sprint at its gate.** Set `status: review`, fill **Gate** with the site's Vercel URL, and wait for Caleb's approval. Then write **Review** and **Retro**, set `status: closed` and `end:` date. Move unfinished stories to the next sprint by changing their `sprint:` field, and say so in Review.
 
 **Sprint statuses:** `planned` → `active` → `review` (at the gate) → `closed`.
 
@@ -84,7 +84,7 @@ Each sprint file has a `## Stories` table between `<!-- BEGIN GENERATED STORIES 
 | Source | Shows up as |
 | --- | --- |
 | Story with `status: blocked` | **Unblock**: answer the question in its Log |
-| Story with `status: review` | **Review**: check it and merge |
+| Story with `status: review` | **Review**: check it and approve |
 | Sprint with `status: review` | **Approve the gate** |
 | `open` row in [decisions.md](decisions.md) | **Decide** |
 | Story with `owner: Caleb` that isn't done | **Do** |
@@ -100,7 +100,7 @@ Items that have stopped work come first, then the rest in the order their sprint
 
 ## Validation
 
-`board.mjs` fails with a clear message when a file has a bad status, owner, or priority, a missing or duplicate id, an unknown sprint, a dependency that doesn't exist, or a malformed decision row. It also fails when a sprint file is missing its generated-stories markers, and warns when a startable Claude story isn't ready, when a story is started before its dependencies are done, or marked done with unticked criteria. Once CI exists (US-008), add this step so a stale board or sprint story list fails the PR:
+`board.mjs` fails with a clear message when a file has a bad status, owner, or priority, a missing or duplicate id, an unknown sprint, a dependency that doesn't exist, or a malformed decision row. It also fails when a sprint file is missing its generated-stories markers, and warns when a startable Claude story isn't ready, when a story is started before its dependencies are done, or marked done with unticked criteria. CI runs this step (from US-008), so a stale board or sprint story list fails the build:
 
 ```
 node pm/scripts/board.mjs --check

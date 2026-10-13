@@ -12,13 +12,13 @@ spec: Inputs needed from you › Accounts; Phase 1
 
 # US-001 · Create the GitHub repo and link Vercel
 
-As the **builder**, I want an empty GitHub repo linked to a Vercel project, so that every PR gets a preview URL from Phase 1 on.
+As the **builder**, I want the GitHub repo linked to a Vercel project, so that every push to `main` deploys and each sprint gate has a URL to check.
 
 ## Acceptance criteria
 
 - [x] New, empty GitHub repo exists and Claude has push access
 - [ ] Vercel (or the chosen host, see D-006) account is linked to the repo
-- [ ] A preview deployment is created for a test PR
+- [ ] A push to `main` creates a Vercel deployment with a URL
 
 ## Notes
 
@@ -27,4 +27,5 @@ As the **builder**, I want an empty GitHub repo linked to a Vercel project, so t
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Last criterion changed from "preview for a test PR" to "deployment on push to `main`", because D-008 drops PRs · — · —
 2026-10-12 · Repo https://github.com/cpalmquist19/cpalmdotco exists; Claude pushed the initial commit to `main` (53aa067), so the first criterion is verified. Vercel link and preview still to do · — · —
