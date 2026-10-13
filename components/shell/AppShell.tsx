@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { MobileDrawer } from "@/components/shell/MobileDrawer";
 import { Sidebar } from "@/components/shell/Sidebar";
+import { TopBar } from "@/components/shell/TopBar";
 import { getCommands, getProfile } from "@/lib/content";
 
 type Props = { children: ReactNode };
@@ -24,7 +24,7 @@ export function AppShell({ children }: Props) {
     <div className="flex min-h-dvh">
       <Sidebar profile={profile} askAbout={askAbout} variant="inline" />
       <div className="min-w-0 flex-1">
-        <MobileDrawer profile={profile} askAbout={askAbout} />
+        <TopBar profile={profile} askAbout={askAbout} />
         {children}
       </div>
     </div>

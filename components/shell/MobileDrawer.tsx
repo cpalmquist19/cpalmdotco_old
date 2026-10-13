@@ -62,7 +62,7 @@ export function MobileDrawer({ profile, askAbout }: Props) {
         aria-label="Open menu"
         aria-haspopup="dialog"
         onClick={openMenu}
-        className="m-4 flex size-9 items-center justify-center rounded-pill text-text hover:bg-sidebar focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+        className="flex size-9 items-center justify-center rounded-pill text-text hover:bg-sidebar focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
       >
         <Menu aria-hidden="true" className="size-5" />
       </button>
