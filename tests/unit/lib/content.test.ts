@@ -1,4 +1,4 @@
-import { copyFileSync, cpSync, mkdtempSync, rmSync, unlinkSync } from "node:fs";
+import { copyFileSync, cpSync, mkdtempSync, rmSync, unlinkSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -216,5 +216,47 @@ describe("US-011", () => {
 
     expect(content.profile.placeholder).toBe(true);
     expect(content.commands).toHaveLength(5);
+  });
+});
+
+describe("US-014", () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = copyFixture();
+  });
+
+  afterEach(() => {
+    removeFolder(dir);
+  });
+
+  it("US-014: about.md loads with its body", () => {
+    const content = loadContent(dir);
+
+    expect(content.about.placeholder).toBe(true);
+    expect(content.about.body).toMatch(/^I started on a support desk/);
+    expect(content.about.body).toContain("I test software");
+  });
+
+  it("US-014: about.md with an unknown frontmatter key fails", () => {
+    rewrite(dir, "about.md", "placeholder: true", "placeholder: true\nnickname: Al");
+
+    expect(thrownMessage(() => loadContent(dir))).toMatch(
+      /content\/about\.md: nickname: is not a known field/,
+    );
+  });
+
+  it("US-014: an empty about.md body fails", () => {
+    writeFileSync(path.join(dir, "about.md"), "---\nplaceholder: true\n---\n\n   \n");
+
+    expect(thrownMessage(() => loadContent(dir))).toMatch(/content\/about\.md: body: is empty/);
+  });
+
+  it("US-014: a missing about.md fails", () => {
+    unlinkSync(path.join(dir, "about.md"));
+
+    expect(thrownMessage(() => loadContent(dir))).toMatch(
+      /content\/about\.md: \(file\): is missing/,
+    );
   });
 });

@@ -3,11 +3,13 @@ import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 import {
+  aboutFrontmatterSchema,
   commandsSchema,
   experienceFrontmatterSchema,
   profileSchema,
   projectFrontmatterSchema,
   skillsSchema,
+  type About,
   type Command,
   type Experience,
   type Profile,
@@ -29,6 +31,7 @@ export type Content = {
   profile: Profile;
   commands: Command[];
   skills: Skills;
+  about: About;
   experience: Experience[];
   projects: Project[];
 };
@@ -245,11 +248,23 @@ function commandProblems(profile: Profile, commands: Command[]): string[] {
   return problems;
 }
 
+// about.md is required. Its frontmatter may only hold the placeholder flag, and its body is the page text.
+function readAbout(dir: string, problems: string[]): About | undefined {
+  const doc = readMarkdown(dir, "about.md", problems);
+  if (doc === undefined) return undefined;
+  const frontmatter = check(aboutFrontmatterSchema, doc.frontmatter, "about.md", problems);
+  const body = doc.body.trim();
+  if (body === "") problems.push(problem("about.md", "body", "is empty"));
+  if (frontmatter === undefined || body === "") return undefined;
+  return { ...frontmatter, body };
+}
+
 export function loadContent(dir = contentDir()): Content {
   const problems: string[] = [];
   const profile = readJson(dir, "profile.json", profileSchema, problems);
   const commands = readJson(dir, "commands.json", commandsSchema, problems);
   const skills = readJson(dir, "skills.json", skillsSchema, problems);
+  const about = readAbout(dir, problems);
 
   const experience: Experience[] = [];
   for (const file of markdownFiles(dir, "experience")) {
@@ -278,7 +293,8 @@ export function loadContent(dir = contentDir()): Content {
     problems.length > 0 ||
     profile === undefined ||
     commands === undefined ||
-    skills === undefined
+    skills === undefined ||
+    about === undefined
   ) {
     throw new ContentError(problems);
   }
@@ -287,6 +303,7 @@ export function loadContent(dir = contentDir()): Content {
     profile,
     commands: commands.sort((a, b) => a.order - b.order),
     skills,
+    about,
     experience: experience.sort((a, b) => a.order - b.order),
     projects,
   };
@@ -310,6 +327,10 @@ export function getExperience(): Experience[] {
 
 export function getProjects(): Project[] {
   return loadContent().projects;
+}
+
+export function getAbout(): About {
+  return loadContent().about;
 }
 
 function isMarked(value: unknown): boolean {

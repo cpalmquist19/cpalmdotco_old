@@ -2,7 +2,7 @@
 id: US-014
 title: About and CV pages
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,13 +16,13 @@ As a **recruiter**, I want About and CV pages, so that I can learn the story and
 
 ## Acceptance criteria
 
-- [ ] `/about/` renders `content/about.md` in the shared template
-- [ ] `about.md` is validated like the other content: strict frontmatter (only `placeholder`) and a non-empty body
-- [ ] Markdown renders through one shared `Markdown` component that allows only paragraphs, `h2`/`h3`, lists, links, bold, italic and inline code, and never raw HTML or a `javascript:` link
-- [ ] `/cv/` uses the template and has a "Download CV (PDF)" link to `profile.links.cv`
-- [ ] `public/cv.pdf` exists as a clearly marked one-page placeholder (D-019), so the CV links stop 404ing
-- [ ] Both pages are statically generated (F5.5)
-- [ ] Tests cover each criterion above
+- [x] `/about/` renders `content/about.md` in the shared template
+- [x] `about.md` is validated like the other content: strict frontmatter (only `placeholder`) and a non-empty body
+- [x] Markdown renders through one shared `Markdown` component that allows only paragraphs, `h2`/`h3`, lists, links, bold, italic and inline code, and never raw HTML or a `javascript:` link
+- [x] `/cv/` uses the template and has a "Download CV (PDF)" link to `profile.links.cv`
+- [x] `public/cv.pdf` exists as a clearly marked one-page placeholder (D-019), so the CV links stop 404ing
+- [x] Both pages are statically generated (F5.5)
+- [x] Tests cover each criterion above
 
 ## Files to touch
 
@@ -74,5 +74,7 @@ If `react-markdown` won't render in a server component, or Vitest can't render i
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Done. Added `react-markdown` 10.1.0 (exact pin, D-017), `components/ui/Markdown.tsx` (only the listed elements, `skipHtml`, default URL handling), `/about/` and `/cv/` on the template, the `about.md` schema, the loader and `getAbout()`, the fixture `about.md`, and the placeholder `public/cv.pdf` (D-019: one Letter page from Playwright `page.pdf()`; SHA-256 `667ac07f19e57741b7c34dca2c21cd7b62582f9c835f0366b64669bbe2792ccd`). Choices the story left open: a link with an unsafe URL renders as its text, with no `<a>`, since a dead link isn't useful; fenced code blocks aren't allowed, so they show as plain text. `vitest.config.ts` didn't need a change, because the existing config compiles the `.tsx` tests. Found, not caused by this story: `npm audit` reports 5 high-severity issues in the ESLint chain (`eslint-config-next` → `fast-glob` → `micromatch` → `braces`). The HEAD lockfile reports the same 5. The fix, `npm audit fix --force`, changes `eslint-config-next` across a major version, so it's left for a separate story. The local Node is 22.18 and the project pins 24.x, which gives an `EBADENGINE` warning. `npm run verify`: pass (format, lint with 0 warnings, typecheck, 109 unit tests, 8 new, board check). `npm run test:e2e`: 139 passed (130 before, 9 new: 3 tests × 3 projects). The build prints the two `lib/content.ts` warnings tracked in US-067 · this commit · pass
+2026-10-13 · Started the build from main (clean tree); status in-progress · — · —
 2026-10-13 · D-017 decided (US-057): `react-markdown`, no plugins; added the `javascript:` link criterion, test and the "don't override `urlTransform`" note · — · —
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes; Contact moved to US-013; owns the shared `Markdown` component (D-017), the `about.md` schema and the placeholder `cv.pdf` (D-019); points 2 → 3 · — · —

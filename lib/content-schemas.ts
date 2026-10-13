@@ -75,9 +75,13 @@ export const projectFrontmatterSchema = z.strictObject({
   repo: href.optional(),
 });
 
+// The frontmatter of about.md. The body is the page text, so the loader adds it.
+export const aboutFrontmatterSchema = z.strictObject({ placeholder });
+
 export type Profile = z.infer<typeof profileSchema>;
 export type Command = z.infer<typeof commandSchema>;
 export type Skills = z.infer<typeof skillsSchema>;
 export type Experience = z.infer<typeof experienceFrontmatterSchema> & { bullets: string[] };
 export type ProjectSections = { problem: string; built: string; numbers: string; stack: string };
 export type Project = z.infer<typeof projectFrontmatterSchema> & { sections: ProjectSections };
+export type About = z.infer<typeof aboutFrontmatterSchema> & { body: string };
