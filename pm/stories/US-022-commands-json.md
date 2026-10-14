@@ -28,7 +28,7 @@ As the **site owner**, I want chips, the palette and the sidebar to read from on
 ## Out of scope
 
 - Chips, the palette and any other UI: US-023 and US-025
-- Sidebar wiring and "Surprise me": US-024. That story also adds the loader check that every `askAbout` command has a page `answer`, because it needs `profile.json` and `lib/content.ts`, which US-067 and US-029 also change
+- Sidebar wiring: US-024. That story also adds the loader check that every `askAbout` command has a page `answer`, because it needs `profile.json` and `lib/content.ts`, which US-067 and US-029 also change
 - A `related` field for follow-ups: the schema has none, and US-030 decides it
 - Changing, adding or removing entries in `content/commands.json`, or any field's name (D-009, D-016)
 - Entries with `answer: "model"`: none exist until S05, so this story adds none

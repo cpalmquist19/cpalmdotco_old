@@ -130,7 +130,7 @@ Each feature has testable acceptance criteria, and a feature counts as done only
 ### F0 · App shell and theme
 
 1. A 320 px sidebar holds: an identity row (avatar, name, collapse button), "New chat", an "ASK ABOUT" list with Lucide icons, a "PROJECTS" list and a social icon row pinned to the bottom. All of it is driven by `profile.json` and `commands.json`.
-2. Each sidebar item asks its question in the chat and also has an `href` to its page. "Surprise me" asks a random entry from `commands.json`.
+2. Each sidebar item asks its question in the chat and also has an `href` to its page.
 3. The collapse button hides the sidebar to an icon rail, and the state persists for the session. Under 1024 px the sidebar becomes an off-canvas drawer behind a menu button, with a focus trap and Esc to close.
 4. The top bar shows the status pill on the left. On the right are a share button (copies the URL, then shows a "Link copied" toast), the theme toggle (moon in light, sun in dark) and a filled "CV" download button.
 5. Light is the default for first-time visitors whatever their OS setting. The toggle writes `data-theme` on `<html>` and saves it in `localStorage`. An inline `<head>` script applies the saved theme before first paint, so there is no flash.
@@ -364,7 +364,7 @@ The build has seven phases. Each one ends on a preview URL and a review gate, an
 
 ### Phase 4 · Chips and slash palette
 
-- [ ] `commands.json`, `ChipRow` and link-first chips with inline answers and `pushState`; sidebar items and "Surprise me" wired to the same commands
+- [ ] `commands.json`, `ChipRow` and link-first chips with inline answers and `pushState`; sidebar items wired to the same commands
 - [ ] `CommandPalette` with keyboard, ARIA and the mobile bottom sheet
 - [ ] Playwright tests for F2 and F3
 - [ ] **Gate:** you try every chip and command on desktop and phone

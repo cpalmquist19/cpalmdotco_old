@@ -39,7 +39,7 @@ As a **visitor**, I want a sidebar of topics and projects, so that I can see at 
 
 - The mobile drawer and anything under 1024 px (US-006). Below 1024 px, just hide the sidebar (`hidden lg:flex`)
 - The top bar (US-007)
-- Making items ask in the chat, and "Surprise me" (US-024). "New chat" doing anything (US-032)
+- Making items ask in the chat (US-024). "New chat" doing anything (US-032)
 - Zod validation of the content files (US-011). Real content (US-009, US-012)
 - Creating the pages the links point to (S02). The links will 404 for now, which is expected
 

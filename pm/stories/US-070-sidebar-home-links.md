@@ -32,7 +32,7 @@ As a **visitor**, I want the sidebar's name, avatar and "New chat" to take me to
 ## Out of scope
 
 - Clearing the chat thread and bringing back the hero without a page load (US-032). Until then "New chat" is plain navigation home
-- Wiring the ASK ABOUT items and "Surprise me" to the chat (US-024)
+- Wiring the ASK ABOUT items to the chat (US-024)
 - `components/shell/Avatar.tsx`: the image itself doesn't change
 - Any change to the top bar, the collapse button's position or the rail's width (D-021, D-023)
 

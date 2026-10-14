@@ -44,7 +44,7 @@ As a **visitor**, I want suggested questions under the input, so that I can expl
 ## Out of scope
 
 - The "More" chip and the slash palette: US-025. This story leaves no inert control behind, so the row has no "More" yet
-- Sidebar items and "Surprise me": US-024. It reads the provider built here
+- Sidebar items: US-024. It reads the provider built here
 - Free-text sending, `/api/chat`, streaming, the full `Thread`, answer-announced-once rules, Markdown in answers, the pinned input and "New chat" clearing the thread: US-032. It extends `Message` and the provider
 - Follow-up chips under an answer: US-030 and US-032
 - Changing the headline's cycle or timings: US-020 and US-021. Pausing uses the `paused` prop it already has

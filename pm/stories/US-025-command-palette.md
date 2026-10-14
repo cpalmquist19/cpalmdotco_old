@@ -37,7 +37,7 @@ As a **power user**, I want a `/` palette, so that I can jump to any topic from 
 ## Out of scope
 
 - Sending free text, `/api/chat` and streaming: US-029 and US-032. Enter on text that isn't a `/` command still does nothing new here
-- Sidebar items and "Surprise me": US-024
+- Sidebar items: US-024
 - Running a command whose `answer` is `"model"`: none exist yet. US-032 makes them reach the chat
 - Replacing `PillInput` with `ChatInput` (auto-grow, send button, counter): US-032. It keeps the palette by reusing the hook
 - Command arguments, history, or recently used ordering
