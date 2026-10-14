@@ -27,7 +27,8 @@ export default defineConfig({
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
-      grepInvert: /@mobile-only/,
+      // WebKit has no layout-shift entries, so the @chromium-only tests can't run there (D-030).
+      grepInvert: /@mobile-only|@chromium-only/,
     },
     {
       name: "mobile",

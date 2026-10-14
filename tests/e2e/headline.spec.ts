@@ -5,6 +5,27 @@ const { greeting, headlinePool: pool } = profileData;
 const input = (page: Page) => page.getByRole("textbox", { name: "Ask about Caleb" });
 const newestFact = (page: Page) => page.getByTestId("headline-fact").last();
 
+// The pool is a string array, so each index is typed as possibly missing (noUncheckedIndexedAccess).
+function factNumber(index: number): string {
+  const fact = pool[index];
+  if (fact === undefined) throw new Error(`headlinePool has no fact ${index}`);
+  return fact;
+}
+
+// Adds up the layout shifts that input didn't cause, from the start of the page (F1.5). It's a string, not a
+// function, because lib.dom doesn't type layout-shift entries' `value` or `hadRecentInput`.
+const clsObserver = `
+  window.__cls = 0;
+  new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+      if (!entry.hadRecentInput) window.__cls += entry.value;
+    }
+  }).observe({ type: "layout-shift", buffered: true });
+`;
+
+// The most the page may shift in total (D-031). The caret's shift is about 0.0003, far under it, and a real jump is far over it.
+const MAX_CLS = 0.001;
+
 // The page's colour for a token, read the same way the other specs do (topbar.spec.ts).
 async function tokenColour(page: Page, token: string): Promise<string> {
   return page.evaluate((name) => {
@@ -29,18 +50,20 @@ async function textOf(locator: Locator): Promise<string> {
   return (await locator.textContent()) ?? "";
 }
 
+// Each clock step lets the cycle move on by one timer, so typing a fact takes about forty steps. expect.poll's
+// default waits up to a second between tries, which would make a fact take minutes; this waits only for the page.
+// The timeout is long because a step can take a few tenths of a second when the whole suite shares the machine.
+const clockStep = { timeout: 60_000, intervals: [0] };
+
 // Moves the fake clock in small steps until the newest fact changes. A single long runFor stalls after the
 // first timer: React has to render before it sets the next one, and that needs a turn of the page's event
 // loop, which expect.poll gives between steps.
 async function clockUntilChanged(page: Page, locator: Locator, before: string) {
   await expect
-    .poll(
-      async () => {
-        await page.clock.runFor(500);
-        return textOf(locator);
-      },
-      { timeout: 15_000 },
-    )
+    .poll(async () => {
+      await page.clock.runFor(500);
+      return textOf(locator);
+    }, clockStep)
     .not.toBe(before);
 }
 
@@ -103,6 +126,52 @@ test.describe("rotating headline", () => {
     await expect(caret).toBeAttached();
   });
 
+  test("US-021 F1.3: a new fact types in one character at a time, then replaces the oldest", async ({
+    page,
+  }) => {
+    // Typing a fact is about fifty clock steps, and a step takes longer when the whole suite shares the machine.
+    test.slow();
+    await loadWithFakeClock(page);
+    const newest = newestFact(page);
+    // Every distinct text the newest line shows, in order. A clock step lets the cycle move on by one character.
+    const shown = [await textOf(newest)];
+
+    await expect
+      .poll(async () => {
+        await page.clock.runFor(500);
+        const text = await textOf(newest);
+        if (text !== shown[shown.length - 1]) shown.push(text);
+        return text;
+      }, clockStep)
+      .toBe(factNumber(3));
+
+    // Each text the line shows is the start of the new fact, longer than the one before. Samples can skip a
+    // character, since the page can paint two in one clock step, so this checks growth, not one character each.
+    const typed = shown.filter((text) => text !== "");
+    expect(typed[0]).toBe(factNumber(2));
+    const typing = typed.slice(1);
+    const next = factNumber(3);
+    expect(typing.every((text) => next.startsWith(text))).toBe(true);
+    expect(
+      typing.every((text, index) => index === 0 || text.length > (typing[index - 1]?.length ?? 0)),
+    ).toBe(true);
+    expect(typing.at(-1)).toBe(next);
+    // The oldest fact has gone, so the three lines are facts 2 to 4 of the pool.
+    await expect(page.getByTestId("headline-fact")).toHaveText(pool.slice(1, 4));
+  });
+
+  test("US-021 F1.3: a fact fades to --text-faint once the next one starts", async ({ page }) => {
+    await loadWithFakeClock(page);
+    const before = await textOf(newestFact(page));
+    await clockUntilChanged(page, newestFact(page), before);
+
+    // The fact that was newest is now the middle line.
+    const previous = page.getByTestId("headline-fact").nth(1);
+    await expect(previous).toHaveText(before);
+    const faint = await tokenColour(page, "--text-faint");
+    expect(await previous.evaluate((element) => getComputedStyle(element).color)).toBe(faint);
+  });
+
   test("US-020 F1.4: the headline stops while the input has focus, and resumes on blur", async ({
     page,
   }) => {
@@ -160,6 +229,23 @@ test.describe("rotating headline", () => {
     expect(await input(page).boundingBox()).toEqual(inputBefore);
   });
 
+  test("US-021 F1.5: CLS is at most 0.001 across load and three headline changes @chromium-only", async ({
+    page,
+  }) => {
+    await page.addInitScript(clsObserver);
+    await loadWithFakeClock(page);
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+    });
+
+    // A change replaces the oldest line, so that's the line to watch.
+    const oldest = page.getByTestId("headline-fact").first();
+    for (let change = 0; change < 3; change++) {
+      await clockUntilChanged(page, oldest, await textOf(oldest));
+    }
+    expect(await page.evaluate<number>("window.__cls")).toBeLessThanOrEqual(MAX_CLS);
+  });
+
   test.describe("with reduced motion", () => {
     test.use({ reducedMotion: "reduce" });
 
@@ -174,6 +260,20 @@ test.describe("rotating headline", () => {
 
       expect(await facts.allTextContents()).toEqual(before);
       await expect(page.getByTestId("caret")).toHaveCount(0);
+    });
+
+    test("US-021 F1.5: CLS is at most 0.001 with reduced motion @chromium-only", async ({
+      page,
+    }) => {
+      await page.addInitScript(clsObserver);
+      await loadWithFakeClock(page);
+      await page.evaluate(async () => {
+        await document.fonts.ready;
+      });
+
+      // Nothing changes with motion off, so the clock runs as long as three changes would take.
+      await page.clock.runFor(60_000);
+      expect(await page.evaluate<number>("window.__cls")).toBeLessThanOrEqual(MAX_CLS);
     });
   });
 });

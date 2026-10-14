@@ -111,7 +111,7 @@ The spec says a feature is done only when every acceptance criterion has a passi
 - **Find elements the way a user would:** `getByRole`, `getByLabel`, `getByText`. Use `data-testid` only when there is no accessible role or name, and say why in a comment.
 - **No fixed waits** (`waitForTimeout`, `setTimeout` in tests). Wait for a state: `await expect(locator).toBeVisible()`.
 - **Tests must be deterministic.** Mock time, randomness and network. A test that passes only sometimes counts as failing.
-- **Viewport-specific tests use tags, not skips.** Put `@desktop-only` or `@mobile-only` at the end of the title. The Playwright projects filter on them (see US-002). Untagged tests run on every project.
+- **Viewport-specific tests use tags, not skips.** Put `@desktop-only` or `@mobile-only` at the end of the title. The Playwright projects filter on them (see US-002). A test that needs a Chromium-only API, such as `layout-shift`, gets `@chromium-only` (D-030), and WebKit skips it. Untagged tests run on every project.
 - **Never weaken a test to make it pass.** Don't delete it, skip it (`.skip`, `.only`, `test.fixme`), loosen an assertion, or raise a timeout without a reason. If the test is right and the code can't meet it, set the story to `blocked` and explain why.
 - Unit-test pure logic in `lib/`. Use Playwright for anything a visitor sees or does.
 

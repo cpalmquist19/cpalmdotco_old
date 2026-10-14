@@ -17,7 +17,7 @@ As the **builder**, I want accessibility and performance gated in CI, so that qu
 ## Acceptance criteria
 
 - [ ] `@axe-core/playwright`: zero serious/critical violations on every route in both themes
-- [ ] Lighthouse CI ≥ 95 on Performance, Accessibility, Best Practices, SEO in light and dark; CLS 0 on home
+- [ ] Lighthouse CI ≥ 95 on Performance, Accessibility, Best Practices, SEO in light and dark; CLS at most 0.001 on home (D-031)
 - [ ] Unit, E2E, a11y/perf and eval are required status checks on `main`
 
 ## Notes
@@ -27,3 +27,4 @@ As the **builder**, I want accessibility and performance gated in CI, so that qu
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · CLS criterion changed from 0 to at most 0.001, per D-031 (the headline caret's shift). Set the Lighthouse CLS assertion to 0.001 to match · uncommitted · —
