@@ -25,7 +25,7 @@ const chipItem = (page: Page, index: number) => chipList(page).locator("li").nth
 const thread = (page: Page) => page.getByTestId("thread");
 // A visitor's bubble has no role, so it's found by test id (CODING § 9). Its label also appears as a link in the answer.
 const visitorMessages = (page: Page) => page.getByTestId("visitor-message");
-const input = (page: Page) => page.getByRole("textbox", { name: "Ask about Caleb" });
+const input = (page: Page) => page.getByRole("combobox", { name: "Ask about Caleb" });
 const newestFact = (page: Page) => page.getByTestId("headline-fact").last();
 
 // The fake clock stops just past the load, so headline timers only fire when a test calls runFor (CODING § 9).
@@ -151,10 +151,12 @@ test.describe("suggested chips", () => {
       await expect(chipItem(page, index)).toHaveCSS("opacity", "1");
     }
     const inputBox = await input(page).boundingBox();
+    // The row holds the chips and the "More" chip (F3.5), so the first row is measured across both.
     const firstRow = await chipList(page)
       .getByRole("link")
-      .evaluateAll((links) => {
-        const boxes = links.map((link) => link.getBoundingClientRect());
+      .or(page.getByRole("button", { name: "More" }))
+      .evaluateAll((items) => {
+        const boxes = items.map((item) => item.getBoundingClientRect());
         const top = boxes[0]?.top ?? 0;
         return boxes.filter((box) => Math.abs(box.top - top) < 1);
       });

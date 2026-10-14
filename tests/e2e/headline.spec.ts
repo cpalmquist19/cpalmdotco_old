@@ -2,7 +2,7 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 import profileData from "@/content/profile.json" with { type: "json" };
 
 const { greeting, headlinePool: pool } = profileData;
-const input = (page: Page) => page.getByRole("textbox", { name: "Ask about Caleb" });
+const input = (page: Page) => page.getByRole("combobox", { name: "Ask about Caleb" });
 const newestFact = (page: Page) => page.getByTestId("headline-fact").last();
 
 // The pool is a string array, so each index is typed as possibly missing (noUncheckedIndexedAccess).

@@ -2,7 +2,7 @@
 id: US-025
 title: Slash command palette
 sprint: S04
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,12 +16,12 @@ As a **power user**, I want a `/` palette, so that I can jump to any topic from 
 
 ## Acceptance criteria
 
-- [ ] `/` in an empty input opens the palette above the input; under 640 px it opens as a bottom sheet (F3.1)
-- [ ] Text after `/` filters the commands by name and description with fuzzy matching, best match first (F3.2)
-- [ ] ↑ and ↓ move the highlight and wrap at the ends. Enter or Tab runs the highlighted command. Esc closes and keeps the typed text (F3.3)
-- [ ] The input is `role="combobox"` with `aria-expanded` and `aria-activedescendant`, and the list is a `listbox` of `option`s (F3.4)
-- [ ] The "More" chip opens the same palette (F3.5)
-- [ ] Running a command does what clicking its chip does (same `ask`, same inline answer, same `pushState`) and clears the input
+- [x] `/` in an empty input opens the palette above the input; under 640 px it opens as a bottom sheet (F3.1)
+- [x] Text after `/` filters the commands by name and description with fuzzy matching, best match first (F3.2)
+- [x] ↑ and ↓ move the highlight and wrap at the ends. Enter or Tab runs the highlighted command. Esc closes and keeps the typed text (F3.3)
+- [x] The input is `role="combobox"` with `aria-expanded` and `aria-activedescendant`, and the list is a `listbox` of `option`s (F3.4)
+- [x] The "More" chip opens the same palette (F3.5)
+- [x] Running a command does what clicking its chip does (same `ask`, same inline answer, same `pushState`) and clears the input
 
 ## Files to touch
 
@@ -87,4 +87,6 @@ As a **power user**, I want a `/` palette, so that I can jump to any topic from 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built the palette: `rankCommands` in `lib/fuzzy.ts`, `useCommandPalette` (state, keys, ARIA), `CommandPalette` (listbox above the input, bottom sheet under 640 px), the combobox wiring in `PillInput`, and the "More" chip in `ChipRow`. Outside **Files to touch**, two e2e files changed for the new `combobox` role: `tests/e2e/headline.spec.ts` and `tests/e2e/chips.spec.ts` now find the input as a combobox, and the chip-centring test measures the "More" chip in the row. Choices the story left open: Shift+Tab keeps its normal meaning; options are keyboard-only (no mouse selection yet); `aria-expanded` is false when nothing matches; "More" puts `/` in the input (D-041). Recorded D-041 · this commit · `npm run verify` passed. `npm run test:e2e` 445 passed (all four projects). Before the test locators were fixed, one full run had 6 failures, all in `palette.spec.ts` (toast `status` ambiguity, and `getByRole` skipping the hidden More button); both fixed, palette spec 39/39
+2026-10-14 · Started. Set `in-progress` on a clean `main` at `0a44cfa` · — · —
 2026-10-14 · Scoped in US-072. Added US-023 to `depends_on`: the "More" chip lives in US-023's chip row and both stories change `HomeHero.tsx`. Added a criterion that running a command behaves like a chip click. Recorded D-034 · — · —
