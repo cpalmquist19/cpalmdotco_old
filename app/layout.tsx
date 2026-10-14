@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Placeholder: site title",
   description: "Placeholder: site description",
+  // Served by app/site-icon.png/route.tsx. Its URL has an extension, so `trailingSlash` doesn't
+  // redirect it, which it did for the `icon.tsx` convention (US-069).
+  icons: { icon: [{ url: "/site-icon.png", type: "image/png", sizes: "32x32" }] },
 };
 
 // The server renders light; themeScript switches it before first paint.

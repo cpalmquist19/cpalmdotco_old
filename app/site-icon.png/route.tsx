@@ -3,13 +3,15 @@ import { getProfile } from "@/lib/content";
 import { getInitials } from "@/lib/initials";
 import { THEME_COLORS } from "@/lib/theme";
 
-// Next.js links this icon from every page, so the browser tab shows it (US-050).
-export const size = { width: 32, height: 32 };
-export const contentType = "image/png";
+// The `icon.tsx` convention is served at /icon, which has no file extension, so `trailingSlash`
+// redirects it on every first load. A route with an extension is left alone (US-069).
+export const dynamic = "force-static";
+
+const SIZE = 32;
 
 // ImageResponse can't read CSS variables, so the colours come from THEME_COLORS, which holds the
 // --bg values from globals.css: the tile is the dark background and the letters the light one.
-export default function Icon() {
+export function GET() {
   const initials = getInitials(getProfile().name);
   return new ImageResponse(
     <div
@@ -26,6 +28,6 @@ export default function Icon() {
     >
       {initials}
     </div>,
-    { ...size },
+    { width: SIZE, height: SIZE },
   );
 }
