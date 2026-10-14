@@ -93,28 +93,38 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
             )}
           </button>
         )}
-        {!collapsed && <Avatar />}
-        <span className={`${labelClass} min-w-0 flex-1 font-medium text-text`}>{profile.name}</span>
+        {/* One link, so the name and the avatar are a single tab stop. The avatar's alt is
+            empty, so the name text is the link's accessible name. The rail shows neither
+            here: its avatar is at the bottom and carries the link (D-027). */}
+        {!collapsed && (
+          <Link
+            href="/"
+            className="flex min-w-0 items-center gap-3 rounded-box focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+          >
+            <span className="truncate font-medium text-text">{profile.name}</span>
+            <Avatar />
+          </Link>
+        )}
         {props.variant === "drawer" && (
           <button
             type="button"
             aria-label="Close menu"
             onClick={props.onClose}
-            className="flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+            className="ml-auto flex size-8 shrink-0 items-center justify-center rounded-pill text-text-muted hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
           >
             <X aria-hidden="true" className="size-4" />
           </button>
         )}
       </div>
 
-      {/* TODO(US-032): clear the thread */}
-      <button
-        type="button"
+      {/* TODO(US-032): also clear the thread without a page load */}
+      <Link
+        href="/"
         className="mt-4 flex h-10 items-center gap-3 rounded-box px-3 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
       >
         <SquarePen aria-hidden="true" className="size-4 shrink-0" />
         <span className={labelClass}>New chat</span>
-      </button>
+      </Link>
 
       {/* In the rail the heading keeps its space but is invisible, so the icons below
           don't jump up when the sidebar collapses. It stays in the accessibility tree. */}
@@ -186,10 +196,16 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
       )}
 
       {/* The social row is hidden in the rail, so the bottom is free: the avatar sits there
-          and nothing above it moves (D-021, D-023). ml-1 centres it on the menu icons. */}
+          and nothing above it moves (D-021, D-023). pl-1 centres it on the menu icons. */}
       {collapsed && (
         <div className="mt-auto pt-6 pl-1">
-          <Avatar />
+          <Link
+            href="/"
+            aria-label={profile.name}
+            className="flex w-fit rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+          >
+            <Avatar />
+          </Link>
         </div>
       )}
     </aside>

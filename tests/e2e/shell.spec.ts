@@ -37,13 +37,14 @@ test.describe("app shell and sidebar", () => {
     // The identity row items sit side by side, so compare them left to right and
     // require each to start above the sections that come after the row. The
     // collapse button comes first so it stays put when the sidebar collapses (US-061).
+    // The avatar follows the name (US-070).
     const avatar = await boxOf(page.getByTestId("avatar"));
     const name = await boxOf(sidebar.getByText(profileData.name, { exact: true }));
     const collapse = await boxOf(page.getByRole("button", { name: "Collapse sidebar" }));
-    expect(collapse.x).toBeLessThan(avatar.x);
-    expect(avatar.x).toBeLessThan(name.x);
+    expect(collapse.x).toBeLessThan(name.x);
+    expect(name.x).toBeLessThan(avatar.x);
 
-    const newChat = await boxOf(page.getByRole("button", { name: "New chat" }));
+    const newChat = await boxOf(page.getByRole("link", { name: "New chat" }));
     expect(Math.max(avatar.y, name.y, collapse.y)).toBeLessThan(newChat.y);
 
     const sectionTops = [
@@ -181,7 +182,7 @@ test.describe("app shell and sidebar", () => {
   test("US-061 F0.3: New chat and ASK ABOUT icons do not move @desktop-only", async ({ page }) => {
     await page.goto("/");
     const sidebar = page.getByRole("complementary", { name: "Sidebar" });
-    const newChat = page.getByRole("button", { name: "New chat" });
+    const newChat = page.getByRole("link", { name: "New chat" });
     const firstAsk = page.getByRole("link", { name: askLabels[0] ?? "", exact: true });
     const expandedNewChat = await boxOf(newChat);
     const expandedAsk = await boxOf(firstAsk);
@@ -257,6 +258,59 @@ test.describe("app shell and sidebar", () => {
     expect(avatarBox.x + avatarBox.width).toBeLessThanOrEqual(sidebarBox.x + sidebarBox.width);
     const gap = sidebarBox.y + sidebarBox.height - (avatarBox.y + avatarBox.height);
     expect(gap).toBeLessThanOrEqual(32);
+  });
+
+  test("US-070 F0.1: the name and avatar are one link to the home page @desktop-only", async ({
+    page,
+  }) => {
+    await page.goto("/about/");
+    const sidebar = page.getByRole("complementary", { name: "Sidebar" });
+    const home = sidebar.getByRole("link", { name: profileData.name, exact: true });
+
+    await expect(home).toHaveAttribute("href", "/");
+    await expect(home.getByTestId("avatar")).toBeVisible();
+    await home.click();
+
+    await expect(page).toHaveURL(/\/$/);
+  });
+
+  test("US-070 F0.1: the avatar in the rail links to the home page @desktop-only", async ({
+    page,
+  }) => {
+    await page.goto("/about/");
+    const sidebar = page.getByRole("complementary", { name: "Sidebar" });
+    await page.getByRole("button", { name: "Collapse sidebar" }).click();
+    await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
+    const home = sidebar.getByRole("link", { name: profileData.name, exact: true });
+
+    await expect(home).toHaveAttribute("href", "/");
+    await expect(home.getByTestId("avatar")).toBeVisible();
+    await home.click();
+
+    await expect(page).toHaveURL(/\/$/);
+  });
+
+  test("US-070 F0.2: New chat links to the home page @desktop-only", async ({ page }) => {
+    await page.goto("/about/");
+    const newChat = page.getByRole("link", { name: "New chat" });
+
+    await expect(newChat).toHaveAttribute("href", "/");
+    await newChat.click();
+
+    await expect(page).toHaveURL(/\/$/);
+  });
+
+  test("US-070 F0.1: the drawer closes when the name is followed @mobile-only", async ({
+    page,
+  }) => {
+    await page.goto("/about/");
+    await page.getByRole("button", { name: "Open menu" }).click();
+    const dialog = page.getByRole("dialog", { name: "Menu" });
+
+    await dialog.getByRole("link", { name: profileData.name, exact: true }).click();
+
+    await expect(dialog).toBeHidden();
+    await expect(page).toHaveURL(/\/$/);
   });
 
   test("US-005 F0.3: new tab starts expanded @desktop-only", async ({ context, page }) => {

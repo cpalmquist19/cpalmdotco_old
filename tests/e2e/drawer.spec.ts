@@ -27,12 +27,11 @@ test.describe("mobile drawer", () => {
     await page.goto("/");
     await page.getByRole("button", { name: "Open menu" }).click();
     const dialog = page.getByRole("dialog", { name: "Menu" });
-    const closeButton = dialog.getByRole("button", { name: "Close menu" });
 
-    // The last focusable element is the last social link.
+    // The first focusable element is the name link (US-070); the last is the last social link.
     await dialog.getByRole("link").last().focus();
     await page.keyboard.press("Tab");
-    await expect(closeButton).toBeFocused();
+    await expect(dialog.getByRole("link").first()).toBeFocused();
 
     await page.keyboard.press("Shift+Tab");
     await expect(dialog.getByRole("link").last()).toBeFocused();
