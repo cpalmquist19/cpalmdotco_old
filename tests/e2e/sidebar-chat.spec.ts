@@ -121,7 +121,12 @@ test.describe("sidebar items ask in the chat", () => {
   test("US-024 F0.2: a PROJECTS item still loads its case study @desktop-only", async ({
     page,
   }) => {
+    // A link click is a React transition, and the headline's typing timer keeps interrupting it. On a
+    // machine busy with all three browsers it restarted the transition until the 5 s wait ran out (US-079),
+    // so time is frozen, as in the headline tests (CODING § 9).
+    await page.clock.install();
     await page.goto("/");
+    await page.clock.pauseAt(new Date(Date.now() + 1000));
     const link = sidebar(page)
       .getByRole("list", { name: "PROJECTS" })
       .getByRole("link", { name: firstProject.label, exact: true });
