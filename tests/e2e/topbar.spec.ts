@@ -1,8 +1,26 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import profileData from "@/content/profile.json" with { type: "json" };
 
 const shareName = "Copy link to this page";
 const themeName = "Switch theme";
+
+// `page.goto` can return before React has hydrated the page (WebKit, mostly), and a click before
+// then reaches the server-rendered button, which has no handler yet, and is dropped without an error.
+// React marks every element it has hydrated with a `__reactProps$<id>` key, so wait for that.
+// It's a React internal: if React changes it, this wait times out loudly rather than passing (D-038).
+// The 15 s limit is for a loaded machine, where one WebKit call alone has taken 4 s and the default
+// 5 s allowed two attempts. A page that is ready costs nothing extra.
+async function waitForHydration(element: Locator) {
+  await expect
+    .poll(
+      () =>
+        element.evaluate((node) =>
+          Object.keys(node).some((key) => key.startsWith("__reactProps$")),
+        ),
+      { timeout: 15_000 },
+    )
+    .toBe(true);
+}
 
 // Replaces the clipboard before the page loads. `copied` collects every URL written to it.
 // The stub awaits the call back to Node, so a URL is recorded before the toast shows.
@@ -81,8 +99,10 @@ test.describe("top bar", () => {
     const copied: string[] = [];
     await stubClipboard(page, copied, "copy");
     await page.goto("/");
+    const button = page.getByRole("button", { name: shareName });
+    await waitForHydration(button);
 
-    await page.getByRole("button", { name: shareName }).click();
+    await button.click();
 
     await expect(page.getByRole("status")).toHaveText("Link copied");
     expect(copied).toEqual([page.url()]);
@@ -94,8 +114,10 @@ test.describe("top bar", () => {
     await page.goto("/");
     // Stop the clock so only the calls below move time, which makes the 2 s exact.
     await page.clock.pauseAt(new Date(Date.now() + 1000));
+    const button = page.getByRole("button", { name: shareName });
+    await waitForHydration(button);
 
-    await page.getByRole("button", { name: shareName }).click();
+    await button.click();
     await expect(page.getByRole("status")).toHaveText("Link copied");
 
     await page.clock.runFor(1999);
@@ -107,8 +129,12 @@ test.describe("top bar", () => {
 
   test("US-007 F0.4: toast sits just below the copy button", async ({ page }) => {
     await stubClipboard(page, [], "copy");
+    await page.clock.install();
     await page.goto("/");
+    // Stop the clock, so the 2 s auto-hide can't run out while the two boxes are measured.
+    await page.clock.pauseAt(new Date(Date.now() + 1000));
     const button = page.getByRole("button", { name: shareName });
+    await waitForHydration(button);
 
     await button.click();
     await expect(page.getByRole("status")).toHaveText("Link copied");
@@ -127,8 +153,10 @@ test.describe("top bar", () => {
   test("US-007: failed copy shows an error toast", async ({ page }) => {
     await stubClipboard(page, [], "fail");
     await page.goto("/");
+    const button = page.getByRole("button", { name: shareName });
+    await waitForHydration(button);
 
-    await page.getByRole("button", { name: shareName }).click();
+    await button.click();
 
     await expect(page.getByRole("status")).toHaveText("Couldn't copy the link");
   });
