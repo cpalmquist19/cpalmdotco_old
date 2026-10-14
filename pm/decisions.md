@@ -15,7 +15,7 @@ Every `open` row here shows up on [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md), or
 | D-001 | Chat backend | Next.js API route · FastAPI service | Next.js route for v1; FastAPI as stretch (US-042) | S05 | decided | Next.js route for the MVP; we can circle back later (FastAPI stays a stretch, US-042). Applied in US-057 | 2026-10-13 |
 | D-002 | Model provider | Claude API · OpenAI · self-hosted Ollama | Claude API with a small, fast model | S05 | decided | Claude API, Haiku 5.5 (`claude-haiku-5-5`) to start. Applied in US-057 | 2026-10-13 |
 | D-003 | Base palette | Warm off-white · cooler gray · your pick | Warm off-white `#f5f4f0`, monochrome, green status dot | S01 | decided | Default: warm off-white `#f5f4f0`, monochrome, green status dot | 2026-10-12 |
-| D-004 | Headline pool | Report's drafted pool · your own facts | The report's pool, edited by you | S03 | open | | |
+| D-004 | Headline pool | Report's drafted pool · your own facts | The report's pool, edited by you | S03 | decided (default) | Placeholder pool in `profile.json` (10 facts, `placeholder: true`), approved by Caleb for now. Replace it with real facts in US-049 | 2026-10-13 |
 | D-005 | Domain | Your own · host's free subdomain | Your own if you have one; else host subdomain | S07 | open | | |
 | D-006 | Hosting | Vercel · Cloudflare Pages | Vercel | S01* | decided | Default: Vercel | 2026-10-12 |
 | D-007 | Toolchain versions | Node 24 LTS · Node 22 (installed on your machine now) · other; npm · pnpm | npm; Node 24 LTS pinned in `.nvmrc` and `engines`; the latest stable Next.js, React and Tailwind v4 when US-002 starts; exact versions pinned | S01 | decided | Default: npm; Node 24 LTS; latest stable Next.js, React, Tailwind v4 at US-002; exact pins | 2026-10-12 |
