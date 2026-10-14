@@ -19,7 +19,9 @@
 
 ## In flight
 
-_None._
+| ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [US-073](stories/US-073-sidebar-collapse-reload-test-reliability.md) | Make the sidebar collapsed-state reload e2e test reliable in WebKit | 👀 review | Claude | P2 | 1 | 1/3 | ~~US-005~~, ~~US-061~~, ~~US-074~~ |
 
 ## Next up
 
@@ -46,7 +48,7 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 
 ## Waiting on Caleb
 
-**6** items, **0** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
+**7** items, **1** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
 
 ## Warnings
 
@@ -164,9 +166,9 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 | [US-070](stories/US-070-sidebar-home-links.md) | Link the sidebar name, avatar and New chat to the home page | ✅ done | Claude | P2 | 1 | 5/5 | ~~US-005~~, ~~US-061~~, ~~US-063~~ |
 | [US-071](stories/US-071-make-us-021-ready.md) | Make US-021 ready for handoff | ✅ done | Claude | P1 | 1 | 3/3 | — |
 | [US-072](stories/US-072-make-s04-s05-start-ready.md) | Make US-022, US-023, US-025, US-028 and US-029 ready for handoff | ✅ done | Claude | P1 | 3 | 4/4 | — |
-| [US-073](stories/US-073-sidebar-collapse-reload-test-reliability.md) | Make the sidebar collapsed-state reload e2e test reliable in WebKit | ⬜ todo · ready | Claude | P2 | 1 | 0/3 | ~~US-005~~, ~~US-061~~ |
+| [US-073](stories/US-073-sidebar-collapse-reload-test-reliability.md) | Make the sidebar collapsed-state reload e2e test reliable in WebKit | 👀 review | Claude | P2 | 1 | 1/3 | ~~US-005~~, ~~US-061~~, ~~US-074~~ |
 | [US-074](stories/US-074-share-toast-wait-for-hydration.md) | Wait for hydration before clicking in the share-toast e2e tests | ✅ done | Claude | P1 | 1 | 5/5 | ~~US-066~~ |
-| [US-075](stories/US-075-wait-for-hydration-in-other-e2e-tests.md) | Wait for hydration before the first click in the other e2e tests | ⬜ todo | Claude | P2 | 2 | 0/3 | US-073, ~~US-074~~, US-060 |
+| [US-075](stories/US-075-wait-for-hydration-in-other-e2e-tests.md) | Wait for hydration before the first click in the other e2e tests | ⬜ todo | Claude | P2 | 2 | 1/3 | US-073, ~~US-074~~, US-060 |
 
 ---
 

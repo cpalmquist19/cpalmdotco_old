@@ -17,13 +17,12 @@ As the **builder**, I want every e2e test that clicks right after `page.goto` to
 ## Acceptance criteria
 
 - [ ] Every test that clicks, types into or presses a keyboard shortcut on a client-rendered control straight after `page.goto` waits for that control to be hydrated first
-- [ ] The wait is one shared helper, not a copy in each file
+- [x] The wait is one shared helper, not a copy in each file (done in US-073: `tests/e2e/helpers/hydration.ts`)
 - [ ] The full `npm run test:e2e` passes 3 runs in a row on all four projects, with no assertion weakened and no timeout raised
 
 ## Files to touch
 
-- `tests/e2e/helpers/hydration.ts`: the `waitForHydration` helper US-074 put in `topbar.spec.ts`, moved here and exported
-- `tests/e2e/topbar.spec.ts`: import it instead of defining it
+- `tests/e2e/helpers/hydration.ts`: already exists, because US-073 moved the helper here. Import it, don't copy it
 - `tests/e2e/shell.spec.ts`, `tests/e2e/drawer.spec.ts`, `tests/e2e/theme.spec.ts`, `tests/e2e/headline.spec.ts`: call the helper before any click or key press that comes straight after `page.goto`. Specs added later (chips, palette) use the helper from their own stories
 
 ## Out of scope

@@ -1,6 +1,7 @@
 import { expect, test, type Locator } from "@playwright/test";
 import commandsData from "@/content/commands.json" with { type: "json" };
 import profileData from "@/content/profile.json" with { type: "json" };
+import { waitForHydration } from "@/tests/e2e/helpers/hydration";
 
 type Box = { x: number; y: number; width: number; height: number };
 
@@ -123,11 +124,19 @@ test.describe("app shell and sidebar", () => {
   test("US-005 F0.3: collapsed state survives reload @desktop-only", async ({ page }) => {
     await page.goto("/");
     const sidebar = page.getByRole("complementary", { name: "Sidebar" });
-    await page.getByRole("button", { name: "Collapse sidebar" }).click();
+    const collapse = page.getByRole("button", { name: "Collapse sidebar" });
+    await waitForHydration(collapse);
+    await collapse.click();
     await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
 
     await page.reload();
 
+    // The server renders the sidebar expanded, and the stored choice is applied after hydration, so
+    // the rail appears a moment late (Sidebar.tsx). Under load in WebKit that took over 5 s, which
+    // was the whole budget of the width check. Wait for the restore first, then check the width.
+    await expect(page.getByRole("button", { name: "Expand sidebar" })).toBeVisible({
+      timeout: 15_000,
+    });
     await expect.poll(async () => (await boxOf(sidebar)).width).toBe(64);
   });
 
