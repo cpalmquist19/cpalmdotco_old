@@ -47,4 +47,5 @@ As **Caleb**, I want US-024 scoped like the stories around it, so that the board
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Scoped US-024: five criteria (click, modifier click, real content page and JavaScript off, drawer, loader check), seven files, 14 tests to add, estimate 2 → 3. Added US-024 to `depends_on` of US-028 and US-067, which share `lib/content.ts`. One choice for Caleb, written into US-024's Notes: a sidebar click asks in the chat only while the home page is mounted, and follows the link elsewhere. US-024 is no longer flagged, and the board reports no new warning · b6e95d0 · `npm run verify` passed (137 unit tests, board check clean). `npm run test:e2e`: 445 passed. The push hook passed. This entry was left out of `b6e95d0` by a failed edit script and added in the next commit
 2026-10-14 · Started: Caleb asked for US-024 to be scoped. It carried the board's "can start but isn't ready" warning and is the top Claude row in **Next up**. `main` clean and up to date at `ea501d3` · — · —
