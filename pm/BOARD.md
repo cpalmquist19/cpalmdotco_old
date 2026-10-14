@@ -21,7 +21,7 @@
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why one sidebar PROJECTS click test failed once in WebKit | 🔄 in-progress | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
+| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | 🔄 in-progress | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
 
 ## Next up
 
@@ -174,7 +174,7 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 | [US-076](stories/US-076-remove-surprise-me.md) | Remove "Surprise me" from the plan | ✅ done | Claude | P1 | 1 | 4/4 | — |
 | [US-077](stories/US-077-make-us-026-ready.md) | Make US-026 ready for handoff | ✅ done | Claude | P1 | 1 | 3/3 | — |
 | [US-078](stories/US-078-make-us-024-ready.md) | Make US-024 ready for handoff | ✅ done | Claude | P1 | 1 | 3/3 | — |
-| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why one sidebar PROJECTS click test failed once in WebKit | 🔄 in-progress | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
+| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | 🔄 in-progress | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
 
 ---
 

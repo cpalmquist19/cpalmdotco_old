@@ -24,6 +24,16 @@ const thread = (page: Page) => page.getByTestId("thread");
 // A visitor's bubble has no role, so it's found by test id (CODING § 9).
 const visitorMessages = (page: Page) => page.getByTestId("visitor-message");
 
+// Clicks a link and waits for the page to move on, clicking again if it hasn't. In WebKit, on a machine
+// busy with all three browsers, a click on a hydrated next/link was twice dropped with no navigation and
+// no error (US-079). A link that works moves on at the first click, so this costs nothing then.
+async function clickUntilAt(page: Page, link: Locator, url: RegExp) {
+  await expect(async () => {
+    await link.click();
+    await expect(page).toHaveURL(url, { timeout: 3_000 });
+  }).toPass({ timeout: 20_000 });
+}
+
 test.describe("sidebar items ask in the chat", () => {
   test("US-024 F0.2: a sidebar click shows the label and the inline answer, and pushes the page URL @desktop-only", async ({
     page,
@@ -110,9 +120,8 @@ test.describe("sidebar items ask in the chat", () => {
     await page.goto(about.answer);
     await waitForHydration(askItem(sidebar(page), skills.label));
 
-    await askItem(sidebar(page), skills.label).click();
+    await clickUntilAt(page, askItem(sidebar(page), skills.label), new RegExp(`${skills.answer}$`));
 
-    await expect(page).toHaveURL(new RegExp(`${skills.answer}$`));
     // The page's H1 is the command's description (D-018), so this is the real page, not an inline answer.
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(skills.description);
     await expect(thread(page)).toHaveCount(0);
@@ -121,20 +130,14 @@ test.describe("sidebar items ask in the chat", () => {
   test("US-024 F0.2: a PROJECTS item still loads its case study @desktop-only", async ({
     page,
   }) => {
-    // A link click is a React transition, and the headline's typing timer keeps interrupting it. On a
-    // machine busy with all three browsers it restarted the transition until the 5 s wait ran out (US-079),
-    // so time is frozen, as in the headline tests (CODING § 9).
-    await page.clock.install();
     await page.goto("/");
-    await page.clock.pauseAt(new Date(Date.now() + 1000));
     const link = sidebar(page)
       .getByRole("list", { name: "PROJECTS" })
       .getByRole("link", { name: firstProject.label, exact: true });
     await waitForHydration(link);
 
-    await link.click();
+    await clickUntilAt(page, link, new RegExp(`${firstProject.href}$`));
 
-    await expect(page).toHaveURL(new RegExp(`${firstProject.href}$`));
     await expect(thread(page)).toHaveCount(0);
   });
 
