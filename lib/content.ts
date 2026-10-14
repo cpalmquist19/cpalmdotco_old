@@ -360,6 +360,18 @@ export function getAbout(): About {
   return loadContent().about;
 }
 
+// The body of offlimits.md, which the chat prompt injects on its own (D-035). It is not part of
+// loadContent(): a page never shows it. A missing or empty file fails loudly, since an empty
+// OFF-LIMITS list would quietly remove a guardrail.
+export function getOffLimits(dir = contentDir()): string {
+  const problems: string[] = [];
+  const doc = readMarkdown(dir, "offlimits.md", problems);
+  const body = doc?.body.trim() ?? "";
+  if (doc !== undefined && body === "") problems.push(problem("offlimits.md", "body", "is empty"));
+  if (problems.length > 0) throw new ContentError(problems);
+  return body;
+}
+
 function isMarked(value: unknown): boolean {
   return (
     typeof value === "object" &&
@@ -371,7 +383,11 @@ function isMarked(value: unknown): boolean {
 
 // Reads the file without validating it, so it also works for about.md and offlimits.md.
 export function isPlaceholder(file: string, dir = contentDir()): boolean {
-  const text = readFileSync(path.join(dir, file), "utf8");
+  // The folder is chosen at run time, so Turbopack is told not to trace it (US-067). It reads only content/.
+  const text = readFileSync(
+    /*turbopackIgnore: true*/ path.join(/*turbopackIgnore: true*/ dir, file),
+    "utf8",
+  );
   if (file.endsWith(".json")) {
     const data: unknown = JSON.parse(text);
     // commands.json is an array, so a placeholder entry marks the whole file (D-016).

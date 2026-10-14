@@ -2,7 +2,7 @@
 id: US-029
 title: System prompt and streaming /api/chat
 sprint: S05
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,12 +16,12 @@ As a **visitor**, I want answers to stream in, so that the chat feels responsive
 
 ## Acceptance criteria
 
-- [ ] `POST /api/chat` accepts `{ messages }`, checked with Zod, answers a malformed body with 400, and otherwise returns `text/event-stream`
-- [ ] It streams `token` events as the model's text arrives, then `links`, `followups` and `done`, in that order. `links` and `followups` are empty arrays until US-030 fills them
-- [ ] A provider failure sends one `error` event (`{ code, fallback }`) in place of `links`, `followups` and `done`, then closes the stream
-- [ ] Each model request carries the system prompt (with `offlimits.md` and the knowledge pack injected) as a cached block, plus the last 6 messages (Grounding 2, D-036)
-- [ ] The system prompt matches the spec's draft word for word, with only its two placeholders filled
-- [ ] The route calls the Claude API with `claude-haiku-5-5`, from a Next.js route handler (D-001, D-002). The key is read only on the server, from `ANTHROPIC_API_KEY`, which is named in `.env.example`
+- [x] `POST /api/chat` accepts `{ messages }`, checked with Zod, answers a malformed body with 400, and otherwise returns `text/event-stream`
+- [x] It streams `token` events as the model's text arrives, then `links`, `followups` and `done`, in that order. `links` and `followups` are empty arrays until US-030 fills them
+- [x] A provider failure sends one `error` event (`{ code, fallback }`) in place of `links`, `followups` and `done`, then closes the stream
+- [x] Each model request carries the system prompt (with `offlimits.md` and the knowledge pack injected) as a cached block, plus the last 6 messages (Grounding 2, D-036)
+- [x] The system prompt matches the spec's draft word for word, with only its two placeholders filled
+- [x] The route calls the Claude API with `claude-haiku-5-5`, from a Next.js route handler (D-001, D-002). The key is read only on the server, from `ANTHROPIC_API_KEY`, which is named in `.env.example`
 
 ## Files to touch
 
@@ -105,5 +105,7 @@ As a **visitor**, I want answers to stream in, so that the chat feels responsive
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built: `POST /api/chat` (`app/api/chat/route.ts`, Node runtime, `force-dynamic`), `lib/chat.ts` (validation, last 6 messages, SSE stream, abort), `lib/chat-prompt.ts` (the draft word for word, one template), `lib/chat-provider.ts` (`anthropicProvider` over `@anthropic-ai/sdk` 0.134.0, exact-pinned; `claude-haiku-5-5`, `max_tokens` 500, cacheable system block), `lib/sse.ts`, `getOffLimits()` in `lib/content.ts`, and the `ANTHROPIC_API_KEY` name in `.env.example` (new file, no value). Choices the story left open are recorded as D-044: thinking off, a refusal reported as `upstream`, one log line per failure. The provider takes a client factory, so the key is read per request and a build needs none. The route is `createChatHandler(anthropicProvider())`, not the story's `createChatHandler(anthropicProvider)`, because the provider is built from a factory. `fallback` is `/about/`, from one constant. 24 new unit tests across the five files, one of which calls the real route with no key and gets one `upstream` error event. Nothing calls the live API, and no key is on this machine, so the first real answer is checked at deploy. Outside **Files to touch**: `pm/decisions.md` · this commit (with US-067) · `npm run verify` passed; `npm run build` clean with no key (`/api/chat` is dynamic); `npm run test:e2e`: 492 passed; `npm run verify`: 174 unit tests
+2026-10-14 · Started, as the second of two stories (US-067, US-029) built before one commit and push. US-027 is done on Caleb's word, so the key exists in hosting but not on this machine; every test uses a fake provider · — · —
 2026-10-14 · Scoped in US-072. Added US-067 to `depends_on` (both change `lib/content.ts`). Split the work across `lib/chat.ts`, `lib/chat-prompt.ts` and `lib/chat-provider.ts` so the route is testable without a key. Recorded D-036 and D-037 · — · —
 2026-10-13 · D-001 and D-002 decided (US-057): a Next.js route, calling the Claude API with Haiku 5.5 (`claude-haiku-5-5`) to start · — · —

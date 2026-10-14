@@ -2,7 +2,7 @@
 id: US-067
 title: Remove the Turbopack tracing warning from the content loader
 sprint: backlog
-status: todo
+status: done
 owner: Claude
 points: 1
 priority: P2
@@ -16,9 +16,9 @@ As the **builder**, I want `npm run build` to finish with no warnings, so that a
 
 ## Acceptance criteria
 
-- [ ] `npm run build` prints no Turbopack warnings (checked by hand and recorded in the Log)
-- [ ] The content loader still reads the same files and returns the same values (existing `lib/content` tests pass)
-- [ ] `npm run verify` and `npm run test:e2e` pass
+- [x] `npm run build` prints no Turbopack warnings (checked by hand and recorded in the Log)
+- [x] The content loader still reads the same files and returns the same values (existing `lib/content` tests pass)
+- [x] `npm run verify` and `npm run test:e2e` pass
 
 ## Files to touch
 
@@ -44,5 +44,7 @@ As the **builder**, I want `npm run build` to finish with no warnings, so that a
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Fixed: `isPlaceholder` in `lib/content.ts` now reads with `readFileSync(/*turbopackIgnore: true*/ path.join(/*turbopackIgnore: true*/ dir, file), "utf8")`, the comment form the build message named, so the loader's reads and values are unchanged. Picked it over a statically scoped path because the folder is an argument (tests point it at fixtures). Before: `npm run build` printed "Turbopack build encountered 2 warnings", both `Dynamic filesystem access causes tracing of the whole project` at `lib/content.ts:374`. After: 0 warnings · this commit (with US-029) · `npm run build` prints none; `npm run verify` passed; `npm run test:e2e`: 492 passed
+2026-10-14 · Started, as the first of two stories (US-067, US-029) Caleb asked to be built before one commit and push. `main` clean at `8e92015` · — · —
 2026-10-14 · Added US-024 to `depends_on` (US-078): it adds a check to `commandProblems` in `lib/content.ts`, which this story also changes. US-024 goes first · c151576 · —
 2026-10-13 · Added to backlog. The US-013 build printed "Turbopack build encountered 2 warnings" from `lib/content.ts`, which US-013 doesn't change. Kept out of US-013 because that file belongs to US-011 · — · —
