@@ -19,9 +19,7 @@
 
 ## In flight
 
-| ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | 🔄 in-progress | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
+_None._
 
 ## Next up
 
@@ -36,7 +34,7 @@ Stories whose dependencies are all done, earliest sprint and highest priority fi
 | [US-009](stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
 | [US-037](stories/US-037-domain-and-hosting-access.md) | Domain and DNS access | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |
 | [US-038](stories/US-038-seo-and-og.md) | SEO, Open Graph and structured data | ⬜ todo · ready | Claude | P0 | 3 | 0/5 | ~~US-016~~ |
-| [US-060](stories/US-060-overlay-token.md) | Overlay colour token for the drawer backdrop | ⬜ todo · ready | Claude | P3 | 1 | 0/3 | ~~US-006~~, ~~US-011~~, ~~US-023~~ |
+| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | ⬜ todo · ready | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
 
 ## Refine next
 
@@ -174,7 +172,7 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 | [US-076](stories/US-076-remove-surprise-me.md) | Remove "Surprise me" from the plan | ✅ done | Claude | P1 | 1 | 4/4 | — |
 | [US-077](stories/US-077-make-us-026-ready.md) | Make US-026 ready for handoff | ✅ done | Claude | P1 | 1 | 3/3 | — |
 | [US-078](stories/US-078-make-us-024-ready.md) | Make US-024 ready for handoff | ✅ done | Claude | P1 | 1 | 3/3 | — |
-| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | 🔄 in-progress | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
+| [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | ⬜ todo · ready | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
 
 ---
 

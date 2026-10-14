@@ -2,7 +2,7 @@
 id: US-079
 title: Find why a hydrated sidebar link click is sometimes dropped in WebKit
 sprint: backlog
-status: in-progress
+status: todo
 owner: Claude
 points: 1
 priority: P2
@@ -43,6 +43,7 @@ As the **builder**, I want `US-024 F0.2: a PROJECTS item still loads its case st
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Parked on Caleb's call: he will come back to it after more of the app is built. Back to `todo`. Nothing is uncommitted, and the `clickUntilAt` retry from fe9bb40 stays in place meanwhile. Both acceptance criteria are still open · this commit · `node pm/scripts/board.mjs --check` passes
 2026-10-14 · The hook refused a second push, on the "real content page" test. Replaced the frozen clock with a retried click (`clickUntilAt`) in both tests. Still `in-progress`: the cause isn't known · this commit · see the next push's run
 2026-10-14 · The hook refused the push of US-024/026/028 on this same test, so it was fixed in place: the PROJECTS test froze time. Left `in-progress` until a full run passes · 8e92015 · `sidebar-chat.spec.ts -g PROJECTS`, webkit and chromium, 10 repeats each: 20 passed. Cause is a hypothesis, see Notes
 2026-10-14 · Added to backlog while building US-024 and left unsolved on Caleb's call to move on. Not reproduced in 665 reruns · this commit · —
