@@ -2,12 +2,16 @@
 
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
+import { useConversation } from "@/components/chat/ConversationProvider";
 
 // The first Tab stop on the home page (F1.7). It's hidden until it has focus, and it moves focus to the input.
 // Without JavaScript, the href still jumps to the input.
 export function SkipLink() {
   const pathname = usePathname();
-  if (pathname !== "/") return null;
+  const { homeMounted } = useConversation();
+  // A chip click pushes the page's URL while the home input is still on screen, so the link stays there
+  // as long as the home page is mounted. Anywhere else it's hidden, so a reload of /about/ shows no link.
+  if (pathname !== "/" && !homeMounted) return null;
   return (
     <a
       href="#chat-input"

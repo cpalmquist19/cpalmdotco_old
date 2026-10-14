@@ -2,7 +2,7 @@
 id: US-023
 title: Link-first suggested chips
 sprint: S04
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,15 +16,15 @@ As a **visitor**, I want suggested questions under the input, so that I can expl
 
 ## Acceptance criteria
 
-- [ ] Chips are the `commands.json` entries with `chip: true`, in `order` (F2.1)
-- [ ] Each chip is an `<a href>` to its page in the server-rendered HTML, so it works with JavaScript off (F2.2)
-- [ ] With JavaScript, a plain click on a chip stays on the page: the label appears as a visitor message, the answer appears below it, and `history.pushState` sets the chip's page URL (F2.3). What the answer holds is decision D-032
-- [ ] Back restores the thread as it was before the click, and a reload of the pushed URL shows the real page (F2.3)
-- [ ] Chips sit centred under the input in one outlined, fully rounded style, with the command's Lucide icon before the label. The top-bar CV is still the only filled button (F2.4)
-- [ ] After the page is interactive the chips fade and rise in with a 40 ms stagger. Under reduced motion they just appear. With JavaScript off they are visible from the first paint (F2.5, D-033)
-- [ ] The headline stops cycling once a chip has been clicked (F1.4: the part of it this story starts)
-- [ ] The region the answer appears in is `aria-live="polite"`, so a screen reader announces it
-- [ ] The skip link is still available after a chip click, and isn't shown on other pages (F1.7)
+- [x] Chips are the `commands.json` entries with `chip: true`, in `order` (F2.1)
+- [x] Each chip is an `<a href>` to its page in the server-rendered HTML, so it works with JavaScript off (F2.2)
+- [x] With JavaScript, a plain click on a chip stays on the page: the label appears as a visitor message, the answer appears below it, and `history.pushState` sets the chip's page URL (F2.3). What the answer holds is decision D-032
+- [x] Back restores the thread as it was before the click, and a reload of the pushed URL shows the real page (F2.3)
+- [x] Chips sit centred under the input in one outlined, fully rounded style, with the command's Lucide icon before the label. The top-bar CV is still the only filled button (F2.4)
+- [x] After the page is interactive the chips fade and rise in with a 40 ms stagger. Under reduced motion they just appear. With JavaScript off they are visible from the first paint (F2.5, D-033)
+- [x] The headline stops cycling once a chip has been clicked (F1.4: the part of it this story starts)
+- [x] The region the answer appears in is `aria-live="polite"`, so a screen reader announces it
+- [x] The skip link is still available after a chip click, and isn't shown on other pages (F1.7)
 
 ## Files to touch
 
@@ -92,4 +92,7 @@ As a **visitor**, I want suggested questions under the input, so that I can expl
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built the chips, `ConversationProvider` (the shared thread, `ask`, `pushState` and `popstate`), `Message`, and the skip-link fix. The thread lives in `history.state` under `turns`, read through zod, and `ConversationProvider` re-reads it on every pathname change, since Next writes its own entries after render. The skip link shows on any page while the home is mounted (`homeMounted`, set by `HomeHero`), not by pathname alone, because a chip click changes the pathname to `/about/` while the input stays on screen. Chip reveal waits for `homeMounted` (D-033). D-032 stays open; the answer is built on its default in `Message`, the one place to change. Added a reload test for F2.3's reload clause, and `data-testid="visitor-message"` on the bubbles (they have no role). Headline pause is D-039. Outside Files to touch: `tests/e2e/shell.spec.ts`, two sidebar lookups scoped to the sidebar (`sidebar.getByRole`), because the chips reuse the ASK ABOUT names and the page-wide lookup matched both; the assertions are unchanged. Two Turbopack tracing warnings in the build come from `lib/content.ts` and the site-icon route, predate this story, and belong to US-067 · this commit · `npm run verify` passed; `npm run test:e2e` passed, 406 tests on chromium, webkit, mobile and no-js
+2026-10-14 · Started. D-032 is still open, so the answer content is the recommended default, kept in one place (`Message`). Left D-032 open, since S04 isn't active yet · — · —
+2026-10-14 · Started. D-032 is still open, so the answer content is the recommended default, kept in one place (`Message`). Left D-032 open, since S04 isn't active yet · — · —
 2026-10-14 · Scoped in US-072. Estimate 3 → 5: the story needs the shared conversation provider, `history.state` handling for Back and the skip-link fix. Added F1.4, F1.7 and the `aria-live` criteria, which the chip click starts. Recorded D-032 (open) and D-033 · — · —

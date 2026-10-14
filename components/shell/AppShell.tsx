@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ConversationProvider } from "@/components/chat/ConversationProvider";
 import { Sidebar } from "@/components/shell/Sidebar";
 import { SkipLink } from "@/components/shell/SkipLink";
 import { TopBar } from "@/components/shell/TopBar";
@@ -22,14 +23,16 @@ export function AppShell({ children }: Props) {
   });
 
   return (
-    <div className="flex min-h-dvh">
-      {/* First in the document, so it's the first Tab stop (F1.7). */}
-      <SkipLink />
-      <Sidebar profile={profile} askAbout={askAbout} variant="inline" />
-      <div className="min-w-0 flex-1">
-        <TopBar profile={profile} askAbout={askAbout} />
-        {children}
+    <ConversationProvider commands={commands}>
+      <div className="flex min-h-dvh">
+        {/* First in the document, so it's the first Tab stop (F1.7). */}
+        <SkipLink />
+        <Sidebar profile={profile} askAbout={askAbout} variant="inline" />
+        <div className="min-w-0 flex-1">
+          <TopBar profile={profile} askAbout={askAbout} />
+          {children}
+        </div>
       </div>
-    </div>
+    </ConversationProvider>
   );
 }

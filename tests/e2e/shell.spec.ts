@@ -115,9 +115,10 @@ test.describe("app shell and sidebar", () => {
       "aria-expanded",
       "false",
     );
-    // The labels are visually hidden in the rail, but each link keeps its name.
+    // The labels are visually hidden in the rail, but each link keeps its name. The chips on the home page
+    // use the same names, so the lookup is scoped to the sidebar.
     for (const label of askLabels) {
-      await expect(page.getByRole("link", { name: label, exact: true })).toBeVisible();
+      await expect(sidebar.getByRole("link", { name: label, exact: true })).toBeVisible();
     }
   });
 
@@ -192,7 +193,8 @@ test.describe("app shell and sidebar", () => {
     await page.goto("/");
     const sidebar = page.getByRole("complementary", { name: "Sidebar" });
     const newChat = page.getByRole("link", { name: "New chat" });
-    const firstAsk = page.getByRole("link", { name: askLabels[0] ?? "", exact: true });
+    // Scoped to the sidebar: the home page's chips use the same names (see the test above).
+    const firstAsk = sidebar.getByRole("link", { name: askLabels[0] ?? "", exact: true });
     const expandedNewChat = await boxOf(newChat);
     const expandedAsk = await boxOf(firstAsk);
 

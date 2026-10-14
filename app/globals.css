@@ -64,6 +64,31 @@
   }
 }
 
+/* The chips rise in once the home page is interactive (F2.5, D-033). With JavaScript on they start hidden,
+   so the server HTML doesn't flash before hydration; with JavaScript off, or with reduced motion, they show at
+   once. The stagger is --i times 40 ms, set on each chip's <li>. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .chip-row:not(.chip-row-revealed) > li {
+    opacity: 0;
+  }
+
+  .chip-row-revealed > li {
+    animation: chip-rise 300ms var(--ease-out) both;
+    animation-delay: calc(var(--i) * 40ms);
+  }
+}
+
+@keyframes chip-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ThemeToggle renders both icons because the server can't know the theme. */
 [data-theme="dark"] .theme-icon-moon,
 [data-theme="light"] .theme-icon-sun {

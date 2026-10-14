@@ -7,7 +7,7 @@ Everything that needs your decision, input or approval, in the order to handle i
 | # | When | What to do | Needed by | Unblocks |
 | --- | --- | --- | --- | --- |
 | 1 | 🟡 next sprint | **Do** [US-010](stories/US-010-avatar.md) Headshot or monogram avatar (0/2 done) | S02 | — |
-| 2 | ⚪ later | **Decide** [D-032](decisions.md) What a chip or palette click shows inline for a page command. Default if you don't: The command's `intro` plus a link to the page. It's short, it needs no extra data on the home page, and F2.3 still holds (a visitor message, an inline answer, `pushState`) | S04 | S04 (4 stories) |
+| 2 | ⚪ later | **Decide** [D-032](decisions.md) What a chip or palette click shows inline for a page command. Default if you don't: The command's `intro` plus a link to the page. It's short, it needs no extra data on the home page, and F2.3 still holds (a visitor message, an inline answer, `pushState`) | S04 | S04 (3 stories) |
 | 3 | ⚪ later | **Do** [US-027](stories/US-027-api-key-secret.md) Set the model API key as a hosting secret (0/3 done) | S05 | US-029 (13 in total) |
 | 4 | ⚪ later | **Decide** [D-005](decisions.md) Domain. Default if you don't: Your own if you have one; else host subdomain | S07 | S07 (7 stories) |
 | 5 | ⚪ later | **Do** [US-009](stories/US-009-content-inputs.md) Provide content inputs (0/7 done) | S07 | US-049 (4 in total) |
