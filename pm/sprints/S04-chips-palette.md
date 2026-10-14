@@ -26,7 +26,7 @@ This list is generated from the `sprint: S04` field in each story file. To add, 
 | [US-023](../stories/US-023-chip-row.md) | Link-first suggested chips | ✅ done | Claude | P0 | 5 | 9/9 | ~~US-022~~, ~~US-020~~ |
 | [US-024](../stories/US-024-sidebar-wiring.md) | Wire sidebar items to the chat | ⬜ todo · ready | Claude | P1 | 2 | 0/1 | ~~US-022~~, ~~US-023~~ |
 | [US-025](../stories/US-025-command-palette.md) | Slash command palette | ✅ done | Claude | P0 | 5 | 6/6 | ~~US-022~~, ~~US-023~~ |
-| [US-026](../stories/US-026-chips-palette-e2e.md) | F2 and F3 tests | ⬜ todo | Claude | P0 | 3 | 0/3 | ~~US-023~~, US-024, ~~US-025~~ |
+| [US-026](../stories/US-026-chips-palette-e2e.md) | F2 and F3 tests | ⬜ todo | Claude | P0 | 3 | 0/6 | ~~US-023~~, US-024, ~~US-025~~ |
 
 <!-- END GENERATED STORIES -->
 
