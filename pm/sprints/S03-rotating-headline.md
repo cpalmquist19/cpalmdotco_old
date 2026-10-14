@@ -22,8 +22,8 @@ This list is generated from the `sprint: S03` field in each story file. To add, 
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-019](../stories/US-019-headline-pool-and-skip-link.md) | Headline pool and skip link | ⬜ todo · ready | Claude | P1 | 1 | 0/2 | ~~US-012~~ |
-| [US-020](../stories/US-020-rotating-headline.md) | Rotating headline and caret | ⬜ todo | Claude | P0 | 5 | 0/7 | US-019 |
+| [US-019](../stories/US-019-headline-pool-and-skip-link.md) | Headline pool and skip link | 👀 review | Claude | P1 | 1 | 0/1 | ~~US-012~~ |
+| [US-020](../stories/US-020-rotating-headline.md) | Rotating headline and caret | ⬜ todo | Claude | P0 | 5 | 0/8 | US-019 |
 | [US-021](../stories/US-021-headline-e2e.md) | F1 tests and CLS check | ⬜ todo | Claude | P0 | 2 | 0/3 | US-020 |
 
 <!-- END GENERATED STORIES -->

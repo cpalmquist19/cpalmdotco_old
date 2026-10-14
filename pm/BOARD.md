@@ -19,7 +19,9 @@
 
 ## In flight
 
-_None._
+| ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [US-019](stories/US-019-headline-pool-and-skip-link.md) | Headline pool and skip link | 👀 review | Claude | P1 | 1 | 0/1 | ~~US-012~~ |
 
 ## Next up
 
@@ -28,13 +30,13 @@ Stories whose dependencies are all done, earliest sprint and highest priority fi
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-010](stories/US-010-avatar.md) | Headshot or monogram avatar | ⬜ todo · ready | Caleb | P2 | 1 | 0/2 | — |
-| [US-019](stories/US-019-headline-pool-and-skip-link.md) | Headline pool and skip link | ⬜ todo · ready | Claude | P1 | 1 | 0/2 | ~~US-012~~ |
 | [US-022](stories/US-022-commands-json.md) | commands.json as the single source | ⬜ todo · ready | Claude | P0 | 2 | 0/3 | ~~US-011~~ |
 | [US-027](stories/US-027-api-key-secret.md) | Set the model API key as a hosting secret | ⬜ todo · ready | Caleb | P0 | 1 | 0/3 | — |
 | [US-028](stories/US-028-knowledge-pack.md) | Knowledge-pack builder | ⬜ todo · ready | Claude | P0 | 3 | 0/3 | ~~US-012~~ |
 | [US-035](stories/US-035-a11y-and-lighthouse-ci.md) | axe and Lighthouse CI as required checks | ⬜ todo · ready | Claude | P0 | 3 | 0/3 | ~~US-018~~, ~~US-050~~ |
 | [US-009](stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
 | [US-037](stories/US-037-domain-and-hosting-access.md) | Domain and DNS access | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |
+| [US-038](stories/US-038-seo-and-og.md) | SEO, Open Graph and structured data | ⬜ todo · ready | Claude | P0 | 3 | 0/5 | ~~US-016~~ |
 
 ## Refine next
 
@@ -42,17 +44,16 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-020](stories/US-020-rotating-headline.md) | Rotating headline and caret | ⬜ todo | Claude | P0 | 5 | 0/7 | US-019 |
+| [US-020](stories/US-020-rotating-headline.md) | Rotating headline and caret | ⬜ todo | Claude | P0 | 5 | 0/8 | US-019 |
 | [US-025](stories/US-025-command-palette.md) | Slash command palette | ⬜ todo | Claude | P0 | 5 | 0/5 | US-022 |
 | [US-029](stories/US-029-chat-route.md) | System prompt and streaming /api/chat | ⬜ todo | Claude | P0 | 5 | 0/5 | US-027, US-028 |
 
 ## Waiting on Caleb
 
-**6** items, **0** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
+**7** items, **1** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
 
 ## Warnings
 
-- ⚠️ US-019 can start but isn't ready: fill in Files to touch, Out of scope, Tests to add
 - ⚠️ US-022 can start but isn't ready: fill in Files to touch, Out of scope, Tests to add
 - ⚠️ US-028 can start but isn't ready: fill in Files to touch, Out of scope, Tests to add
 - ⚠️ US-035 can start but isn't ready: fill in Files to touch, Out of scope, Tests to add
@@ -93,8 +94,8 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-019](stories/US-019-headline-pool-and-skip-link.md) | Headline pool and skip link | ⬜ todo · ready | Claude | P1 | 1 | 0/2 | ~~US-012~~ |
-| [US-020](stories/US-020-rotating-headline.md) | Rotating headline and caret | ⬜ todo | Claude | P0 | 5 | 0/7 | US-019 |
+| [US-019](stories/US-019-headline-pool-and-skip-link.md) | Headline pool and skip link | 👀 review | Claude | P1 | 1 | 0/1 | ~~US-012~~ |
+| [US-020](stories/US-020-rotating-headline.md) | Rotating headline and caret | ⬜ todo | Claude | P0 | 5 | 0/8 | US-019 |
 | [US-021](stories/US-021-headline-e2e.md) | F1 tests and CLS check | ⬜ todo | Claude | P0 | 2 | 0/3 | US-020 |
 
 ## S04 · Chips and slash palette
