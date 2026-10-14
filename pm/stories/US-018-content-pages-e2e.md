@@ -2,7 +2,7 @@
 id: US-018
 title: F5 tests and a JavaScript-off project
 sprint: S02
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,10 +16,10 @@ As the **builder**, I want end-to-end tests for every content page, so that F5 s
 
 ## Acceptance criteria
 
-- [ ] Tests cover F5.1 and F5.6 on every content page, not just the one each page story tested
-- [ ] Every page is tested with JavaScript turned off (F5.5), using a `no-js` Playwright project (`javaScriptEnabled: false`)
-- [ ] With JavaScript off, following a cross-link, a footer link and a project title loads the next page
-- [ ] The top-bar CV is the only filled button on every content page (F2.4)
+- [x] Tests cover F5.1 and F5.6 on every content page, not just the one each page story tested
+- [x] Every page is tested with JavaScript turned off (F5.5), using a `no-js` Playwright project (`javaScriptEnabled: false`)
+- [x] With JavaScript off, following a cross-link, a footer link and a project title loads the next page
+- [x] The top-bar CV is the only filled button on every content page (F2.4)
 
 ## Files to touch
 
@@ -62,6 +62,7 @@ The `no-js` project runs this file only. The other three projects run it too, so
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Added the `no-js` project to `playwright.config.ts` (only `content-pages.spec.ts`), and `tests/e2e/content-pages.spec.ts`: F5.1, F5.6 and F2.4 for each of the 10 content routes (5 ASK ABOUT, /cv/, 4 case studies), plus the F5.5 link test. The F2.4 tests run in light only. JavaScript-off was checked with a separate context: a script ran with `javaScriptEnabled: true` and didn't with `false` · this commit · `npm run verify` passes. `npm run test:e2e`: 324 passed (chromium, webkit, mobile, no-js). The build still prints the two Turbopack warnings from `lib/content.ts` (US-067, not changed here)
 2026-10-13 · Replaced US-058 with US-059 in `depends_on`: US-059 also edits `playwright.config.ts` and depends on US-058, so it covers both · this commit · `board.mjs --check` passes
 2026-10-13 · Added US-058 to `depends_on`: both stories edit `playwright.config.ts`, so US-058's reporter change lands first · this commit · `board.mjs --check` passes
 2026-10-13 · Refined for handoff (US-054): added Files/Out of scope/Tests/Notes, link-following and filled-button criteria; depends on US-007 · — · —

@@ -34,5 +34,11 @@ export default defineConfig({
       use: { ...devices["Pixel 7"] },
       grepInvert: /@desktop-only/,
     },
+    {
+      name: "no-js",
+      use: { ...devices["Desktop Chrome"], javaScriptEnabled: false },
+      // Only the content-page tests run with JavaScript off (F5.5). The S01 tests need it.
+      testMatch: /content-pages\.spec\.ts/,
+    },
   ],
 });

@@ -30,7 +30,7 @@ This list is generated from the `sprint: S02` field in each story file. To add, 
 | [US-015](../stories/US-015-experience-page.md) | Experience page | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-012~~, ~~US-013~~ |
 | [US-016](../stories/US-016-projects-and-case-studies.md) | Projects feed and case studies | ✅ done | Claude | P0 | 3 | 6/6 | ~~US-012~~, ~~US-013~~, ~~US-014~~, ~~US-015~~ |
 | [US-017](../stories/US-017-skills-page.md) | Skills page | ✅ done | Claude | P1 | 2 | 4/4 | ~~US-012~~, ~~US-013~~, ~~US-014~~ |
-| [US-018](../stories/US-018-content-pages-e2e.md) | F5 tests and a JavaScript-off project | ⬜ todo · ready | Claude | P0 | 3 | 0/4 | ~~US-007~~, ~~US-014~~, ~~US-015~~, ~~US-016~~, ~~US-017~~, ~~US-059~~ |
+| [US-018](../stories/US-018-content-pages-e2e.md) | F5 tests and a JavaScript-off project | ✅ done | Claude | P0 | 3 | 4/4 | ~~US-007~~, ~~US-014~~, ~~US-015~~, ~~US-016~~, ~~US-017~~, ~~US-059~~ |
 | [US-050](../stories/US-050-site-icon.md) | Site icon (favicon) | ✅ done | Claude | P1 | 2 | 2/2 | ~~US-003~~, ~~US-012~~ |
 
 <!-- END GENERATED STORIES -->
