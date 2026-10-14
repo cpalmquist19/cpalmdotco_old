@@ -184,3 +184,12 @@ describe("US-022", () => {
     expect(result.error?.issues.map((issue) => issue.path)).toEqual([["answer"]]);
   });
 });
+
+describe("US-030", () => {
+  it("US-030: a command may carry a question, and an empty one is rejected", () => {
+    expect(commandSchema.safeParse({ ...command, question: "Who are you?" }).success).toBe(true);
+    const empty = commandSchema.safeParse({ ...command, question: "" });
+    expect(empty.success).toBe(false);
+    expect(failedFields(empty)).toContain("question");
+  });
+});

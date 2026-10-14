@@ -2,7 +2,7 @@
 id: US-032
 title: Chat thread UI
 sprint: S05
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,17 +16,17 @@ As a **visitor**, I want a clean chat thread, so that I can have a conversation 
 
 ## Acceptance criteria
 
-- [ ] Text that doesn't start with `/` is sent to `/api/chat`. The visitor's message appears at once as a right-aligned bubble, and the answer streams in with the caret after its last character, which goes when the answer ends (F4.1, F4.2)
-- [ ] A bot answer is left-aligned plain text with the avatar beside its first line (F4.2)
-- [ ] An answer renders headings, lists, links and inline code and nothing else, and raw HTML or a `javascript:` link in it does nothing (F4.3, D-017)
-- [ ] When an answer ends, 1–2 page links and 2–3 follow-up chips appear under it. A follow-up chip sends its question like typed text (F4.4, D-046)
-- [ ] Enter sends, Shift+Enter inserts a new line, and Send is disabled while the input is empty or an answer is streaming. Enter during IME composition doesn't send (F4.5, the keys)
-- [ ] The input holds at most 500 characters (`MAX_INPUT_CHARS`), so the server's cap is never hit from the page (F4.9, the limit; the counter is US-081)
-- [ ] The thread is an `aria-live=polite` region that announces each answer once, after it has finished, and never its half-streamed text (F4.7)
-- [ ] An error (`rate_limited`, `timeout`, `upstream`), a response that isn't an event stream, and a stream that closes with no `done` or `error` each give one friendly line with a link to the `fallback` page. Text already streamed stays (F4.8, D-048)
-- [ ] A chip, palette or sidebar ask while an answer is streaming stops that answer and keeps its text so far. Back stops it too and shows the thread of the earlier history entry (D-053)
-- [ ] The rotating headline stays stopped once a free-text conversation has started (F1.4)
-- [ ] The slash palette still works in the new input: `/` opens it, Enter or Tab runs the highlighted command (F3)
+- [x] Text that doesn't start with `/` is sent to `/api/chat`. The visitor's message appears at once as a right-aligned bubble, and the answer streams in with the caret after its last character, which goes when the answer ends (F4.1, F4.2)
+- [x] A bot answer is left-aligned plain text with the avatar beside its first line (F4.2)
+- [x] An answer renders headings, lists, links and inline code and nothing else, and raw HTML or a `javascript:` link in it does nothing (F4.3, D-017)
+- [x] When an answer ends, 1–2 page links and 2–3 follow-up chips appear under it. A follow-up chip sends its question like typed text (F4.4, D-046)
+- [x] Enter sends, Shift+Enter inserts a new line, and Send is disabled while the input is empty or an answer is streaming. Enter during IME composition doesn't send (F4.5, the keys)
+- [x] The input holds at most 500 characters (`MAX_INPUT_CHARS`), so the server's cap is never hit from the page (F4.9, the limit; the counter is US-081)
+- [x] The thread is an `aria-live=polite` region that announces each answer once, after it has finished, and never its half-streamed text (F4.7)
+- [x] An error (`rate_limited`, `timeout`, `upstream`), a response that isn't an event stream, and a stream that closes with no `done` or `error` each give one friendly line with a link to the `fallback` page. Text already streamed stays (F4.8, D-048)
+- [x] A chip, palette or sidebar ask while an answer is streaming stops that answer and keeps its text so far. Back stops it too and shows the thread of the earlier history entry (D-053)
+- [x] The rotating headline stays stopped once a free-text conversation has started (F1.4)
+- [x] The slash palette still works in the new input: `/` opens it, Enter or Tab runs the highlighted command (F3)
 
 ## Files to touch
 
@@ -125,6 +125,10 @@ As a **visitor**, I want a clean chat thread, so that I can have a conversation 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built the thread: `lib/chat-client.ts` (SSE reader, request body, Zod-checked events; a link not starting with `/` is dropped), `lib/chat-errors.ts`, exchanges as turns in `lib/conversation.ts`, the store in `ConversationProvider` (send, stop, commit into history, discard on Back), `ChatInput` (replaces `PillInput`, now deleted), `Thread`, `Message`, `FollowupChip`. The Send button is outlined, because the CV button must stay the only filled control (US-023 F2.4). Retargeted the Sidebar TODO to US-081. The caret sits after the rendered Markdown block, so while streaming it can sit on its own line after a paragraph. Added D-055 and D-058. Added a `data-testid="in-flight"` wrapper (no role or name, and the caret is shared with the headline). The IME criterion has a test that dispatches a keydown with `isComposing` set, since a real IME can't be driven from Playwright. Back during a stream is handled in the same sync as the pathname change, because Next's popstate handling can stop the event before this app's listener. Tests: `npm run verify`: 242 unit tests pass; `npm run test:e2e`: 554 passed (thread.spec: 62 across three projects) · this commit · see US-030
+2026-10-14 · Scoped in US-080. The ten criteria became eleven and the layout half of F4.5, F4.6 and the counter of F4.9 moved to new story US-081: one story held a textarea and combobox conflict, a streaming and announce-once design, a new turn model and a layout change, which is more than the 5 points it was estimated at. Added US-023 (done) and US-031 to `depends_on` as US-072 asked, and US-031 so the client is built against the statuses the route really sends. Recorded D-053. The 2026-10-13 F1.4 criterion stays here, and D-039 still sets when the headline pauses · — · —
+2026-10-13 · Added the F1.4 criterion for the headline pausing once a conversation starts, moved from US-020 (which builds the headline before this story builds the chat). Also replaces US-020's plain `#chat-input` with `ChatInput` · — · —
+2026-10-13 · D-017 decided (US-057): answers render through US-014's shared `Markdown` component with `react-markdown`'s default `urlTransform` kept, so a `javascript:` link in an answer is neutralised. Visitor messages stay plain text · — · —
 2026-10-14 · Scoped in US-080. The ten criteria became eleven and the layout half of F4.5, F4.6 and the counter of F4.9 moved to new story US-081: one story held a textarea and combobox conflict, a streaming and announce-once design, a new turn model and a layout change, which is more than the 5 points it was estimated at. Added US-023 (done) and US-031 to `depends_on` as US-072 asked, and US-031 so the client is built against the statuses the route really sends. Recorded D-053. The 2026-10-13 F1.4 criterion stays here, and D-039 still sets when the headline pauses · — · —
 2026-10-13 · Added the F1.4 criterion for the headline pausing once a conversation starts, moved from US-020 (which builds the headline before this story builds the chat). Also replaces US-020's plain `#chat-input` with `ChatInput` · — · —
 2026-10-13 · D-017 decided (US-057): answers render through US-014's shared `Markdown` component with `react-markdown`'s default `urlTransform` kept, so a `javascript:` link in an answer is neutralised. Visitor messages stay plain text · — · —

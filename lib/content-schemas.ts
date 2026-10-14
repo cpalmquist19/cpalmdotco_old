@@ -41,6 +41,8 @@ export const commandSchema = z
     order: z.number().int().min(1),
     icon: text,
     intro: text.optional(),
+    // The visitor's follow-up question for this page (D-046). Navigation copy, not a fact.
+    question: text.optional(),
   })
   .refine((command) => !(command.chip && command.answer === "model"), {
     message: 'a chip links to its page, so answer must be a page path, not "model"',

@@ -2,7 +2,7 @@
 id: US-031
 title: Guardrails and kill switch
 sprint: S05
-status: todo
+status: done
 owner: Claude
 points: 5
 priority: P0
@@ -16,13 +16,13 @@ As the **site owner**, I want hard limits on the chat, so that cost and abuse st
 
 ## Acceptance criteria
 
-- [ ] A client that has made 10 requests in the last minute, or 60 in the last day, gets `429` with a `Retry-After` header and one `error` event `{ code: "rate_limited", fallback }`, and the model isn't called. The limiter is `lib/ratelimit.ts` and keys on the caller's IP (D-045, D-048)
-- [ ] A `user` message over 500 characters, or an `assistant` message over 2,500, gets `400` and the model isn't called. The 500-token output cap (US-029) is unchanged (D-050)
-- [ ] The history sent to the model is the last 6 messages and starts with a `user` message, so a long conversation can't produce a request the API rejects (D-036, D-050)
-- [ ] An answer that hasn't finished after 20 s ends with one `error` event `{ code: "timeout", fallback }`, after any text already sent, and the upstream call is aborted
-- [ ] Every `error` event's `fallback` is the static page that matches the question, or `/about/` when none does (F4.8)
-- [ ] One log line per request holds the question, the outcome and the number of cited sources, and never an IP address, header or user agent. A request with no valid citation is logged as `unanswered` (D-051)
-- [ ] With `CHAT_ENABLED=false` the route answers `503` with one `error` event `{ code: "upstream", fallback }` and never calls the model. Unset, empty or `true` leaves the chat on; any other value turns it off (D-049)
+- [x] A client that has made 10 requests in the last minute, or 60 in the last day, gets `429` with a `Retry-After` header and one `error` event `{ code: "rate_limited", fallback }`, and the model isn't called. The limiter is `lib/ratelimit.ts` and keys on the caller's IP (D-045, D-048)
+- [x] A `user` message over 500 characters, or an `assistant` message over 2,500, gets `400` and the model isn't called. The 500-token output cap (US-029) is unchanged (D-050)
+- [x] The history sent to the model is the last 6 messages and starts with a `user` message, so a long conversation can't produce a request the API rejects (D-036, D-050)
+- [x] An answer that hasn't finished after 20 s ends with one `error` event `{ code: "timeout", fallback }`, after any text already sent, and the upstream call is aborted
+- [x] Every `error` event's `fallback` is the static page that matches the question, or `/about/` when none does (F4.8)
+- [x] One log line per request holds the question, the outcome and the number of cited sources, and never an IP address, header or user agent. A request with no valid citation is logged as `unanswered` (D-051)
+- [x] With `CHAT_ENABLED=false` the route answers `503` with one `error` event `{ code: "upstream", fallback }` and never calls the model. Unset, empty or `true` leaves the chat on; any other value turns it off (D-049)
 
 ## Files to touch
 
@@ -109,4 +109,6 @@ As the **site owner**, I want hard limits on the chat, so that cost and abuse st
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built `lib/ratelimit.ts` (in memory per instance, keys by IP, bounded map), `lib/chat-limits.ts`, `lib/chat-fallback.ts`, and the handler's order: body (400), kill switch (503), rate limit (429), then the model. Timeout, one log line per request, and `CHAT_ENABLED` read per request. Updated US-029 `lastMessages keeps the last 6 and keeps their order` and US-029 `only the last 6 messages reach the provider` to the new window rule (the window drops a leading answer, so 9 alternating messages give 5). Logged the visitor-left case as `abandoned` (D-056). D-045 stays open: built on its default, so counts reset on a cold start and aren't shared between instances, and the provider's monthly cap is the hard ceiling. Added `tests/unit/...` for the limiter, fallback and window. `npm run verify`: 242 unit tests pass; `npm run test:e2e`: 554 passed · this commit · see US-030
+2026-10-14 · Scoped in US-080. Estimate 3 → 5: five criteria became seven, because the spec's one-line rows hide a limiter with a bounded store, a request-window fix (an alternating history would have started on an `assistant` message), a per-question fallback and the log's outcome field. Added US-030 to `depends_on` (both change `lib/chat.ts` and its test file, and the log needs the cited count). Recorded D-045 (open, for Caleb) and D-048 to D-051 · — · —
 2026-10-14 · Scoped in US-080. Estimate 3 → 5: five criteria became seven, because the spec's one-line rows hide a limiter with a bounded store, a request-window fix (an alternating history would have started on an `assistant` message), a per-question fallback and the log's outcome field. Added US-030 to `depends_on` (both change `lib/chat.ts` and its test file, and the log needs the cited count). Recorded D-045 (open, for Caleb) and D-048 to D-051 · — · —

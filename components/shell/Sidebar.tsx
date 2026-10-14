@@ -130,7 +130,7 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
         )}
       </div>
 
-      {/* TODO(US-032): also clear the thread without a page load */}
+      {/* TODO(US-081): also clear the thread without a page load */}
       <Link
         href="/"
         className="mt-4 flex h-10 items-center gap-3 rounded-box px-3 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"

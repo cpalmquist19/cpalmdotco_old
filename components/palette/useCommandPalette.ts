@@ -17,12 +17,12 @@ export function optionIdFor(listboxId: string, index: number): string {
   return `${listboxId}-${index}`;
 }
 
-// The values the input needs (F3.4). The role and the element's ref are set by PillInput. The ref is returned
+// The values the input needs (F3.4). The role and the element's ref are set by ChatInput. The ref is returned
 // on its own, because React's lint rule doesn't allow a render to read any property of an object holding it.
 export type ComboboxInput = {
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
   "aria-autocomplete": "list";
   "aria-expanded": boolean;
   "aria-controls": string | undefined;
@@ -42,7 +42,7 @@ export type PaletteState = {
 // next keystroke shows it again. Running a command asks it in the chat, as a chip click does (F2.3).
 export function useCommandPalette(commands: readonly Command[]) {
   const { ask } = useConversation();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const listboxId = useId();
   const [value, setValue] = useState("");
   const [dismissed, setDismissed] = useState(false);
@@ -55,20 +55,27 @@ export function useCommandPalette(commands: readonly Command[]) {
   const expanded = matches.length > 0;
 
   // The highlight starts again at the top whenever the text changes, so it can't point past the matches.
-  function onChange(event: ChangeEvent<HTMLInputElement>) {
+  function onChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setValue(event.target.value);
+    setDismissed(false);
+    setHighlight(0);
+  }
+
+  // Empties the input after a message is sent, and closes the palette with it.
+  function clear() {
+    setValue("");
     setDismissed(false);
     setHighlight(0);
   }
 
   function run(command: Command) {
     ask(command);
-    setValue("");
+    clear();
   }
 
   // ↑ and ↓ wrap at the ends (F3.3). Enter runs the highlighted command, and so does Tab, except Shift+Tab,
   // which keeps its normal meaning. Tab is only stopped while a command is highlighted, so it can't trap focus.
-  function onKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+  function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (!open) return;
     if (event.key === "Escape") {
       event.preventDefault();
@@ -112,5 +119,5 @@ export function useCommandPalette(commands: readonly Command[]) {
   };
   const palette: PaletteState = { open, listboxId, matches, activeIndex };
 
-  return { inputRef, input, palette, openPalette };
+  return { inputRef, input, palette, openPalette, clear };
 }

@@ -2,7 +2,7 @@
 id: US-030
 title: Citation-to-link mapping and follow-ups
 sprint: S05
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,11 +16,11 @@ As a **visitor**, I want every answer to end with real page links and next quest
 
 ## Acceptance criteria
 
-- [ ] No `[src:…]` citation reaches a `token` event, including one that arrives split across chunks, and removing it leaves no stray space before the punctuation that followed it (Grounding 3)
-- [ ] After the last token, `links` holds 1–2 `{ label, href }` pairs built only from the source ids the answer cited: in the order first cited, one per page, an id that isn't in the knowledge pack ignored. The model never produces a URL (Grounding 3, D-047)
-- [ ] An answer with no valid citation (a decline, or "I don't have that detail") gets the Contact page as its one link, so no answer is a dead end (F4.4, D-047)
-- [ ] `followups` holds 2–3 questions taken from `commands.json`: pages the answer didn't link, questions the visitor hasn't asked yet first, then in `order` (D-046)
-- [ ] The route sends `token`…, `links`, `followups`, `done` in that order, with the citations gone from the text, and the unit tests cover the stripper, the link mapping and the follow-up choice
+- [x] No `[src:…]` citation reaches a `token` event, including one that arrives split across chunks, and removing it leaves no stray space before the punctuation that followed it (Grounding 3)
+- [x] After the last token, `links` holds 1–2 `{ label, href }` pairs built only from the source ids the answer cited: in the order first cited, one per page, an id that isn't in the knowledge pack ignored. The model never produces a URL (Grounding 3, D-047)
+- [x] An answer with no valid citation (a decline, or "I don't have that detail") gets the Contact page as its one link, so no answer is a dead end (F4.4, D-047)
+- [x] `followups` holds 2–3 questions taken from `commands.json`: pages the answer didn't link, questions the visitor hasn't asked yet first, then in `order` (D-046)
+- [x] The route sends `token`…, `links`, `followups`, `done` in that order, with the citations gone from the text, and the unit tests cover the stripper, the link mapping and the follow-up choice
 
 ## Files to touch
 
@@ -104,4 +104,6 @@ As a **visitor**, I want every answer to end with real page links and next quest
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built `lib/citations.ts` (stripper), `lib/answer-links.ts`, `lib/followups.ts`, the `question` field and five questions in `content/commands.json`, and the handler's order (tokens, then links, followups, done). Rewrote US-029 `links and followups are empty arrays for now` as `links and followups are arrays, sent after the text and before done` (it keeps its id). Renamed one test to `the last token comes before links, and a space held at the end is not sent`: at the end of a stream only an unclosed citation and trailing whitespace are held, and neither is sent. Criterion 1's no-stray-space rule holds for citations in the same chunk as their whitespace; a space that ends an earlier chunk can't be taken back (D-054, forced by US-029's unchanged test). Added a 120-character bracket test and a split-invariance test. Added `tests/unit/helpers/command.ts`. Decisions D-054 to D-057 · this commit · `npm run verify`: 242 unit tests pass; `npm run test:e2e`: 554 passed
+2026-10-14 · Scoped in US-080. Added the `question` field and the three pure modules; recorded D-046 (follow-ups) and D-047 (links). The 4 acceptance criteria became 5: the route's event order is now its own criterion. Estimate stays 3 · — · —
 2026-10-14 · Scoped in US-080. Added the `question` field and the three pure modules; recorded D-046 (follow-ups) and D-047 (links). The 4 acceptance criteria became 5: the route's event order is now its own criterion. Estimate stays 3 · — · —

@@ -26,6 +26,12 @@ export function buildSystemPrompt({ offLimits, knowledge }: PromptParts): string
   );
 }
 
-export function lastMessages<T>(messages: readonly T[]): T[] {
-  return messages.slice(-HISTORY_LIMIT);
+// The last six messages, from the first visitor message in them. The API needs the first message to be the
+// visitor's, and an alternating chat would otherwise start its window on an answer (D-050).
+export function lastMessages<T extends { role: "user" | "assistant" }>(
+  messages: readonly T[],
+): T[] {
+  const window = messages.slice(-HISTORY_LIMIT);
+  const first = window.findIndex((message) => message.role === "user");
+  return first === -1 ? [] : window.slice(first);
 }

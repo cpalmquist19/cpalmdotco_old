@@ -8,6 +8,7 @@
     "order": 1,
     "icon": "user",
     "intro": "I started on a support desk and moved into QA, then test automation. These days I build test systems and AI tools that check their own answers.",
+    "question": "What's your background?",
     "placeholder": true
   },
   {
@@ -19,6 +20,7 @@
     "order": 2,
     "icon": "briefcase",
     "intro": "Three roles, most recent first. Each one lists the work and the numbers behind it.",
+    "question": "Where have you worked?",
     "placeholder": true
   },
   {
@@ -30,6 +32,7 @@
     "order": 3,
     "icon": "folder",
     "intro": "Four projects, each with the problem, what I built, the numbers and the stack.",
+    "question": "What have you built?",
     "placeholder": true
   },
   {
@@ -41,6 +44,7 @@
     "order": 4,
     "icon": "wrench",
     "intro": "The tools I use most, grouped by area, with the projects where I used them in practice.",
+    "question": "What do you work with?",
     "placeholder": true
   },
   {
@@ -52,6 +56,7 @@
     "order": 5,
     "icon": "mail",
     "intro": "Email is the quickest route. I reply to recruiters and engineers within a couple of working days.",
+    "question": "How can I reach you?",
     "placeholder": true
   }
 ]

@@ -51,10 +51,45 @@ describe("US-029", () => {
   });
 
   it("US-029: lastMessages keeps the last 6 and keeps their order", () => {
-    const messages = Array.from({ length: 9 }, (_, index) => ({ n: index }));
+    // Updated in US-031: the window also drops a leading answer, so the last 6 of 9 alternating messages
+    // start at index 4, not 3. Their order is still kept.
+    const messages = Array.from(
+      { length: 9 },
+      (_, index): { role: "user" | "assistant"; n: number } => ({
+        role: index % 2 === 0 ? "user" : "assistant",
+        n: index,
+      }),
+    );
 
     expect(HISTORY_LIMIT).toBe(6);
-    expect(lastMessages(messages).map((message) => message.n)).toEqual([3, 4, 5, 6, 7, 8]);
+    expect(lastMessages(messages).map((message) => message.n)).toEqual([4, 5, 6, 7, 8]);
     expect(lastMessages(messages.slice(0, 2))).toHaveLength(2);
+  });
+});
+
+describe("US-031", () => {
+  const turn = (role: "user" | "assistant", n: number) => ({ role, n });
+
+  it("US-031: the window is at most 6 messages and starts with a user message", () => {
+    // Ten alternating messages: the last six start on a user message, so nothing is dropped.
+    const ten = Array.from({ length: 10 }, (_, index) =>
+      turn(index % 2 === 0 ? "user" : "assistant", index),
+    );
+    const window = lastMessages(ten);
+
+    expect(window.map((message) => message.n)).toEqual([4, 5, 6, 7, 8, 9]);
+    expect(window.length).toBeLessThanOrEqual(6);
+    expect(window[0]?.role).toBe("user");
+    // Nine alternating messages that end on a visitor message: the last six start on an answer, which is
+    // dropped, leaving five that start with the visitor.
+    const nine = ten.slice(0, 9);
+    expect(lastMessages(nine).map((message) => message.n)).toEqual([4, 5, 6, 7, 8]);
+    expect(lastMessages(nine)[0]?.role).toBe("user");
+  });
+
+  it("US-031: a short conversation is sent whole", () => {
+    const short = [turn("user", 0), turn("assistant", 1), turn("user", 2)];
+
+    expect(lastMessages(short)).toEqual(short);
   });
 });
