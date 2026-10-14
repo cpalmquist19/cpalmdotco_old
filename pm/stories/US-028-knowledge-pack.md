@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 3
 priority: P0
-depends_on: [US-012]
+depends_on: [US-012, US-024]
 spec: Chat backend › Grounding
 ---
 
@@ -69,4 +69,5 @@ As the **builder**, I want all content compiled into one tagged knowledge pack, 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Added US-024 to `depends_on` (US-078): it adds a check to `commandProblems` in `lib/content.ts`, which this story also changes. US-024 goes first · this commit · —
 2026-10-14 · Scoped in US-072. Added the size-guard criterion (Grounding 4) and the source-page map. Recorded D-035 · — · —

@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 1
 priority: P2
-depends_on: [US-014, US-016]
+depends_on: [US-014, US-016, US-024]
 spec: Build and deployment (AGENTS.md: no warnings in checks)
 ---
 
@@ -44,4 +44,5 @@ As the **builder**, I want `npm run build` to finish with no warnings, so that a
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Added US-024 to `depends_on` (US-078): it adds a check to `lib/content.ts` and a test to `tests/unit/lib/content.test.ts`, which this story also changes. US-024 goes first · this commit · —
 2026-10-13 · Added to backlog. The US-013 build printed "Turbopack build encountered 2 warnings" from `lib/content.ts`, which US-013 doesn't change. Kept out of US-013 because that file belongs to US-011 · — · —
