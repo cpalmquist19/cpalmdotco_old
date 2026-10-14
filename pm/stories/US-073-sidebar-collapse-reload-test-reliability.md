@@ -2,7 +2,7 @@
 id: US-073
 title: Make the sidebar collapsed-state reload e2e test reliable in WebKit
 sprint: backlog
-status: review
+status: done
 owner: Claude
 points: 1
 priority: P2
@@ -16,8 +16,8 @@ As the **builder**, I want the US-005 collapsed-state test to pass on every run,
 
 ## Acceptance criteria
 
-- [ ] `US-005 F0.3: collapsed state survives reload` passes in 60 repeated WebKit runs: `npx playwright test tests/e2e/shell.spec.ts -g "collapsed state survives reload" --project=webkit --repeat-each=60`
-- [ ] The test still checks that the rail is 64 px wide after a reload, with no weakened assertion and no longer timeout
+- [x] `US-005 F0.3: collapsed state survives reload` passes in 3 full `npm run test:e2e` runs in a row, on all four projects
+- [x] The test still checks that the rail is 64 px wide after a reload, with no weakened assertion. The width check keeps its default 5 s, and the only added limit is the 15 s wait for the restore, with its reason in a comment
 - [x] The Log names the cause of the intermittent failure, and says whether it was in the test or in the component
 
 ## Files to touch
@@ -48,5 +48,6 @@ As the **builder**, I want the US-005 collapsed-state test to pass on every run,
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Done. Caleb approved rewording the first two criteria. The 60-repeat check was the wrong measure: this flake only shows under the load of the whole suite (570 isolated WebKit runs passed before the fix), and 60 parallel WebKit pages crash the browser on this machine. Criterion 1 is now 3 full e2e runs in a row, which passed 361/361 each, and criterion 2 names the 15 s restore wait · this commit · `npm run test:e2e`: 3 full runs 361/361
 2026-10-14 · In review, for Caleb to rule on the first two criteria. **Cause, in the test:** the sidebar renders expanded on the server and the stored choice is applied after hydration, so on reload the rail appears a moment late. A diagnostic run inside the full suite measured it in WebKit: the button hydrated at 0 to 90 ms, the collapsed class landed at 0 to 1458 ms, and the width reached 64 at 289 to 2381 ms. In the failing run it passed 5 s, which was the whole budget of the width check. The first click was also exposed to the click-before-hydration race (US-074). **Fix:** `waitForHydration` before the first click, then a wait of up to 15 s for the "Expand sidebar" button, then the unchanged 64 px check on its own 5 s. No component change. **Not met as written:** criterion 1, because the 60 repeats had 17 failures, all WebKit crashing ("Page crashed", "Target page, context or browser has been closed", worker exit code 3221226505, the crash US-066 recorded), none of them an assertion; and criterion 2, because the restore wait has its own 15 s limit (the width assertion keeps its 5 s). Three full `npm run test:e2e` runs after the fix passed 361/361 each. Suggest rewording criterion 1 to what a full suite shows, or fixing the WebKit crash first · this commit · `npm run test:e2e`: 3 full runs 361/361; 60-repeat WebKit run: 43 passed, 17 failed (crashes)
 2026-10-14 · Added to backlog from US-072's verification run: one WebKit failure in about 36 runs of this test, not reproduced in 30 further WebKit repeats of `shell.spec.ts`. The cause isn't known yet · — · —
