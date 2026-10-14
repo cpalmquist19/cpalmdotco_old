@@ -6,7 +6,7 @@ status: todo
 owner: Claude
 points: 1
 priority: P3
-depends_on: [US-006, US-011]
+depends_on: [US-006, US-011, US-023]
 spec: Design tokens and components
 ---
 
@@ -46,4 +46,5 @@ All in `tests/e2e/drawer.spec.ts`, tagged `@mobile-only`:
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Added US-023 to `depends_on`: both change `app/globals.css` (`board.mjs` shared-file check), and this P3 story waits for the P0 chips rather than the other way round. Done in US-072 · — · —
 2026-10-13 · Added to backlog as the follow-up to D-020. Depends on US-011 too: its **Files to touch** change the shell components' types, and `MobileDrawer.tsx` is one of them (`board.mjs` shared-file check) · — · —
