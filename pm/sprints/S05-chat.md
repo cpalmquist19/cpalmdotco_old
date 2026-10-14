@@ -28,8 +28,8 @@ This list is generated from the `sprint: S05` field in each story file. To add, 
 | [US-030](../stories/US-030-citations-and-followups.md) | Citation-to-link mapping and follow-ups | ✅ done | Claude | P0 | 3 | 5/5 | ~~US-029~~, ~~US-022~~ |
 | [US-031](../stories/US-031-guardrails.md) | Guardrails and kill switch | ✅ done | Claude | P0 | 5 | 7/7 | ~~US-029~~, ~~US-030~~ |
 | [US-032](../stories/US-032-chat-thread-ui.md) | Chat thread UI | ✅ done | Claude | P0 | 5 | 11/11 | ~~US-023~~, ~~US-029~~, ~~US-030~~, ~~US-031~~ |
-| [US-033](../stories/US-033-chat-tests.md) | Chat contract and F4 tests | ⬜ todo | Claude | P0 | 3 | 0/3 | ~~US-031~~, ~~US-032~~, US-081 |
-| [US-081](../stories/US-081-chat-input-and-new-chat.md) | Pinned chat input, counter and New chat | ⬜ todo · ready | Claude | P0 | 3 | 0/6 | ~~US-031~~, ~~US-032~~ |
+| [US-033](../stories/US-033-chat-tests.md) | Chat contract and F4 tests | ⬜ todo · ready | Claude | P0 | 3 | 0/3 | ~~US-031~~, ~~US-032~~, ~~US-081~~ |
+| [US-081](../stories/US-081-chat-input-and-new-chat.md) | Pinned chat input, counter and New chat | ✅ done | Claude | P0 | 3 | 6/6 | ~~US-031~~, ~~US-032~~ |
 
 <!-- END GENERATED STORIES -->
 

@@ -2,7 +2,7 @@
 id: US-081
 title: Pinned chat input, counter and New chat
 sprint: S05
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,12 +16,12 @@ As a **visitor**, I want the input to stay in reach as the conversation grows, a
 
 ## Acceptance criteria
 
-- [ ] Once a conversation has started, the input is pinned to the bottom of the screen and stays there as the thread grows. Before that it sits under the headline as it does today (F4.5, D-052)
-- [ ] The input grows with its text up to 6 lines and then scrolls inside itself (F4.5)
-- [ ] A counter appears after 400 characters and shows how many remain. The input stops at 500 (F4.9)
-- [ ] "New chat" clears the thread, stops a streaming answer, and puts the page back to its start, with the input under the headline. The headline shows the same facts it showed, and does not type them again (F4.6)
-- [ ] Back after "New chat" returns to the conversation it cleared. "New chat" on a content page loads the home page with an empty thread (F4.6, D-053)
-- [ ] The counter is announced politely and the pinned input never covers the last line of the thread (F4.5, F4.9)
+- [x] Once a conversation has started, the input is pinned to the bottom of the screen and stays there as the thread grows. Before that it sits under the headline as it does today (F4.5, D-052)
+- [x] The input grows with its text up to 6 lines and then scrolls inside itself (F4.5)
+- [x] A counter appears after 400 characters and shows how many remain. The input stops at 500 (F4.9)
+- [x] "New chat" clears the thread, stops a streaming answer, and puts the page back to its start, with the input under the headline. The headline shows the same facts it showed, and does not type them again (F4.6)
+- [x] Back after "New chat" returns to the conversation it cleared. "New chat" on a content page loads the home page with an empty thread (F4.6, D-053)
+- [x] The counter is announced politely and the pinned input never covers the last line of the thread (F4.5, F4.9)
 
 ## Files to touch
 
@@ -48,7 +48,7 @@ As a **visitor**, I want the input to stay in reach as the conversation grows, a
 `tests/unit/lib/chat-limits.test.ts`:
 
 - `US-081: remainingChars is 500 minus the length, and never below 0`
-- `US-081: the counter shows from 400 characters and not before`
+- `US-081: the counter shows after 400 characters, and not at 400`
 
 `tests/e2e/chat-input.spec.ts` (stubs `/api/chat` with US-032's helper; no real model call):
 
@@ -80,4 +80,6 @@ As a **visitor**, I want the input to stay in reach as the conversation grows, a
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Done. All six criteria ticked on the passing runs. `npm run verify` passed (format, lint, typecheck, 244 unit tests, board check; the two board warnings are US-035 and US-038, which were already flagged). Full `npm run test:e2e`: 585 passed, 0 failed, on chromium, webkit, mobile and no-js · this commit · as above
+2026-10-14 · Started. Built on `main` before the status change, so the first run of the suite is the one below. Layout: the hero is a flex column, the input is `order-last` and `sticky bottom-0` once started, with a `min-h-dvh` column so a short thread still pins to the screen bottom (D-060). Counter helpers added in `lib/chat-limits.ts` (`counterShown`, beside the two the story names). `reset()` added to the conversation store, wired into the sidebar's New chat (D-059) · — · 2 new unit tests, 12 e2e tests, all passing on chromium, webkit and mobile (`npx playwright test tests/e2e/chat-input.spec.ts`); the counter unit test is titled "after 400 characters, and not at 400" (the story said "from 400 characters and not before", which contradicts its own e2e test and the spec's "after 400 characters"; the code follows the e2e test) · — · —
 2026-10-14 · Created in US-080, split out of US-032 (F4.5's layout half, F4.6 and F4.9's counter). Recorded D-052 for the layout reading. US-033 now depends on this story · — · —

@@ -57,7 +57,7 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
   const collapsed = props.variant === "inline" && storedCollapsed;
   const askAboutId = useId();
   const projectsId = useId();
-  const { ask, homeMounted } = useConversation();
+  const { ask, reset, homeMounted } = useConversation();
 
   function toggle() {
     saveCollapsed(!collapsed);
@@ -71,6 +71,14 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
     if (!homeMounted || !isPlainClick(event)) return;
     event.preventDefault();
     ask(command);
+  }
+
+  // "New chat" clears the thread without a page load while the home page is mounted (F4.6). Anywhere else it's a
+  // plain link to the home page, which loads it with no thread (D-027, D-043).
+  function startOver(event: MouseEvent<HTMLAnchorElement>) {
+    if (!homeMounted || !isPlainClick(event)) return;
+    event.preventDefault();
+    reset();
   }
 
   // In the rail the text stays in the DOM for screen readers and is hidden visually.
@@ -130,9 +138,9 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
         )}
       </div>
 
-      {/* TODO(US-081): also clear the thread without a page load */}
       <Link
         href="/"
+        onClick={startOver}
         className="mt-4 flex h-10 items-center gap-3 rounded-box px-3 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
       >
         <SquarePen aria-hidden="true" className="size-4 shrink-0" />

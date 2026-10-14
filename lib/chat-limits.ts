@@ -9,3 +9,16 @@ export const RATE_LIMIT_PER_MINUTE = 10;
 export const RATE_LIMIT_PER_DAY = 60;
 // How long an answer may take before it ends with a timeout error.
 export const ANSWER_TIMEOUT_MS = 20_000;
+
+// The counter appears once a visitor's message is longer than this, so it shows after 400 characters (F4.9).
+export const INPUT_COUNTER_FROM = 400;
+
+// Whether the input's counter shows for a message of this length (F4.9).
+export function counterShown(length: number): boolean {
+  return length > INPUT_COUNTER_FROM;
+}
+
+// How many characters a visitor's message may still grow by. Never below zero (F4.9).
+export function remainingChars(length: number): number {
+  return Math.max(0, MAX_INPUT_CHARS - length);
+}

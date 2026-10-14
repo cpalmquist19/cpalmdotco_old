@@ -30,6 +30,7 @@ type Store = {
   subscribe: (listener: () => void) => () => void;
   ask: (command: Command) => void;
   send: (text: string) => boolean;
+  reset: () => void;
   stop: () => void;
   discard: () => void;
 };
@@ -140,6 +141,14 @@ function createStore(commands: readonly Command[]): Store {
       void run(controller, question, messages);
       return true;
     },
+    // "New chat" (F4.6). A running answer is stopped first, keeping its text in the conversation being left, as
+    // a chip does. The empty thread is a push, so Back returns to the conversation that was cleared (D-053).
+    reset() {
+      stop();
+      window.history.pushState(historyState([]), "", "/");
+      window.scrollTo(0, 0);
+      update({ thread: [] });
+    },
     stop,
     discard,
   };
@@ -200,6 +209,7 @@ export function useConversation() {
     ...snapshot,
     ask: conversation.ask,
     send: conversation.send,
+    reset: conversation.reset,
     stop: conversation.stop,
     setHomeMounted: conversation.setHomeMounted,
   };
