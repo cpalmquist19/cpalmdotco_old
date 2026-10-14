@@ -3,6 +3,7 @@
 import type { LucideIcon } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useConversation } from "@/components/chat/ConversationProvider";
+import { isPlainClick } from "@/lib/click";
 import type { Command } from "@/lib/content-schemas";
 
 type Props = { command: Command; Icon: LucideIcon };
@@ -14,8 +15,7 @@ export function Chip({ command, Icon }: Props) {
   const { ask } = useConversation();
 
   function onClick(event: MouseEvent<HTMLAnchorElement>) {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
-      return;
+    if (!isPlainClick(event)) return;
     event.preventDefault();
     ask(command);
   }

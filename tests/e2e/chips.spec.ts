@@ -73,6 +73,33 @@ test.describe("suggested chips", () => {
       await expect(page).toHaveURL(new RegExp(`${about.answer}$`));
     });
 
+    test("US-026 F2.2: with JavaScript off the chips are links in order, in the server HTML", async ({
+      page,
+    }) => {
+      // The raw response, not the DOM: this is what a visitor without scripts, or a crawler, receives.
+      const response = await page.request.get("/");
+      const html = await response.text();
+      const start = html.indexOf('aria-label="Suggested questions"');
+      expect(start).toBeGreaterThan(-1);
+      const list = html.slice(start, html.indexOf("</ul>", start));
+
+      const hrefs = [...list.matchAll(/<a [^>]*href="([^"]+)"/g)].map((match) => match[1]);
+
+      expect(hrefs).toEqual(chipCommands.map((command) => command.answer));
+    });
+
+    test("US-026 F2.2: with JavaScript off a chip click shows that page, with no chips", async ({
+      page,
+    }) => {
+      await page.goto("/");
+
+      await chipLink(page, about.label).click();
+
+      // The page's H1 is the command's description (D-018), so this is the real page and not the home page.
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(about.description);
+      await expect(chipList(page)).toHaveCount(0);
+    });
+
     test("US-023 F2.5: with JavaScript off the chips are visible from the first paint", async ({
       page,
     }) => {
@@ -215,6 +242,46 @@ test.describe("suggested chips", () => {
       await expect(chipItem(page, index)).toHaveCSS("opacity", "1");
       await expect(chipItem(page, index)).toHaveCSS("animation-name", "none");
     }
+  });
+
+  test("US-026 F2.4: the More chip is outlined and fully rounded like the chips", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const more = page.getByRole("button", { name: "More" });
+
+    await expect(more).toHaveCSS("border-top-width", "1px");
+    await expect(more).toHaveCSS("border-radius", "999px");
+    // It isn't a filled button either: the same background as an outlined chip.
+    await expect(more).toHaveCSS(
+      "background-color",
+      await chipLink(page, about.label).evaluate((chip) => getComputedStyle(chip).backgroundColor),
+    );
+    await expect(more.locator("svg")).toHaveCount(1);
+  });
+
+  test("US-026 F2.5: the chips fade and rise in", async ({ page }) => {
+    await page.goto("/");
+    await waitForHydration(chipLink(page, about.label));
+
+    // The animation stays listed after it ends, because its fill mode is "both". CSSAnimation and
+    // KeyframeEffect are checked with instanceof, so no cast is needed.
+    const animation = await chipItem(page, 0).evaluate((item) => {
+      const found = item.getAnimations().find((candidate) => candidate instanceof CSSAnimation);
+      if (!(found instanceof CSSAnimation)) return null;
+      const keyframes = found.effect instanceof KeyframeEffect ? found.effect.getKeyframes() : [];
+      return {
+        name: found.animationName,
+        first: keyframes[0] ?? null,
+        last: keyframes[keyframes.length - 1] ?? null,
+      };
+    });
+
+    expect(animation?.name).toBe("chip-rise");
+    // Fades in: opacity 0 to 1. Rises in: it starts below its place, with a translateY.
+    expect(animation?.first?.opacity).toBe("0");
+    expect(animation?.last?.opacity).toBe("1");
+    expect(String(animation?.first?.transform)).toContain("translateY");
   });
 
   test("US-023 F1.4: the headline stops once a chip is clicked", async ({ page }) => {

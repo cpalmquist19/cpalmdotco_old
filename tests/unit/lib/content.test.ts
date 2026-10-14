@@ -129,6 +129,32 @@ describe("US-011", () => {
     );
   });
 
+  it('US-024 F0.2: an askAbout command whose answer is "model" fails', () => {
+    // A command that answers with the model can't be a chip, so it is turned into a non-chip entry too.
+    rewrite(
+      dir,
+      "commands.json",
+      '"answer": "/projects/",\n    "chip": true,',
+      '"answer": "model",\n    "chip": false,',
+    );
+
+    expect(thrownMessage(() => loadContent(dir))).toContain(
+      'content/profile.json: sidebar.askAbout: "/projects" answers with the model, so it has no page for a sidebar link',
+    );
+  });
+
+  it('US-024 F0.2: a command that is not in askAbout may answer "model"', () => {
+    rewrite(
+      dir,
+      "commands.json",
+      '"answer": "/projects/",\n    "chip": true,',
+      '"answer": "model",\n    "chip": false,',
+    );
+    rewrite(dir, "profile.json", '["/about", "/projects"]', '["/about"]');
+
+    expect(loadContent(dir).commands.map((command) => command.answer)).toContain("model");
+  });
+
   it("US-011: duplicate command names fail", () => {
     rewrite(dir, "commands.json", '"command": "/projects"', '"command": "/about"');
 

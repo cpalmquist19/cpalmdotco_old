@@ -2,7 +2,7 @@
 id: US-026
 title: F2 and F3 tests
 sprint: S04
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,12 +16,12 @@ As the **builder**, I want chips and the palette under test, so that F2 and F3 s
 
 ## Acceptance criteria
 
-- [ ] Every F2 and F3 criterion, F2.1–F2.5 and F3.1–F3.5, has an e2e test whose title names it. US-023 and US-025 wrote most of them. This story audits them against the spec, adds the ones that are missing, and puts the audit result in the Log
-- [ ] JavaScript off: every chip is a link in the server HTML, in order, and a click loads that page and not the home page (F2.2)
-- [ ] The palette is a bottom sheet under 640 px and a popover above the input from 640 px up, and "More" opens the sheet on a phone (F3.1, F3.5)
-- [ ] The palette works with the keyboard alone, from the first Tab to a command's answer, and neither Tab nor Shift+Tab traps focus (F3.3)
-- [ ] The chips fade and rise in, and the "More" chip has the chips' outlined, rounded style (F2.4, F2.5)
-- [ ] A query whose letters are in order but not next to each other matches, and a name prefix puts that command first (F3.2)
+- [x] Every F2 and F3 criterion, F2.1–F2.5 and F3.1–F3.5, has an e2e test whose title names it. US-023 and US-025 wrote most of them. This story audits them against the spec, adds the ones that are missing, and puts the audit result in the Log
+- [x] JavaScript off: every chip is a link in the server HTML, in order, and a click loads that page and not the home page (F2.2)
+- [x] The palette is a bottom sheet under 640 px and a popover above the input from 640 px up, and "More" opens the sheet on a phone (F3.1, F3.5)
+- [x] The palette works with the keyboard alone, from the first Tab to a command's answer, and neither Tab nor Shift+Tab traps focus (F3.3)
+- [x] The chips fade and rise in, and the "More" chip has the chips' outlined, rounded style (F2.4, F2.5)
+- [x] A query whose letters are in order but not next to each other matches, and a name prefix puts that command first (F3.2)
 
 ## Files to touch
 
@@ -90,4 +90,6 @@ No app code. If a new test finds a real bug, a small, obvious fix goes in with a
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Built the 9 tests the audit listed, and no app code changed: 4 in `tests/e2e/chips.spec.ts` (two with JavaScript off, the More chip's style, the fade and rise) and 5 in `tests/e2e/palette.spec.ts` (the 640 px edge, letters in order and name prefix, Tab and Shift+Tab, keyboard only, More on a phone). Audit result: every criterion F2.1–F2.5 and F3.1–F3.5 now has a test whose title names it. The fade-and-rise test reads the `chip-rise` animation through `getAnimations()` on all three engines, so the computed-style fallback wasn't needed. The 640 px test resizes to 639 px with the palette open and sees it become a sheet. Findings from scoping still stand and aren't built here: palette options can't be tapped, and the chips stay at opacity 0 if scripts fail (D-033) · this commit (with US-024 and US-028) · `npm run verify` passed (150 unit tests). First full `npm run test:e2e`: 491 passed, 1 failed (`[webkit] sidebar-chat.spec.ts` PROJECTS click, URL stayed `/`). It passed 30 of 30 on WebKit alone and 425 of 425 with 10 workers on all projects, so it wasn't reproduced and is tracked as US-079. The pre-push run is the gate for this commit
+2026-10-14 · Started, as the second of three stories (US-024, US-026, US-028) built and tested locally before one commit and push. US-024's code is in the working tree, uncommitted · — · —
 2026-10-14 · Scoped by US-077: gap audit of F2.1–F2.5 and F3.1–F3.5 against the 29 existing tests (7 criteria with gaps, 9 tests to add), files, out of scope, tests and notes · this commit · —

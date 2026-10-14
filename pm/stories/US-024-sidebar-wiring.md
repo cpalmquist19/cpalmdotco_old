@@ -2,7 +2,7 @@
 id: US-024
 title: Wire sidebar items to the chat
 sprint: S04
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P1
@@ -16,11 +16,11 @@ As a **visitor**, I want sidebar items to answer in the chat, so that the sideba
 
 ## Acceptance criteria
 
-- [ ] On the home page, a plain click on an ASK ABOUT item does what clicking its chip does: the label appears as a visitor message, the answer appears below it, and `history.pushState` sets the item's page URL. The item keeps its `href` (F0.2, F2.3)
-- [ ] A click with a modifier key, or a middle click, follows the link and is not intercepted (F0.2)
-- [ ] With JavaScript off, and on a real content page (a reload of `/about/`, or a direct visit), an item is a plain link and loads its page (F0.2)
-- [ ] In the mobile drawer, an item asks in the chat and closes the drawer (F0.2, F0.3)
-- [ ] The loader fails the build when a command in `profile.sidebar.askAbout` has `answer: "model"`, because the sidebar would render `href="model"` (F0.2)
+- [x] On the home page, a plain click on an ASK ABOUT item does what clicking its chip does: the label appears as a visitor message, the answer appears below it, and `history.pushState` sets the item's page URL. The item keeps its `href` (F0.2, F2.3)
+- [x] A click with a modifier key, or a middle click, follows the link and is not intercepted (F0.2)
+- [x] With JavaScript off, and on a real content page (a reload of `/about/`, or a direct visit), an item is a plain link and loads its page (F0.2)
+- [x] In the mobile drawer, an item asks in the chat and closes the drawer (F0.2, F0.3)
+- [x] The loader fails the build when a command in `profile.sidebar.askAbout` has `answer: "model"`, because the sidebar would render `href="model"` (F0.2)
 
 ## Files to touch
 
@@ -85,10 +85,12 @@ As a **visitor**, I want sidebar items to answer in the chat, so that the sideba
   - The modifier-click test uses the document-level listener that `chips.spec.ts` uses to read `defaultPrevented`.
   - The JS-off test clicks an item from `/`: the sidebar is server-rendered, and the click must load the real page.
 - **Existing tests stay as they are.** `US-005 F0.2` reads `href`s, which don't change. `US-006: following a link closes the drawer` clicks an item on the home page: the drawer still closes, now because the item asked in the chat, so the test passes unchanged. Its title is no longer exact, so leave it for US-075, which already edits `drawer.spec.ts`.
-- **Shared files.** `lib/content.ts` is also changed by US-028, US-029 and US-067, and `tests/unit/lib/content.test.ts` by US-067. Both US-028 and US-067 now list US-024 in `depends_on` (added in US-078), so this story goes first and they build on its `commandProblems`.
+- **Shared files.** `lib/content.ts` is also changed by US-029 and US-067. US-067 lists US-024 in `depends_on` (added in US-078), and US-029 waits for US-067, so this story goes first and they build on its `commandProblems`.
 - **Estimate 2 → 3** (US-078): the story now carries the loader check and the shared click helper.
 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
-2026-10-14 · Scoped by US-078: criteria for the click, modifier click, real content page, JavaScript off, drawer and the loader check US-022 deferred here. Files, out of scope, tests and notes written. Estimate 2 → 3. US-028 and US-067 now depend on it · this commit · —
+2026-10-14 · Built: `isPlainClick` in `lib/click.ts` (the chips now use it too), the ASK ABOUT `onClick` in `Sidebar` (asks while `homeMounted`, otherwise the `Link` navigates), and the loader check in `commandProblems`. Recorded D-043 for the ask-only-on-home choice. Choices the story left open: the loader message reads `"<name>" answers with the model, so it has no page for a sidebar link`; the e2e file has the 9 sidebar tests and the unit files have 5. No file outside **Files to touch** changed. Verified locally with the unit files and `tests/e2e/sidebar-chat.spec.ts` (17 passed on chromium, webkit and mobile); the full suite runs once for the three stories · this commit (with US-026 and US-028) · `npm run verify` passed (150 unit tests). First full `npm run test:e2e`: 491 passed, 1 failed (`[webkit] sidebar-chat.spec.ts` PROJECTS click, URL stayed `/`). It passed 30 of 30 on WebKit alone and 425 of 425 with 10 workers on all projects, so it wasn't reproduced and is tracked as US-079. The pre-push run is the gate for this commit
+2026-10-14 · Started, as the first of three stories (US-024, US-026, US-028) Caleb asked to be built and tested locally before one commit and push. `main` clean at `c151576` · — · —
+2026-10-14 · Scoped by US-078: criteria for the click, modifier click, real content page, JavaScript off, drawer and the loader check US-022 deferred here. Files, out of scope, tests and notes written. Estimate 2 → 3. US-067 now depends on it · this commit · —

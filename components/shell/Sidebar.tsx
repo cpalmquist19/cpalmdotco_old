@@ -2,9 +2,11 @@
 
 import { PanelLeftClose, PanelLeftOpen, SquarePen, X } from "lucide-react";
 import Link from "next/link";
-import { useId, useSyncExternalStore } from "react";
+import { useId, useSyncExternalStore, type MouseEvent } from "react";
+import { useConversation } from "@/components/chat/ConversationProvider";
 import { Avatar } from "@/components/shell/Avatar";
 import { iconFor } from "@/components/ui/icons";
+import { isPlainClick } from "@/lib/click";
 import type { Command, Profile } from "@/lib/content-schemas";
 
 const COLLAPSED_KEY = "sidebar-collapsed";
@@ -55,9 +57,20 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
   const collapsed = props.variant === "inline" && storedCollapsed;
   const askAboutId = useId();
   const projectsId = useId();
+  const { ask, homeMounted } = useConversation();
 
   function toggle() {
     saveCollapsed(!collapsed);
+  }
+
+  // The thread is on the home page only, so an ASK ABOUT item asks there and is a plain link everywhere
+  // else: a pushState on /about/ would put another page's URL over the page on screen (F0.2). The home
+  // page is "mounted" even after a chip click has moved the pathname, which is why the pathname isn't used.
+  // A modified click is left to the browser, as on the chips.
+  function askOnHome(event: MouseEvent<HTMLAnchorElement>, command: Command) {
+    if (!homeMounted || !isPlainClick(event)) return;
+    event.preventDefault();
+    ask(command);
   }
 
   // In the rail the text stays in the DOM for screen readers and is hidden visually.
@@ -141,6 +154,7 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
             <li key={command.command}>
               <Link
                 href={command.answer}
+                onClick={(event) => askOnHome(event, command)}
                 className="flex h-10 items-center gap-3 rounded-box px-3 text-text hover:bg-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
               >
                 <Icon aria-hidden="true" className="size-4 shrink-0" />

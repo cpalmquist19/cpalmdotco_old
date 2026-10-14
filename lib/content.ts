@@ -251,9 +251,19 @@ function commandProblems(profile: Profile, commands: Command[]): string[] {
     seen.add(command);
   }
   for (const name of profile.sidebar.askAbout) {
-    if (!seen.has(name)) {
+    const entry = commands.find(({ command }) => command === name);
+    if (entry === undefined) {
       problems.push(
         problem("profile.json", "sidebar.askAbout", `"${name}" is not a command in commands.json`),
+      );
+    } else if (entry.answer === "model") {
+      // The sidebar links to the command's page (F0.2), and "model" is not a page.
+      problems.push(
+        problem(
+          "profile.json",
+          "sidebar.askAbout",
+          `"${name}" answers with the model, so it has no page for a sidebar link`,
+        ),
       );
     }
   }

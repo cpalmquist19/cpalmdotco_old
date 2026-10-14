@@ -199,6 +199,112 @@ test.describe("slash palette", () => {
     );
   });
 
+  test("US-026 F3.1: the palette is a bottom sheet under 640 px and a popover from 640 px @desktop-only", async ({
+    page,
+  }) => {
+    // Tailwind's max-sm is width < 40rem: 639 px is a sheet and 640 px is a popover.
+    await page.setViewportSize({ width: 640, height: 800 });
+    await openHome(page);
+    await input(page).pressSequentially("/");
+    await expect(listbox(page)).toBeVisible();
+    const popover = await listbox(page).boundingBox();
+    const field = await input(page).boundingBox();
+    if (popover === null || field === null) throw new Error("the palette or the input has no box");
+    expect(popover.y + popover.height).toBeLessThanOrEqual(field.y);
+
+    // The palette keeps its state through a resize, so the same open palette becomes a sheet.
+    await page.setViewportSize({ width: 639, height: 800 });
+    await expect(listbox(page)).toBeVisible();
+    await expect
+      .poll(async () => {
+        const box = await listbox(page).boundingBox();
+        return box === null ? null : { bottom: box.y + box.height, width: box.width };
+      })
+      .toEqual({ bottom: 800, width: 639 });
+  });
+
+  test("US-026 F3.2: letters in order match, and a name prefix ranks that command first", async ({
+    page,
+  }) => {
+    await openHome(page);
+
+    // "pjt" has its letters in order but apart. Each listed command must hold them in order in its name or
+    // its description, and the command named /projects comes first.
+    await input(page).pressSequentially("/pjt");
+    await expect(options(page).first()).toContainText(projects.command);
+    const listed = await options(page).allTextContents();
+    for (const text of listed) expect(text).toMatch(/p.*j.*t/i);
+
+    // The first three letters of a command's name put that command first, whatever its order.
+    for (const command of commands) {
+      await input(page).fill("/" + command.command.slice(1, 4));
+      await expect(options(page).first()).toContainText(command.command);
+    }
+  });
+
+  test("US-026 F3.3: Tab and Shift+Tab move focus on when the palette can't take them", async ({
+    page,
+  }) => {
+    // The cases with nothing asked: the palette closed by Esc, a query with no match, and Shift+Tab with the
+    // palette open. Which element gets focus next isn't asserted, since a send button arrives with US-032.
+    const cases = [
+      { text: "/ab", keys: ["Escape", "Tab"] },
+      { text: "/zzz", keys: ["Tab"] },
+      { text: "/", keys: ["Shift+Tab"] },
+    ];
+    for (const { text, keys } of cases) {
+      await openHome(page);
+      await input(page).pressSequentially(text);
+      for (const key of keys) await page.keyboard.press(key);
+
+      await expect(input(page)).not.toBeFocused();
+      await expect(visitorMessages(page)).toHaveCount(0);
+    }
+  });
+
+  test("US-026 F3.3: the palette works with the keyboard alone, from the first Tab to the answer", async ({
+    page,
+  }) => {
+    // Nothing here clicks, fills or focuses: waitForHydration only reads.
+    await page.goto("/");
+    await waitForHydration(input(page));
+
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Skip to the chat input" })).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(input(page)).toBeFocused();
+
+    await page.keyboard.type("/");
+    await expect(listbox(page)).toBeVisible();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+
+    await expect(visitorMessages(page)).toHaveText([experience.label]);
+    await expect(thread(page).getByText(experience.intro ?? experience.description)).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`${experience.answer}$`));
+
+    // Focus is still in the input, so the flow can repeat.
+    await expect(input(page)).toBeFocused();
+    await page.keyboard.type("/");
+    await expect(listbox(page)).toBeVisible();
+  });
+
+  test("US-026 F3.5: on a phone More opens the palette as a bottom sheet @mobile-only", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await waitForHydration(moreChip(page));
+
+    await moreChip(page).click();
+
+    await expect(listbox(page)).toBeVisible();
+    const sheet = await listbox(page).boundingBox();
+    const viewport = page.viewportSize();
+    if (sheet === null || viewport === null) throw new Error("no palette box or viewport");
+    expect(sheet.y + sheet.height).toBeCloseTo(viewport.height, 0);
+    expect(sheet.width).toBeCloseTo(viewport.width, 0);
+  });
+
   test.describe("with JavaScript off", () => {
     test.use({ javaScriptEnabled: false });
 
