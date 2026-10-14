@@ -28,21 +28,45 @@ export const profileSchema = z.strictObject({
   }),
 });
 
-export const commandSchema = z.strictObject({
-  placeholder,
-  command: z
-    .string()
-    .regex(/^\/[a-z0-9-]+$/, "must be / followed by lowercase letters, digits and hyphens"),
-  label: text,
-  description: text,
-  answer: z.union([z.literal("model"), sitePath]),
-  chip: z.boolean(),
-  order: z.number().int().min(1),
-  icon: text,
-  intro: text.optional(),
-});
+export const commandSchema = z
+  .strictObject({
+    placeholder,
+    command: z
+      .string()
+      .regex(/^\/[a-z0-9-]+$/, "must be / followed by lowercase letters, digits and hyphens"),
+    label: text,
+    description: text,
+    answer: z.union([z.literal("model"), sitePath]),
+    chip: z.boolean(),
+    order: z.number().int().min(1),
+    icon: text,
+    intro: text.optional(),
+  })
+  .refine((command) => !(command.chip && command.answer === "model"), {
+    message: 'a chip links to its page, so answer must be a page path, not "model"',
+    path: ["answer"],
+  });
 
-export const commandsSchema = z.array(commandSchema).min(1);
+// `order` must be unique across all entries (F2.1). The palette lists every command by order,
+// so a tie is as unstable as one among chips. The issue points at the repeated entry's order.
+export const commandsSchema = z
+  .array(commandSchema)
+  .min(1)
+  .superRefine((commands, ctx) => {
+    const indexByOrder = new Map<number, number>();
+    commands.forEach(({ order }, index) => {
+      const first = indexByOrder.get(order);
+      if (first === undefined) {
+        indexByOrder.set(order, index);
+        return;
+      }
+      ctx.addIssue({
+        code: "custom",
+        message: `must be unique, but entry ${first} already has order ${order}`,
+        path: [index, "order"],
+      });
+    });
+  });
 
 export const skillsSchema = z.strictObject({
   placeholder,

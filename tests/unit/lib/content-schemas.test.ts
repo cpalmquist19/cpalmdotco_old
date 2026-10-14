@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { z } from "zod";
 import {
   commandSchema,
+  commandsSchema,
   experienceFrontmatterSchema,
   profileSchema,
   projectFrontmatterSchema,
@@ -130,7 +131,10 @@ describe("US-011", () => {
   });
 
   it('US-011: command answer accepts "model"', () => {
-    expect(commandSchema.safeParse({ ...command, answer: "model" }).success).toBe(true);
+    // A chip can't answer with "model" now (US-022), so this fixture is a non-chip entry.
+    expect(commandSchema.safeParse({ ...command, chip: false, answer: "model" }).success).toBe(
+      true,
+    );
   });
 
   it("US-011: every schema allows placeholder: true", () => {
@@ -143,5 +147,40 @@ describe("US-011", () => {
     );
     expect(skillsSchema.safeParse({ ...skills, placeholder: true }).success).toBe(true);
     expect(commandSchema.safeParse({ ...command, placeholder: true }).success).toBe(true);
+  });
+});
+
+describe("US-022", () => {
+  const projects = { ...command, command: "/projects", label: "Projects", answer: "/projects/" };
+
+  it('US-022 F2.2: a chip with answer "model" is rejected, and a non-chip with answer "model" is accepted', () => {
+    expect(commandSchema.safeParse({ ...command, chip: true, answer: "model" }).success).toBe(
+      false,
+    );
+    expect(commandSchema.safeParse({ ...command, chip: false, answer: "model" }).success).toBe(
+      true,
+    );
+  });
+
+  it("US-022 F2.2: a chip with a page answer is accepted", () => {
+    expect(commandSchema.safeParse({ ...command, chip: true, answer: "/about/" }).success).toBe(
+      true,
+    );
+  });
+
+  it("US-022 F2.1: two entries with the same order are rejected, and the issue points at the second one's order", () => {
+    const result = commandsSchema.safeParse([command, { ...projects, order: 1 }]);
+    expect(result.success).toBe(false);
+    expect(result.error?.issues.map((issue) => issue.path)).toEqual([[1, "order"]]);
+  });
+
+  it("US-022 F2.1: entries with different orders are accepted", () => {
+    expect(commandsSchema.safeParse([command, { ...projects, order: 2 }]).success).toBe(true);
+  });
+
+  it("US-022: a rejected chip answer points at the answer field", () => {
+    const result = commandSchema.safeParse({ ...command, chip: true, answer: "model" });
+    expect(result.success).toBe(false);
+    expect(result.error?.issues.map((issue) => issue.path)).toEqual([["answer"]]);
   });
 });
