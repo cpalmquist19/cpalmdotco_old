@@ -25,6 +25,7 @@ As a **visitor**, I want a clean chat thread, so that I can have a conversation 
 - [ ] Thread is `aria-live=polite` and announces each answer once when finished (F4.7)
 - [ ] Friendly error line with a link to the matching static page (F4.8)
 - [ ] 500-character limit with a counter after 400 (F4.9)
+- [ ] The rotating headline stops once a conversation has started (F1.4). Moved from US-020 on 2026-10-13, because this story starts conversations
 
 ## Notes
 
@@ -33,4 +34,5 @@ As a **visitor**, I want a clean chat thread, so that I can have a conversation 
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-13 · Added the F1.4 criterion for the headline pausing once a conversation starts, moved from US-020 (which builds the headline before this story builds the chat). Also replaces US-020's plain `#chat-input` with `ChatInput` · — · —
 2026-10-13 · D-017 decided (US-057): answers render through US-014's shared `Markdown` component with `react-markdown`'s default `urlTransform` kept, so a `javascript:` link in an answer is neutralised. Visitor messages stay plain text · — · —

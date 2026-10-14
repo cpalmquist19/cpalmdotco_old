@@ -27,7 +27,7 @@ This list is generated from the `sprint: S05` field in each story file. To add, 
 | [US-029](../stories/US-029-chat-route.md) | System prompt and streaming /api/chat | ⬜ todo | Claude | P0 | 5 | 0/5 | US-027, US-028 |
 | [US-030](../stories/US-030-citations-and-followups.md) | Citation-to-link mapping and follow-ups | ⬜ todo | Claude | P0 | 3 | 0/4 | US-029, US-022 |
 | [US-031](../stories/US-031-guardrails.md) | Guardrails and kill switch | ⬜ todo | Claude | P0 | 3 | 0/5 | US-029 |
-| [US-032](../stories/US-032-chat-thread-ui.md) | Chat thread UI | ⬜ todo | Claude | P0 | 5 | 0/9 | US-029, US-030 |
+| [US-032](../stories/US-032-chat-thread-ui.md) | Chat thread UI | ⬜ todo | Claude | P0 | 5 | 0/10 | US-029, US-030 |
 | [US-033](../stories/US-033-chat-tests.md) | Chat contract and F4 tests | ⬜ todo | Claude | P0 | 3 | 0/3 | US-031, US-032 |
 
 <!-- END GENERATED STORIES -->
