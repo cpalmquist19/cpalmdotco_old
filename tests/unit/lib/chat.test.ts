@@ -576,3 +576,34 @@ describe("US-031", () => {
     expect((await handle(post(question))).status).toBe(503);
   });
 });
+
+describe("US-033", () => {
+  it("US-033: with CHAT_ENABLED=false the real POST answers 503 with an upstream error event, and 11 such requests are never rate limited", async () => {
+    vi.stubEnv("CHAT_ENABLED", "false");
+    vi.spyOn(console, "info").mockImplementation(() => undefined);
+    vi.spyOn(console, "error").mockImplementation(() => undefined);
+    // A key of this test's own, so no other test's requests count against it.
+    const headers = { "content-type": "application/json", "x-forwarded-for": crypto.randomUUID() };
+    const request = () =>
+      new Request("http://localhost/api/chat", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(question),
+      });
+
+    for (let count = 1; count <= 11; count += 1) {
+      const response = await POST(request());
+      expect(response.status, `request ${String(count)}`).toBe(503);
+      expect(await readEvents(response)).toEqual([
+        { event: "error", data: { code: "upstream", fallback: FALLBACK_PAGE } },
+      ]);
+    }
+
+    // Had the disabled requests counted, this one would be the 12th in a minute and refused. The key is emptied so
+    // the enabled request fails before any network call, with the provider's own upstream error.
+    vi.stubEnv("CHAT_ENABLED", "true");
+    vi.stubEnv("ANTHROPIC_API_KEY", "");
+    const enabled = await POST(request());
+    expect(enabled.status).toBe(200);
+  });
+});

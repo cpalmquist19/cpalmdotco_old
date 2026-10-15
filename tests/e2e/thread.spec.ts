@@ -235,6 +235,13 @@ test.describe("free-text chat thread", () => {
     expect(text.split("Half an answer and the rest.")).toHaveLength(2);
   });
 
+  test("US-033 F4.7: the thread is an aria-live polite region", async ({ page }) => {
+    await openPage(page);
+
+    // The attribute is what a screen reader reads. The test above shows what it holds, not that it's announced.
+    await expect(thread(page)).toHaveAttribute("aria-live", "polite");
+  });
+
   test("US-032 F4.8: rate_limited, timeout and upstream each show their line and a link to the fallback page", async ({
     page,
   }) => {

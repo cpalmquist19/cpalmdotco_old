@@ -2,7 +2,7 @@
 id: US-033
 title: Chat contract and F4 tests
 sprint: S05
-status: todo
+status: done
 owner: Claude
 points: 3
 priority: P0
@@ -16,11 +16,11 @@ As the **builder**, I want the chat tested against a mocked provider, so that UI
 
 ## Acceptance criteria
 
-- [ ] Every F4 criterion, F4.1–F4.9, has an e2e test whose title names it. US-032 and US-081 wrote 33. This story audits them against the spec, adds the one that is missing (F4.7's `aria-live`), and puts the audit result in the Log
-- [ ] The real `/api/chat` route, the real SDK provider and a real browser are tested together, with a fake model API behind them. A question streams `token` events before the answer is complete, then `links`, `followups` and `done` in that order, and the thread shows the answer without its citation, with its page links and its follow-up chips (API contract, F4.1, F4.4)
-- [ ] Through the same route, a model failure and a model rate limit each arrive as one `error` event with a fallback page, and the thread shows the friendly line and the link (API contract, F4.8)
-- [ ] Through the same route, a question over 500 characters gets `400`, and the 11th request in a minute from one client gets `429` with `Retry-After` and a `rate_limited` error event (Guardrails)
-- [ ] Kill switch: with `CHAT_ENABLED=false` the real `POST` export answers `503` with an `upstream` error event and doesn't count against the rate limit. The browser's view of a `503` is already tested (see Notes)
+- [x] Every F4 criterion, F4.1–F4.9, has an e2e test whose title names it. US-032 and US-081 wrote 33. This story audits them against the spec, adds the one that is missing (F4.7's `aria-live`), and puts the audit result in the Log
+- [x] The real `/api/chat` route, the real SDK provider and a real browser are tested together, with a fake model API behind them. A question streams `token` events before the answer is complete, then `links`, `followups` and `done` in that order, and the thread shows the answer without its citation, with its page links and its follow-up chips (API contract, F4.1, F4.4)
+- [x] Through the same route, a model failure and a model rate limit each arrive as one `error` event with a fallback page, and the thread shows the friendly line and the link (API contract, F4.8)
+- [x] Through the same route, a question over 500 characters gets `400`, and the 11th request in a minute from one client gets `429` with `Retry-After` and a `rate_limited` error event (Guardrails)
+- [x] Kill switch: with `CHAT_ENABLED=false` the real `POST` export answers `503` with an `upstream` error event and doesn't count against the rate limit. The browser's view of a `503` is already tested (see Notes)
 
 ## Files to touch
 
@@ -95,5 +95,7 @@ No app code. If a new test finds a real bug, a small, obvious fix goes in with a
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-14 · Done. All five criteria ticked on passing tests. Audit of F4.1–F4.9 by test title, from the existing 33 plus the new ones: F4.1 4 tests, F4.2 1, F4.3 1, F4.4 2, F4.5 8, F4.6 5, F4.7 2 plus the new `aria-live` test, F4.8 5, F4.9 3. Every criterion has a test that names it; the one gap was F4.7's attribute. Added: `tests/e2e/helpers/fake-anthropic.mjs` (fake Messages API on port 3101, D-061), the `webServer` array with `env` in `playwright.config.ts`, `tests/e2e/chat-contract.spec.ts` (six tests, 14 runs: the 400 and 429 ones on Chromium only), the F4.7 test in `thread.spec.ts`, and the route-level kill-switch test in `chat.test.ts`. That test also sends one enabled request after 11 disabled ones, with the key emptied, to show disabled requests aren't counted. Choices the story didn't give: a `[src:` match that skips `<`, since the system prompt holds a literal `[src:<id>]`; and the fake's answer for the 500-character case is the same short answer, marked by `[fake:short]`. No app code changed and no bug was found. `npm run verify`: format, lint, typecheck, 245 unit tests, board check, all passed. `npm run test:e2e`: 602 passed, 0 failed, none skipped or flaky. That is US-081's 585 plus the 17 new runs. The `chat: request failed` lines on stderr come from the failure-path tests on purpose, not from warnings · this commit · as above
+2026-10-14 · Started. Built on `main`; US-082's commit is one ahead of origin and goes out with this story's push. Plan as in Notes; the story has no app code to change · — · —
 2026-10-14 · Scoped by US-082: audit of F4.1–F4.9 against the 33 existing e2e tests (one gap, F4.7's `aria-live`), the real-route approach (fake model API behind `ANTHROPIC_BASE_URL`, D-061), files, out of scope, tests and notes. Points stay at 3 · this commit · —
 2026-10-14 · Added US-081 to `depends_on` (US-080): F4.5's pinned input, F4.6 and F4.9's counter moved there from US-032, and this story tests F4.1–F4.9. Still not scoped. Two things to settle when it is: how an e2e run swaps in a mock provider for the real route (US-031's limiter counts every caller from one bucket without an IP header, and refuses the 11th request a minute), and whether it re-tests what US-032's `thread.spec.ts` already covers, or audits it as US-026 did · — · —
