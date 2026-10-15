@@ -12,3 +12,6 @@ next-env.d.ts
 .DS_Store
 *.pem
 npm-debug.log*
+# The grounded-answer eval's output (US-034)
+eval-report.json
+eval-log.jsonl

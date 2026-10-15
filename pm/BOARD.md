@@ -19,7 +19,9 @@
 
 ## In flight
 
-_None._
+| ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [US-034](stories/US-034-grounded-answer-eval.md) | 50-case grounded-answer eval | 👀 review | Claude | P0 | 5 | 5/6 | ~~US-033~~ |
 
 ## Next up
 
@@ -28,13 +30,13 @@ Stories whose dependencies are all done, earliest sprint and highest priority fi
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [US-010](stories/US-010-avatar.md) | Headshot or monogram avatar | ⬜ todo · ready | Caleb | P2 | 1 | 0/2 | — |
-| [US-034](stories/US-034-grounded-answer-eval.md) | 50-case grounded-answer eval | ⬜ todo · ready | Claude | P0 | 5 | 0/6 | ~~US-033~~ |
 | [US-035](stories/US-035-a11y-and-lighthouse-ci.md) | axe and Lighthouse CI as required checks | ⬜ todo · ready | Claude | P0 | 3 | 0/3 | ~~US-018~~, ~~US-050~~ |
 | [US-084](stories/US-084-eval-api-key-secret.md) | Add the eval's API key as a GitHub secret | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |
 | [US-009](stories/US-009-content-inputs.md) | Provide content inputs | ⬜ todo · ready | Caleb | P0 | 3 | 0/7 | — |
 | [US-037](stories/US-037-domain-and-hosting-access.md) | Domain and DNS access | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |
 | [US-038](stories/US-038-seo-and-og.md) | SEO, Open Graph and structured data | ⬜ todo · ready | Claude | P0 | 3 | 0/5 | ~~US-016~~ |
 | [US-079](stories/US-079-sidebar-projects-click-webkit-flake.md) | Find why a hydrated sidebar link click is sometimes dropped in WebKit | ⬜ todo · ready | Claude | P2 | 1 | 0/2 | ~~US-024~~ |
+| [US-042](stories/US-042-fastapi-port.md) | Port /api/chat to FastAPI | ⬜ todo · ready | Claude | P3 | 5 | 0/2 | ~~US-033~~ |
 
 ## Refine next
 
@@ -48,7 +50,7 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 
 ## Waiting on Caleb
 
-**8** items, **0** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
+**9** items, **1** needed now. See [WAITING-ON-CALEB.md](WAITING-ON-CALEB.md) for the list, in the order to handle it.
 
 ## Warnings
 
@@ -122,7 +124,7 @@ Claude stories that aren't scoped yet and are one story away from starting. Scop
 
 | ID | Story | Status | Owner | Pri | Pts | AC | Depends on |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [US-034](stories/US-034-grounded-answer-eval.md) | 50-case grounded-answer eval | ⬜ todo · ready | Claude | P0 | 5 | 0/6 | ~~US-033~~ |
+| [US-034](stories/US-034-grounded-answer-eval.md) | 50-case grounded-answer eval | 👀 review | Claude | P0 | 5 | 5/6 | ~~US-033~~ |
 | [US-035](stories/US-035-a11y-and-lighthouse-ci.md) | axe and Lighthouse CI as required checks | ⬜ todo · ready | Claude | P0 | 3 | 0/3 | ~~US-018~~, ~~US-050~~ |
 | [US-036](stories/US-036-eval-report-and-badge.md) | Eval report, badge and /how-was-this-tested | ⬜ todo | Claude | P1 | 3 | 0/3 | US-034, US-035 |
 | [US-084](stories/US-084-eval-api-key-secret.md) | Add the eval's API key as a GitHub secret | ⬜ todo · ready | Caleb | P0 | 1 | 0/2 | — |

@@ -1,0 +1,56 @@
+name: Eval
+
+# The grounded-answer eval (US-034): 50 questions through the real chat handler and the real model.
+# It runs when the facts, the prompt or the model setting change, and nightly. It is a separate workflow
+# from CI because it spends money and needs a key, and a push that touches only code shouldn't pay for it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - content/**
+      - lib/chat-prompt.ts
+      - lib/chat-provider.ts
+      - lib/knowledge.ts
+      - tests/eval/**
+      - .github/workflows/eval.yml
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer run replaces an older one for the same ref, so only the latest content is graded.
+concurrency:
+  group: eval-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Run the eval
+        # The key reaches the script only through env, and the script never prints it. This repo's logs are public.
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::ANTHROPIC_API_KEY is not set. Add it as a repository secret (US-084, D-064)."
+            exit 1
+          fi
+          npm run eval
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: eval-results
+          path: |
+            eval-report.json
+            eval-log.jsonl
+          if-no-files-found: ignore

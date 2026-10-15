@@ -16,6 +16,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "eval": "vitest run --config vitest.eval.config.ts",
     "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && node pm/scripts/board.mjs --check",
     "prepare": "git config core.hooksPath .githooks"
   },

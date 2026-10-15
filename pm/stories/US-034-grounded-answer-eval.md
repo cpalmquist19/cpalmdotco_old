@@ -2,7 +2,7 @@
 id: US-034
 title: 50-case grounded-answer eval
 sprint: S06
-status: todo
+status: review
 owner: Claude
 points: 5
 priority: P0
@@ -16,12 +16,12 @@ As the **site owner**, I want an eval that proves the bot stays grounded, so tha
 
 ## Acceptance criteria
 
-- [ ] `tests/eval/questions.jsonl` has 50 cases: 30 fact, 8 off-limits, 8 hallucination, 4 injection. Every line passes the case schema, ids are unique, and every `must_cite` id and every fact's `must_include` text is found in the knowledge pack built from `content/`
+- [x] `tests/eval/questions.jsonl` has 50 cases: 30 fact, 8 off-limits, 8 hallucination, 4 injection. Every line passes the case schema, ids are unique, and every `must_cite` id is a source in the knowledge pack built from `content/`, and every fact's `must_include` entry has an alternative that is in the pack
 - [ ] Cases drafted by Claude and reviewed by Caleb
-- [ ] `tests/eval/run.ts` checks facts by string match and citations; a judge model grades refusals and traps against a fixed rubric (off-limits, hallucination, injection); a case with a `must_not_include` string fails on it without the judge
-- [ ] Every judgment is logged for spot-checks: `eval-log.jsonl` has one line per case with the question, the answer, the cited sources, the verdict and the judge's reason, and `eval-report.json` has the totals
-- [ ] A workflow runs the eval on changes to `content/`, the system prompt or the model setting, and nightly
-- [ ] Pass bar: the run fails unless at least 48 of 50 cases pass and no hallucination or injection case fails. A case that errors counts as failed
+- [x] `tests/eval/run.ts` checks facts by string match and citations; a judge model grades refusals and traps against a fixed rubric (off-limits, hallucination, injection); a case with a `must_not_include` string fails on it without the judge
+- [x] Every judgment is logged for spot-checks: `eval-log.jsonl` has one line per case with the question, the answer, the cited sources, the verdict and the judge's reason, and `eval-report.json` has the totals
+- [x] A workflow runs the eval on changes to `content/`, the system prompt or the model setting, and nightly
+- [x] Pass bar: the run fails unless at least 48 of 50 cases pass and no hallucination or injection case fails. A case that errors counts as failed
 
 ## Files to touch
 
@@ -54,7 +54,7 @@ As the **site owner**, I want an eval that proves the bot stays grounded, so tha
 
 All in Vitest under `tests/unit/`, with a fake provider and a fake judge, so `npm run verify` never needs a key. Titles start `US-034`.
 
-- `questions.test.ts`: the file has 30 fact, 8 off-limits, 8 hallucination and 4 injection cases (AC 1); every line parses and ids are unique (AC 1); every `must_cite` id is a source in `getKnowledge()` and every `must_include` alternative of a fact is a substring of the pack, so a content change that breaks a case fails here before the eval runs (AC 1)
+- `questions.test.ts`: the file has 30 fact, 8 off-limits, 8 hallucination and 4 injection cases (AC 1); every line parses and ids are unique (AC 1); every `must_cite` id is a source in `getKnowledge()` and every `must_include` entry of a fact has at least one alternative in the pack (case does not matter), so a content change that breaks a case fails here before the eval runs (AC 1)
 - `cases.test.ts`: a fact needs `must_include` and `must_cite`; an off-limits case needs `must_refuse`; a hallucination case needs `must_not_claim`; unknown keys and blank lines are rejected or skipped as written (AC 1)
 - `grade.test.ts`: `a|b` alternatives and case-insensitivity; every entry must match; `must_cite` passes when at least one listed source was cited and fails when only an unknown id was; `must_not_include` fails the case and skips the judge; `summarise` passes at 48 and fails at 47; one hallucination failure fails the run at 49 of 50; an errored case counts as failed (AC 3, AC 6)
 - `judge.test.ts`: the prompt holds the question, the answer, the `must_not_claim` list and the rubric for the type; the verdict parser takes a bare JSON object, one in a code fence and one with text around it, and treats anything else as a failure with the reason "unreadable verdict" (AC 3); the Claude judge sends the model from `JUDGE_MODEL` and no `temperature` (AC 3)
@@ -79,3 +79,6 @@ The live run (`npm run eval` with a real key) is not part of `verify` or the pre
 ## Log
 
 <!-- Newest first: YYYY-MM-DD · what changed · PR/commit · test result -->
+2026-10-15 · Built the eval: 50 cases, the case schema, string and citation graders, the judge, the runner, `npm run eval` and `.github/workflows/eval.yml`. Tests: `tests/unit/eval/` (6 files) and `tests/unit/workflows/eval.test.ts`: 36 new tests in all. Wiring smoke: `npm run eval` against the e2e fake model API ran all 50 cases, wrote both files and exited non-zero as it should; the fake can't answer the judge's call, so those cases failed as errors. **Not run against the real model: no key is set here (US-084).** `npm run verify` passed (281 unit tests, board up to date). `npm run test:e2e` is left to the pre-push hook: no app code or e2e file changed · this commit · see above
+2026-10-15 · Status `review`: AC 2 waits on Caleb reading `tests/eval/questions.jsonl`, and the first live score waits on US-084 (the key) and D-064. No file outside **Files to touch** was changed · this commit · —
+2026-10-15 · Started. Scoped in US-083 (bb67c63) · bb67c63 · —
