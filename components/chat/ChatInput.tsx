@@ -86,7 +86,9 @@ export function ChatInput({
   return (
     <div className={`max-w-2xl ${pinned ? "sticky bottom-0 order-last bg-bg pt-3 pb-4" : "mt-8"}`}>
       <div className="relative">
-        {/* The combobox attributes are written out here, not spread, so the lint rule can see the required ones. */}
+        {/* `block`: a textarea is inline-block, which leaves a descender gap under it and pushes the Send button's
+            `top-1/2` below the pill's centre. `pr-28` always leaves room for the counter beside Send. The
+            combobox attributes are written out, not spread, so the lint rule can see the required ones. */}
         <textarea
           ref={inputRef}
           id="chat-input"
@@ -104,7 +106,7 @@ export function ChatInput({
           placeholder="Ask me anything"
           onFocus={() => onFocusChange(true)}
           onBlur={() => onFocusChange(false)}
-          className="min-h-12 w-full resize-none rounded-pill border border-border bg-surface py-3 pr-14 pl-5 text-base leading-6 text-text placeholder:text-text-faint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+          className="block min-h-12 w-full resize-none rounded-pill border border-border bg-surface py-3 pr-28 pl-5 text-base leading-6 text-text placeholder:text-text-faint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
         />
         <button
           type="button"
@@ -115,19 +117,20 @@ export function ChatInput({
         >
           <ArrowUp aria-hidden="true" className="size-4" />
         </button>
+        {/* Inside the pill, left of Send, and out of the flow: its appearing moves nothing, and no line under the
+            input holds the chips away (F4.9, D-065). The region is always there, so a screen reader announces the
+            counter when it first appears. The test id is for the tests only: a live region has no role or name
+            to find it by (CODING § 9). */}
+        <p
+          aria-live="polite"
+          aria-atomic="true"
+          data-testid="input-counter"
+          className="pointer-events-none absolute top-1/2 right-14 -translate-y-1/2 text-sm text-text-muted"
+        >
+          {counter}
+        </p>
         <CommandPalette {...palette} />
       </div>
-      {/* The line is always there, so the counter's space never moves the chips below it (F4.9). The region is
-          always there too, so a screen reader announces the counter when it first appears. The test id is for
-          the tests only: a live region has no role or name to find it by (CODING § 9). */}
-      <p
-        aria-live="polite"
-        aria-atomic="true"
-        data-testid="input-counter"
-        className="mt-1 h-5 pr-5 text-right text-sm text-text-muted"
-      >
-        {counter}
-      </p>
     </div>
   );
 }

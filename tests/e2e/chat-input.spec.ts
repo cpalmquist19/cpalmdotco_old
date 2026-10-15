@@ -135,6 +135,39 @@ test.describe("pinned chat input, counter and New chat", () => {
     await expect(field).toHaveCSS("overflow-y", "auto");
   });
 
+  test("US-085 F4.5: the Send button is centred vertically on the input", async ({ page }) => {
+    await openPage(page);
+
+    const field = await boxOf(input(page));
+    const send = await boxOf(page.getByRole("button", { name: "Send" }));
+    expect(Math.abs(send.y + send.height / 2 - (field.y + field.height / 2))).toBeLessThanOrEqual(
+      0.5,
+    );
+  });
+
+  test("US-085 F2.1: before a conversation the chips sit close under the input, with or without the counter", async ({
+    page,
+  }) => {
+    await openPage(page);
+    const field = input(page);
+    const chips = page.getByRole("list", { name: "Suggested questions" });
+
+    const gapUnder = async () => {
+      const pill = await boxOf(field);
+      const row = await boxOf(chips);
+      return row.y - (pill.y + pill.height);
+    };
+
+    const before = await gapUnder();
+    expect(before).toBeLessThanOrEqual(24);
+
+    // The counter is inside the pill, so showing it adds nothing under the input. The text wraps and the input
+    // grows, which moves the chips with its bottom edge, so the gap is what's compared.
+    await field.fill("x".repeat(450));
+    await expect(counter(page)).toHaveText("50 left");
+    expect(await gapUnder()).toBeCloseTo(before, 0);
+  });
+
   test("US-081 F4.9: no counter at 400 characters, a counter at 401, and the input stops at 500", async ({
     page,
   }) => {

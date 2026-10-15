@@ -98,7 +98,9 @@ export function Sidebar({ profile, askAbout, ...props }: Props) {
             }`
       }
     >
-      <div className="flex items-center gap-3">
+      {/* No gap between the button and the name: the 40 px button is as wide as a menu item's padding, icon
+          and gap, so the name starts where the labels below start. */}
+      <div className="flex items-center">
         {props.variant === "inline" && (
           <button
             type="button"
